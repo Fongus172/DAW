@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Backrooms Procedural</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <canvas id="gameCanvas"></canvas>
+
+  <div id="hud" class="hud hidden">
+    <div id="hudTitle">LEVEL 0</div>
+    <div id="hudInfo">WASD / Flechas: moverse · Shift: correr · E: interactuar · ESC: menú</div>
+    <div id="hudSeed"></div>
+    <div id="hudWarning"></div>
+  </div>
+
+  <div id="prompt" class="prompt hidden"></div>
+
+  <section id="menu" class="menu">
+    <div class="menu-card">
+      <p class="eyebrow">THE BACKROOMS</p>
+      <h1 id="menuTitle">PROCEDURAL LEVELS</h1>
+      <p id="menuText">
+        Elige nivel, genera una semilla y busca la salida. Cada nivel usa una generación distinta según su apariencia.
+      </p>
+
+      <label class="seed-label" for="levelSelect">Nivel inicial</label>
+      <select id="levelSelect" class="seed-input"></select>
+
+      <label class="seed-label" for="seedInput">Semilla</label>
+      <input id="seedInput" class="seed-input" placeholder="Déjalo vacío para aleatorio" maxlength="32" />
+
+      <div class="button-row">
+        <button id="startButton">START</button>
+        <button id="fullscreenButton" class="secondary">Pantalla completa</button>
+      </div>
+
+      <p class="small">
+        Las salidas son raras y cambian según el nivel: paredes parpadeantes, puertas, escaleras,
+        túneles, carreteras, pasarelas, zonas de agua o umbrales extraños. O sea, turismo barato pero con trauma.
+      </p>
+    </div>
+  </section>
+
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>

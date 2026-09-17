@@ -1,0 +1,139 @@
+{
+    "levels": {
+        "000": {
+            "visited": true,
+            "escaped": true,
+            "display_name": "Level 0 - The Threshold"
+        },
+        "001": {
+            "visited": true,
+            "escaped": true,
+            "display_name": "Level 1 - Habitable Zone"
+        },
+        "002": {
+            "visited": true,
+            "escaped": true,
+            "display_name": "Level 2 - Abandoned Utility Halls"
+        },
+        "003": {
+            "visited": true,
+            "escaped": true,
+            "display_name": "Level 3 - Electrical Station"
+        },
+        "004": {
+            "visited": true,
+            "escaped": true,
+            "display_name": "Level 4 - Abandoned Office"
+        },
+        "006": {
+            "visited": true,
+            "escaped": true,
+            "display_name": "Level 6 - Lights Out"
+        },
+        "007": {
+            "visited": true,
+            "escaped": true,
+            "display_name": "Level 7 - Thalassophobia"
+        },
+        "008": {
+            "visited": true,
+            "escaped": true,
+            "display_name": "Level 8 - Cave Systems"
+        },
+        "005": {
+            "visited": true,
+            "escaped": true,
+            "display_name": "Level 5 - Terror Hotel"
+        },
+        "009": {
+            "visited": true,
+            "escaped": true,
+            "display_name": "Level 9 - The Suburbs"
+        },
+        "011": {
+            "visited": true,
+            "escaped": true,
+            "display_name": "Level 11 - The City That Never Sleeps"
+        },
+        "010": {
+            "visited": true,
+            "escaped": true,
+            "display_name": "Level 10 - Bumper Crop"
+        },
+        "012": {
+            "visited": true,
+            "escaped": true,
+            "display_name": "Level 12 - Matrix"
+        },
+        "127": {
+            "visited": true,
+            "escaped": false,
+            "display_name": "???"
+        },
+        "283": {
+            "visited": true,
+            "escaped": false,
+            "display_name": "???"
+        },
+        "101": {
+            "visited": true,
+            "escaped": false,
+            "display_name": "???"
+        },
+        "031": {
+            "visited": true,
+            "escaped": false,
+            "display_name": "???"
+        },
+        "811": {
+            "visited": true,
+            "escaped": false,
+            "display_name": "???"
+        },
+        "997": {
+            "visited": true,
+            "escaped": false,
+            "display_name": "???"
+        },
+        "175": {
+            "visited": true,
+            "escaped": false,
+            "display_name": "???"
+        },
+        "069": {
+            "visited": true,
+            "escaped": false,
+            "display_name": "???"
+        },
+        "141": {
+            "visited": true,
+            "escaped": false,
+            "display_name": "???"
+        },
+        "137": {
+            "visited": true,
+            "escaped": false,
+            "display_name": "???"
+        },
+        "040": {
+            "visited": true,
+            "escaped": false,
+            "display_name": "???"
+        },
+        "070": {
+            "visited": true,
+            "escaped": false,
+            "display_name": "???"
+        },
+        "083": {
+            "visited": true,
+            "escaped": false,
+            "display_name": "???"
+        },
+        "063": {
+            "visited": true,
+            "escaped": false,
+            "display_name": "???"
+        }
+    }
+}

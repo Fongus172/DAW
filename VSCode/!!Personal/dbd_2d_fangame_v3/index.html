@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trial by Moonlight 2D - Expanded</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <canvas id="game"></canvas>
+
+  <section id="menu" class="screen">
+    <div class="panel wide">
+      <div class="brand">
+        <span class="eyebrow">Versión 3.0</span>
+        <h1>TRIAL BY MOONLIGHT</h1>
+        <p>Asimétrico 2D: reparar, esconderse, rescatar, cazar, colgar y hacer decisiones malas bajo presión.</p>
+      </div>
+
+      <div class="menu-layout">
+        <div>
+          <h2>Rol</h2>
+          <div class="segmented">
+            <button class="role active" data-role="survivor">Superviviente</button>
+            <button class="role" data-role="killer">Killer</button>
+          </div>
+
+          <h2>Mapa</h2>
+          <div class="segmented stacked">
+            <button class="map active" data-map="scrapyard">Chatarrería lúgubre</button>
+            <button class="map" data-map="clinic">Clínica abandonada</button>
+            <button class="map" data-map="farm">Granja marchita</button>
+          </div>
+
+          <h2>Dificultad IA</h2>
+          <div class="segmented">
+            <button class="difficulty" data-difficulty="easy">Suave</button>
+            <button class="difficulty active" data-difficulty="normal">Normal</button>
+            <button class="difficulty" data-difficulty="hard">Chunga</button>
+          </div>
+
+          <div class="toggles">
+            <label><input id="soundToggle" type="checkbox" checked> Sonido procedural</label>
+            <label><input id="fogToggle" type="checkbox" checked> Niebla / viñeta</label>
+            <label><input id="minimapToggle" type="checkbox" checked> Minimapa</label>
+          </div>
+        </div>
+
+        <div id="survivorSelect">
+          <h2>Supervivientes</h2>
+          <div class="cards" id="survivorCards"></div>
+        </div>
+
+        <div id="killerInfo" class="hidden">
+          <h2>Killer</h2>
+          <div class="killer-card">
+            <div class="portrait killer-portrait">☠</div>
+            <h3>El Guardián</h3>
+            <p>Un cazador lento de enfadar y rápido de castigar. Puede hacer un <b>Embate Umbrío</b> y colocar trampas de lodo.</p>
+            <ul>
+              <li><b>F:</b> Embate Umbrío</li>
+              <li><b>R:</b> colocar trampa</li>
+              <li><b>E / Espacio:</b> atacar, recoger, colgar, patear o registrar</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-actions">
+        <button id="startBtn" class="primary">Empezar prueba</button>
+        <button id="helpBtn">Cómo jugar</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="help" class="screen hidden">
+    <div class="panel help-panel">
+      <h1>Cómo jugar</h1>
+      <p><b>WASD</b> moverse. <b>Shift</b> correr. <b>E</b> interactuar. <b>Espacio</b> prueba de habilidad / ataque. <b>F</b> usar objeto o poder. <b>Q</b> soltar objeto. <b>Tab</b> marcador. <b>U</b> destrabarte si algo se rompe. <b>Esc</b> pausa.</p>
+      <p><b>Superviviente:</b> repara 5 generadores, abre una puerta y escapa. Puedes abrir cofres, curar, rescatar, esconderte en taquillas, limpiar tótems, sabotear ganchos, usar pallets, saltar ventanas y buscar la trampilla.</p>
+      <p><b>Killer:</b> patrulla, escucha ruidos, sigue marcas de carrera, golpea, derriba, recoge y cuelga. Patea generadores, rompe pallets, registra taquillas y usa trampas.</p>
+      <p>El juego está hecho sin assets externos: todo se dibuja por código. Cutre no; artesanal, que queda más fino.</p>
+      <button id="closeHelp">Volver</button>
+    </div>
+  </section>
+
+  <section id="pause" class="screen hidden">
+    <div class="panel small">
+      <h1>Pausa</h1>
+      <p>La Entidad espera, pero tú puedes ir a beber agua.</p>
+      <button id="resumeBtn" class="primary">Continuar</button>
+      <button id="quitBtn">Volver al menú</button>
+    </div>
+  </section>
+
+  <section id="end" class="screen hidden">
+    <div class="panel small">
+      <h1 id="endTitle">Fin</h1>
+      <p id="endText"></p>
+      <div id="endStats"></div>
+      <button id="backMenuBtn" class="primary">Volver al menú</button>
+    </div>
+  </section>
+
+  <div id="hud" class="hidden">
+    <div class="top-left">
+      <div id="objective" class="objective"></div>
+      <div id="messageLog"></div>
+      <div class="bar-row">
+        <span id="actionLabel">Acción</span>
+        <div class="bar"><div id="actionFill"></div></div>
+      </div>
+      <div class="bar-row">
+        <span>Resistencia</span>
+        <div class="bar stamina"><div id="staminaFill"></div></div>
+      </div>
+      <div class="bar-row">
+        <span>Poder / objeto</span>
+        <div class="bar power"><div id="powerFill"></div></div>
+      </div>
+    </div>
+
+    <div id="prompt"></div>
+
+    <div id="survivorHud"></div>
+    <div id="scoreboard" class="hidden"></div>
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

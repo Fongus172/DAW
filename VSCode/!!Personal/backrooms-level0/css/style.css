@@ -1,0 +1,214 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: #050502;
+  font-family: "Trebuchet MS", Verdana, Arial, sans-serif;
+  color: #fff8cf;
+}
+
+#gameCanvas {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  background: #0b0902;
+}
+
+.menu {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background:
+    radial-gradient(circle at center, rgba(130, 110, 24, 0.16), rgba(0, 0, 0, 0.9) 62%),
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.025) 0,
+      rgba(255, 255, 255, 0.025) 1px,
+      transparent 2px,
+      transparent 4px
+    );
+  z-index: 10;
+}
+
+.menu.hidden,
+.hidden {
+  display: none;
+}
+
+.menu-card {
+  width: min(700px, calc(100vw - 32px));
+  padding: 34px;
+  border: 1px solid rgba(255, 245, 165, 0.24);
+  border-radius: 18px;
+  background:
+    linear-gradient(180deg, rgba(62, 52, 12, 0.92), rgba(19, 16, 4, 0.94)),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 238, 120, 0.08) 0,
+      rgba(255, 238, 120, 0.08) 8px,
+      transparent 8px,
+      transparent 16px
+    );
+  box-shadow:
+    0 25px 80px rgba(0, 0, 0, 0.75),
+    inset 0 0 45px rgba(255, 244, 147, 0.06);
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+  letter-spacing: 0.36em;
+  font-size: 12px;
+  color: #fff0a8;
+  opacity: 0.8;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(38px, 8vw, 86px);
+  line-height: 0.88;
+  letter-spacing: -0.06em;
+  color: #fff0a4;
+  text-shadow:
+    0 0 12px rgba(255, 247, 173, 0.25),
+    4px 4px 0 rgba(0, 0, 0, 0.22);
+}
+
+#menuText {
+  max-width: 62ch;
+  margin: 22px 0 22px;
+  line-height: 1.55;
+  color: rgba(255, 248, 201, 0.86);
+}
+
+.seed-label {
+  display: block;
+  margin: 16px 0 8px;
+  color: rgba(255, 248, 201, 0.78);
+  font-size: 14px;
+}
+
+.seed-input {
+  width: 100%;
+  padding: 13px 14px;
+  border: 1px solid rgba(255, 245, 165, 0.22);
+  border-radius: 10px;
+  background: rgba(4, 4, 1, 0.48);
+  color: #fff8cf;
+  outline: none;
+  font-size: 16px;
+}
+
+.seed-input option {
+  background: #171204;
+  color: #fff8cf;
+}
+
+.seed-input:focus {
+  border-color: rgba(255, 245, 165, 0.55);
+  box-shadow: 0 0 0 3px rgba(255, 245, 165, 0.08);
+}
+
+.button-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
+
+button {
+  border: 0;
+  border-radius: 12px;
+  padding: 13px 20px;
+  cursor: pointer;
+  font-weight: 800;
+  color: #1c1704;
+  background: #fff1a6;
+  box-shadow:
+    0 7px 0 #a78a29,
+    0 16px 34px rgba(0, 0, 0, 0.35);
+  transition: transform 120ms ease, box-shadow 120ms ease, filter 120ms ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+}
+
+button:active {
+  transform: translateY(4px);
+  box-shadow:
+    0 3px 0 #a78a29,
+    0 8px 18px rgba(0, 0, 0, 0.32);
+}
+
+button.secondary {
+  background: rgba(255, 241, 166, 0.14);
+  color: #fff1a6;
+  border: 1px solid rgba(255, 241, 166, 0.26);
+  box-shadow: none;
+}
+
+.small {
+  margin: 20px 0 0;
+  color: rgba(255, 248, 201, 0.62);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.hud {
+  position: fixed;
+  left: 18px;
+  top: 16px;
+  z-index: 5;
+  pointer-events: none;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 245, 165, 0.18);
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.32);
+  backdrop-filter: blur(4px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.32);
+}
+
+#hudTitle {
+  font-size: 19px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  color: #fff0a4;
+}
+
+#hudInfo,
+#hudSeed,
+#hudWarning {
+  margin-top: 4px;
+  font-size: 12px;
+  color: rgba(255, 248, 201, 0.75);
+}
+
+#hudWarning {
+  min-height: 15px;
+  color: #ffe27e;
+}
+
+.prompt {
+  position: fixed;
+  left: 50%;
+  bottom: 34px;
+  transform: translateX(-50%);
+  z-index: 6;
+  padding: 12px 18px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff3b8;
+  border: 1px solid rgba(255, 245, 165, 0.24);
+  box-shadow: 0 14px 45px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+  text-align: center;
+}

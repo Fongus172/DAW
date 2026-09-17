@@ -1,0 +1,400 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #08090d;
+  --panel: rgba(14, 15, 21, 0.94);
+  --line: rgba(255,255,255,0.13);
+  --text: #f5f5f5;
+  --muted: #aeb2bd;
+  --red: #c62c2c;
+  --blue: #6bc8ff;
+  --green: #75ff9a;
+  --gold: #e1c15c;
+}
+
+html, body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+#game {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  background: #090a0d;
+}
+
+.screen {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(130, 20, 20, 0.18), transparent 30%),
+    radial-gradient(circle at 80% 70%, rgba(40, 90, 120, 0.15), transparent 36%),
+    rgba(0,0,0,0.48);
+  backdrop-filter: blur(3px);
+  z-index: 10;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.panel {
+  width: min(1120px, 94vw);
+  max-height: 92vh;
+  overflow: auto;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 28px;
+  box-shadow: 0 20px 90px rgba(0,0,0,0.72);
+}
+
+.panel.small {
+  width: min(520px, 92vw);
+  text-align: center;
+}
+
+.panel.help-panel {
+  width: min(850px, 94vw);
+  line-height: 1.5;
+}
+
+.brand {
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+.eyebrow {
+  color: var(--gold);
+  font-size: 13px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 6px 0 10px;
+  font-size: clamp(34px, 5vw, 66px);
+  letter-spacing: 3px;
+  text-shadow: 0 0 18px rgba(198,44,44,0.4);
+}
+
+h2 {
+  margin: 18px 0 10px;
+  font-size: 18px;
+  color: #ddd;
+}
+
+h3 {
+  margin: 8px 0;
+}
+
+p {
+  color: var(--muted);
+}
+
+button {
+  border: 1px solid rgba(255,255,255,0.18);
+  background: #20222b;
+  color: white;
+  padding: 12px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: 120ms ease;
+}
+
+button:hover {
+  background: #323544;
+  transform: translateY(-1px);
+}
+
+button.active {
+  outline: 2px solid var(--gold);
+  background: #3a2f1f;
+}
+
+button.primary {
+  background: linear-gradient(135deg, #7d1919, #cf3535);
+  border-color: rgba(255,255,255,0.24);
+  padding: 14px 22px;
+}
+
+button.primary:hover {
+  background: linear-gradient(135deg, #942020, #e13f3f);
+}
+
+.menu-layout {
+  display: grid;
+  grid-template-columns: 270px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.segmented {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.segmented.stacked {
+  flex-direction: column;
+}
+
+.segmented.stacked button {
+  text-align: left;
+}
+
+.toggles {
+  display: grid;
+  gap: 8px;
+  margin-top: 18px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(150px, 1fr));
+  gap: 12px;
+}
+
+.survivor-card, .killer-card {
+  background: rgba(255,255,255,0.055);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 14px;
+  padding: 14px;
+  cursor: pointer;
+  min-height: 260px;
+}
+
+.survivor-card:hover, .survivor-card.selected {
+  border-color: var(--gold);
+  box-shadow: inset 0 0 0 1px rgba(225,193,92,0.35);
+}
+
+.portrait {
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  margin-bottom: 8px;
+  font-size: 28px;
+  font-weight: 900;
+  border: 2px solid rgba(255,255,255,0.25);
+}
+
+.killer-portrait {
+  background: #681d1d;
+}
+
+.stat {
+  display: flex;
+  justify-content: space-between;
+  color: var(--muted);
+  font-size: 12px;
+  margin: 4px 0;
+}
+
+.stat i {
+  display: inline-block;
+  width: 62px;
+  height: 6px;
+  border-radius: 5px;
+  background: rgba(255,255,255,0.14);
+  overflow: hidden;
+  vertical-align: middle;
+}
+
+.stat i b {
+  display: block;
+  height: 100%;
+  background: var(--gold);
+}
+
+.perk {
+  font-size: 12px;
+  color: #dadada;
+  line-height: 1.35;
+  margin-top: 10px;
+}
+
+.menu-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+#hud {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 4;
+  color: white;
+  text-shadow: 1px 1px 2px black;
+}
+
+.top-left {
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  width: min(520px, calc(100vw - 28px));
+}
+
+.objective {
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+}
+
+#messageLog {
+  margin-top: 7px;
+  display: grid;
+  gap: 3px;
+  min-height: 70px;
+  font-size: 13px;
+  color: #e9e9e9;
+}
+
+.msg {
+  opacity: 0.92;
+  background: rgba(0,0,0,0.28);
+  padding: 4px 8px;
+  border-left: 3px solid rgba(255,255,255,0.24);
+  border-radius: 4px;
+}
+
+.bar-row {
+  margin-top: 9px;
+  font-size: 12px;
+  color: #ddd;
+}
+
+.bar {
+  width: 300px;
+  height: 12px;
+  background: rgba(255,255,255,0.13);
+  border: 1px solid rgba(255,255,255,0.22);
+  border-radius: 9px;
+  overflow: hidden;
+}
+
+.bar > div {
+  height: 100%;
+  width: 0%;
+  background: #eee;
+}
+
+.bar.stamina > div {
+  background: #54c6ff;
+}
+
+.bar.power > div {
+  background: #aa82ff;
+}
+
+#prompt {
+  position: absolute;
+  left: 50%;
+  bottom: 62px;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.58);
+  border: 1px solid rgba(255,255,255,0.14);
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-weight: 800;
+  color: white;
+}
+
+#survivorHud {
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  width: 270px;
+  display: grid;
+  gap: 8px;
+}
+
+.surv-row {
+  display: grid;
+  grid-template-columns: 34px 1fr auto;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0,0,0,0.36);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 7px;
+}
+
+.surv-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: #111;
+  font-weight: 900;
+}
+
+.surv-name {
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.surv-state {
+  font-size: 11px;
+  color: #cfd2d8;
+}
+
+#scoreboard {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  transform: translate(-50%, -50%);
+  width: min(720px, 92vw);
+  padding: 18px;
+  background: rgba(0,0,0,0.78);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 14px;
+}
+
+.score-line {
+  display: grid;
+  grid-template-columns: 1fr 120px 120px 120px;
+  gap: 12px;
+  padding: 9px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+#endStats {
+  display: grid;
+  gap: 7px;
+  margin: 16px 0;
+  color: #ddd;
+}
+
+@media (max-width: 880px) {
+  .menu-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  #survivorHud {
+    top: auto;
+    bottom: 12px;
+    right: 12px;
+  }
+}
