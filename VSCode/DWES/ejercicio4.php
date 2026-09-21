@@ -53,12 +53,14 @@
     echo "<br><br>";
 
     echo "<table border>";
-    echo "<tr><th>Factor 1</th><th>Factor 2</th><th>Producto</th></tr>";
+    echo "<tr><th></th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr>";
 
-    for ($i = 1; $i <= 10; $i++){
-        foreach ($precios as $row){
-            echo "<td></td>";
+    for ($i = 0; $i < 5; $i++) {
+        echo "<tr>";
+        for ($j = 0; $j < 3; $j++) {
+            echo "<td>3<td>";
         }
+        echo "</tr>";
     }
 
     ?>
