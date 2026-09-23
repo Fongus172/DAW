@@ -55,13 +55,15 @@
     echo "<table border>";
     echo "<tr><th></th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr>";
 
-    for ($i = 0; $i < 5; $i++) {
+    for ($i = 1; $i <= 5; $i++) {
         echo "<tr>";
-        for ($j = 0; $j < 3; $j++) {
-            echo "<td>3<td>";
+        echo "<th>$i</th>";
+        for ($j = 1; $j <= 5; $j++) {
+            echo "<td>" . ($i * $j) . "</td>";
         }
         echo "</tr>";
     }
+    echo "</table>";
 
     ?>
 
