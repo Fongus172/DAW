@@ -46,7 +46,25 @@
 
     // Ejercicio 4
     
+    $productos = array(
+        array("Nombre" => "Micrófono", "Precio" => 115, "Categoría" => "Música"),
+        array("Nombre" => "Guitarra", "Precio" => 159, "Categoría" => "Música"),
+        array("Nombre" => "Cupcake", "Precio" => 10, "Categoría" => "Comida"),
+        array("Nombre" => "Garfio", "Precio" => 20, "Categoría" => "Accesorios")
+    );
 
+    $sumaPrecios = 0;
+    echo "========= PRODUCTOS DE MÚSICA =========<br>";
+    for ($i = 0; $i < count($productos); $i++) {
+        if ($productos[$i]["Categoría"] === "Música") {
+            echo " Nombre: " . $productos[$i]["Nombre"] . ", precio: " . $productos[$i]["Precio"] .
+                " €, categoría: " . $productos[$i]["Categoría"] . "<br>";
+            $sumaPrecios += $productos[$i]["Precio"];
+        }
+    }
+    echo "=======================================<br>";
+    echo " El precio total de ambos productos es de " . $sumaPrecios . " €.<br>";
+    echo "=======================================<br>";
 
     ?>
 
