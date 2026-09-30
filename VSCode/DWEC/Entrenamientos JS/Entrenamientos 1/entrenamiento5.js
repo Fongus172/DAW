@@ -10,6 +10,7 @@ function realizarCalculos(arrayNums) {
     console.log(sumaArray(arrayNums));
     console.log(maximoArray(arrayNums));
     console.log(minimoArray(arrayNums));
+    console.log(masRepetidoArray(arrayNums));
 }
 
 function mediaArray(arrayNums) {
@@ -50,6 +51,28 @@ function minimoArray(arrayNums) {
     return "El mínimo es " + arrayNums[0];
 }
 
+function masRepetidoArray(arrayNums) {
+    let frecuencias = {};
+    let maxFrequencia = 0;
+    let masRep;
 
+    for (let i = 0; i < arrayNums.length; i++) {
+
+        //Si el numero ya esta registrado, aumentamos su frecuencia
+        if (arrayNums[i] in frecuencias) {
+            frecuencias[arrayNums[i]] += 1;
+        } else {
+            // Si aparece por primera vez, su frecuencia es 1
+            frecuencias[arrayNums[i]] = 1;
+        }
+
+        if (frecuencias[arrayNums[i]] > maxFrequencia) {
+            maxFrequencia = frecuencias[arrayNums[i]];
+            masRep = arrayNums[i];
+        }
+    }
+
+    return "El valor más repetido es " + masRep;
+}
 
 realizarCalculos(arrayNums);
