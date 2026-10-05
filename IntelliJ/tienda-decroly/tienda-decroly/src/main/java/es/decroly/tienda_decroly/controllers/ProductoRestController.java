@@ -1,15 +1,16 @@
 package es.decroly.tienda_decroly.controllers;
 
 import es.decroly.tienda_decroly.domain.Producto;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
+@RequestMapping("/api/productos")
 public class ProductoRestController {
     //PROVISIONAL: los datos van a estar temporalmente en memoria
     private final List<Producto> productos = new ArrayList<>();
@@ -26,16 +27,63 @@ public class ProductoRestController {
         productos.add(new Producto(id, nombre, precio, stock));
     }
 
-    @GetMapping("/api/productos")
+    private Producto nuevo(Producto producto) {
+        Long id = secuencia.incrementAndGet();
+        Producto np = new Producto(id, producto.getNombre(), producto.getPrecio(), producto.getStock());
+        productos.add(np);
+        return np;
+    }
+
+    @GetMapping()
     public List<Producto> listar() {
         return productos;
     }
 
-    @GetMapping("/api/productos/{id}")
+    @GetMapping("/{id}")
     public Producto buscarPorId(@PathVariable Long id) {
-        return productos.stream()
-                .filter(p -> p.getId().equals(id))
-                .findFirst()
-                .orElse(null);
+        for (Producto p : productos) {
+            if (p.getId().equals(id)) {
+                return p;
+            }
+        }
+        return null;
+    }
+
+    @PostMapping()
+    public Producto crear(@RequestBody Producto producto) {
+        producto = nuevo(producto);
+        return producto;
+    }
+
+    @PutMapping("/{id}")
+    public Producto modificar(@PathVariable Long id, @RequestBody Producto datos) {
+        Optional<Producto> existente = buscar(id);
+        if (existente.isEmpty()) {
+            return null;
+        }
+        Producto producto = existente.get();
+        producto.setNombre(datos.getNombre());
+        producto.setPrecio(datos.getPrecio());
+        producto.setStock(datos.getStock());
+        return producto;
+    }
+
+    private Optional<Producto> buscar(Long id){
+        for (Producto p : productos){
+            if (p.getId().equals(id)){
+                it.remove();
+            }
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public void borrar(@PathVariable Long id) {
+        Iterator<Producto> it = productos.iterator();
+        while (it.hasNext()){
+            Producto p = it.next();
+            if (p.getId().equals(id)){
+                it.remove();
+            }
+        }
     }
 }

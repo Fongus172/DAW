@@ -47,4 +47,8 @@ public class Producto {
     public void setStock(int stock) {
         this.stock = stock;
     }
+
+    public double getPrecioConIva(){
+        return precio * 1.21;
+    }
 }
