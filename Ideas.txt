@@ -1,0 +1,43 @@
+1. Plataforma para alojamientos rurales y servicios locales
+
+Plataforma dirigida a casas rurales, pequeños hoteles y otros alojamientos turísticos. Nuestro cliente sería el propietario o gestor del alojamiento, que contrataría la plataforma para gestionar mejor la relación con sus huéspedes una vez que estos ya han realizado la reserva.
+
+El alojamiento sería quien configurase toda la información de su establecimiento, añadiese instrucciones de acceso, horarios, normas, datos de contacto y servicios disponibles. También podría añadir productos o servicios adicionales que quiera vender, como desayunos, salidas tardías, alquiler de bicicletas, cestas de productos locales o actividades ofrecidas por negocios cercanos.
+
+Nuestra aplicación se encargaría de presentar toda esa información al huésped mediante un portal personalizado y adaptado al móvil. El huésped podría consultar los datos de su estancia, contratar servicios adicionales y realizar determinadas solicitudes desde la propia plataforma. El alojamiento recibiría y gestionaría esas solicitudes desde un panel de administración.
+
+Por tanto, el alojamiento utilizaría la aplicación para configurar su oferta y gestionar a sus clientes, mientras que nuestra plataforma centralizaría la información, las solicitudes y la venta de servicios adicionales.
+
+El modelo de negocio se basaría principalmente en una suscripción mensual pagada por el alojamiento y, opcionalmente, una pequeña comisión sobre los servicios vendidos mediante la aplicación. Cantabria podría utilizarse como primera zona de implantación y, posteriormente, el producto podría expandirse a otras regiones.
+
+
+
+
+2. Plataforma de gestión y comunidad para tiendas frikis
+
+Plataforma para tiendas especializadas en juegos de mesa, cartas coleccionables, miniaturas, juegos de rol y otros productos relacionados con este tipo de ocio. Nuestro cliente sería la propia tienda, que contrataría la aplicación para gestionar su comunidad y organizar actividades.
+
+La tienda sería quien crearía su perfil, publicaría torneos, ligas y eventos, definiría fechas, plazas, precios y condiciones de participación, gestionaría reservas de mesas y decidiría qué comunicaciones quiere enviar a sus clientes. También podría consultar estadísticas sobre participación, clientes habituales y actividades que mejor funcionan.
+
+Nuestra aplicación se encargaría de mostrar todos esos eventos a los usuarios, gestionar las inscripciones, controlar plazas y listas de espera, registrar pagos cuando sea necesario, organizar participantes y facilitar la comunicación entre la tienda y su comunidad. Los jugadores podrían seguir sus tiendas favoritas, consultar actividades, inscribirse y recibir avisos relacionados con los juegos que les interesan.
+
+Por tanto, la tienda utilizaría la aplicación para crear y administrar sus actividades, mientras que nuestra plataforma se encargaría de conectar esas actividades con los jugadores y organizar toda la información en un único sistema.
+
+El modelo de negocio consistiría principalmente en una suscripción mensual pagada por la tienda. También podría existir una pequeña comisión sobre inscripciones pagadas mediante la plataforma. Cantabria podría utilizarse como mercado inicial para conseguir las primeras tiendas y validar el producto antes de expandirlo.
+
+
+
+
+3. Plataforma entre productores locales y establecimientos hosteleros
+
+Plataforma profesional que conecte productores locales con restaurantes, hoteles, cafeterías y otros establecimientos que compren productos de manera habitual.
+
+En este caso habría dos tipos de usuarios principales. Por un lado estarían los productores, que serían quienes publicarían sus productos, precios profesionales, cantidades mínimas, zonas de reparto y días de entrega. También gestionarían los pedidos recibidos, actualizarían su catálogo y decidirían qué productos tienen disponibles.
+
+Por otro lado estarían los restaurantes, hoteles y demás establecimientos compradores. Estos utilizarían la plataforma para buscar proveedores, consultar sus productos, comparar opciones y realizar pedidos directamente.
+
+Nuestra aplicación se encargaría de centralizar toda esa relación comercial. Mostraría los catálogos de los productores, permitiría realizar pedidos, registraría el historial de compras, organizaría los estados de cada pedido y facilitaría que un restaurante pudiera repetir pedidos anteriores sin tener que volver a contactar manualmente con cada proveedor.
+
+Por tanto, el productor utilizaría la aplicación para mostrar su catálogo y gestionar ventas, mientras que el restaurante la utilizaría para localizar proveedores y comprar. Nuestra plataforma actuaría como punto de encuentro y sistema de gestión entre ambos.
+
+El modelo de negocio podría basarse en una suscripción mensual pagada por los productores, una pequeña comisión por cada operación realizada o una combinación de ambos sistemas. El proyecto podría comenzar en Cantabria con productos regionales y ampliarse posteriormente a otras comunidades autónomas.

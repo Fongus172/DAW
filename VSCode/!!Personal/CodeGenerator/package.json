@@ -1,0 +1,14 @@
+{
+    "name": "code-generator-local",
+    "version": "0.1.0",
+    "private": true,
+    "description": "Generador local de proyectos basado en plantillas y métodos predefinidos.",
+    "main": "src/server.js",
+    "scripts": {
+        "start": "node src/server.js",
+        "dev": "node --watch src/server.js"
+    },
+    "engines": {
+        "node": ">=18"
+    }
+}

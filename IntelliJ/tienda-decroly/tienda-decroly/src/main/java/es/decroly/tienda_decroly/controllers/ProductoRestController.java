@@ -68,20 +68,21 @@ public class ProductoRestController {
         return producto;
     }
 
-    private Optional<Producto> buscar(Long id){
-        for (Producto p : productos){
-            if (p.getId().equals(id)){
-                it.remove();
+    private Optional<Producto> buscar(Long id) {
+        for (Producto p : productos) {
+            if (p.getId().equals(id)) {
+                return Optional.of(p);
             }
         }
+        return Optional.empty();
     }
 
     @DeleteMapping("/{id}")
     public void borrar(@PathVariable Long id) {
         Iterator<Producto> it = productos.iterator();
-        while (it.hasNext()){
+        while (it.hasNext()) {
             Producto p = it.next();
-            if (p.getId().equals(id)){
+            if (p.getId().equals(id)) {
                 it.remove();
             }
         }

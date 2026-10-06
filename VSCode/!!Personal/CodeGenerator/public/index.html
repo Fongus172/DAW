@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Code Generator</title>
+
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+
+<body>
+
+    <header class="main-header">
+
+        <div class="container">
+
+            <h1>Code Generator</h1>
+
+            <p>
+                Generador local de proyectos basado en plantillas.
+            </p>
+
+        </div>
+
+    </header>
+
+
+    <main class="container">
+
+        <form id="generator-form" class="generator">
+
+            <section class="panel">
+
+                <h2>1. Proyecto</h2>
+
+
+                <label>
+
+                    Ruta donde guardar el proyecto
+
+                    <input type="text" id="base-path" placeholder="C:\\Users\\Usuario\\Documents\\Proyectos" required>
+
+                </label>
+
+
+                <label>
+
+                    Nombre del proyecto
+
+                    <input type="text" id="project-name" placeholder="MiProyecto" required>
+
+                </label>
+
+            </section>
+
+
+            <section class="panel">
+
+                <h2>2. Lenguajes</h2>
+
+
+                <div id="languages" class="language-grid">
+
+                    <label class="language">
+
+                        <input type="checkbox" value="html">
+
+                        HTML
+
+                    </label>
+
+
+                    <label class="language">
+
+                        <input type="checkbox" value="css">
+
+                        CSS
+
+                    </label>
+
+
+                    <label class="language">
+
+                        <input type="checkbox" value="js">
+
+                        JavaScript
+
+                    </label>
+
+
+                    <label class="language">
+
+                        <input type="checkbox" value="php">
+
+                        PHP
+
+                    </label>
+
+                </div>
+
+            </section>
+
+
+            <section class="panel">
+
+                <h2>3. Plantilla</h2>
+
+
+                <label>
+
+                    Tipo de proyecto
+
+                    <select id="template" required></select>
+
+                </label>
+
+
+                <div id="template-information" class="template-information"></div>
+
+            </section>
+
+
+            <section id="options-panel" class="panel">
+
+                <h2>4. Personalización</h2>
+
+                <div id="template-options"></div>
+
+            </section>
+
+
+            <section class="panel">
+
+                <h2>5. Generación</h2>
+
+
+                <label class="checkbox-option">
+
+                    <input type="checkbox" id="overwrite">
+
+                    Sobrescribir archivos existentes
+
+                </label>
+
+
+                <button type="submit" class="generate-button">
+                    Generar proyecto
+                </button>
+
+            </section>
+
+        </form>
+
+
+        <section class="panel result-panel">
+
+            <h2>Resultado</h2>
+
+            <pre id="result">
+Todavía no se ha generado ningún proyecto.
+            </pre>
+
+        </section>
+
+    </main>
+
+
+    <script src="app.js"></script>
+
+</body>
+
+</html>
