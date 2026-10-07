@@ -1,123 +1,65 @@
-const form =
-    document.getElementById(
-        "generator-form"
-    );
+const form = document.getElementById("generator-form");
+const basePathInput = document.getElementById("base-path");
+const projectNameInput = document.getElementById("project-name");
+const templateSelect = document.getElementById("template");
+const templateInformation = document.getElementById("template-information");
+const templateOptions = document.getElementById("template-options");
+const overwriteCheckbox = document.getElementById("overwrite");
+const result = document.getElementById("result");
 
-
-const basePathInput =
-    document.getElementById(
-        "base-path"
-    );
-
-
-const projectNameInput =
-    document.getElementById(
-        "project-name"
-    );
-
-
-const templateSelect =
-    document.getElementById(
-        "template"
-    );
-
-
-const templateInformation =
-    document.getElementById(
-        "template-information"
-    );
-
-
-const templateOptions =
-    document.getElementById(
-        "template-options"
-    );
-
-
-const overwriteCheckbox =
-    document.getElementById(
-        "overwrite"
-    );
-
-
-const result =
-    document.getElementById(
-        "result"
-    );
-
-
-const languageCheckboxes =
-    [
-        ...document.querySelectorAll(
-            "#languages input[type='checkbox']"
-        )
-    ];
-
+const languageCheckboxes = [
+    ...document.querySelectorAll(
+        "#languages input[type='checkbox']"
+    )
+];
 
 let templates = [];
 
 
+// ============================================================
+// PLANTILLAS Y LENGUAJES
+// ============================================================
+
 async function loadTemplates() {
-
     try {
-
-        const response =
-            await fetch(
-                "/api/templates"
-            );
-
+        const response = await fetch("/api/templates");
 
         if (!response.ok) {
-
             throw new Error(
                 "No se pudieron cargar las plantillas."
             );
         }
 
-
-        templates =
-            await response.json();
-
-
+        templates = await response.json();
         populateTemplateSelect();
 
     } catch (error) {
-
-        showError(
-            error.message
-        );
+        showError(error.message);
     }
 }
 
 
 function getSelectedLanguages() {
-
     return languageCheckboxes
         .filter(
-            checkbox =>
-                checkbox.checked
+            checkbox => checkbox.checked
         )
         .map(
-            checkbox =>
-                checkbox.value
+            checkbox => checkbox.value
         );
 }
 
 
 function releaseLanguageLocks() {
-
     languageCheckboxes.forEach(
         checkbox => {
-
             checkbox.disabled = false;
-
         }
     );
 }
 
 
 function getCurrentTemplate() {
-
     return templates.find(
         template =>
             template.id ===
@@ -127,73 +69,64 @@ function getCurrentTemplate() {
 
 
 function populateTemplateSelect() {
-
     releaseLanguageLocks();
-
 
     const previousValue =
         templateSelect.value;
 
-
     const selectedLanguages =
         getSelectedLanguages();
-
 
     const compatibleTemplates =
         templates.filter(
             template => {
 
+                const supportedLanguages =
+                    Array.isArray(
+                        template.supportedLanguages
+                    )
+                        ? template.supportedLanguages
+                        : [];
+
                 return selectedLanguages.every(
                     language =>
-
-                        template
-                            .supportedLanguages
-                            .includes(language)
-
+                        supportedLanguages.includes(
+                            language
+                        )
                 );
-
             }
         );
 
-
     templateSelect.innerHTML = "";
-
 
     if (
         compatibleTemplates.length === 0
     ) {
-
         const option =
             document.createElement(
                 "option"
             );
-
 
         option.value = "";
 
         option.textContent =
             "No existen plantillas compatibles";
 
-
         templateSelect.appendChild(
             option
         );
-
 
         templateSelect.disabled = true;
 
         templateInformation.textContent =
             "La combinación de lenguajes seleccionada todavía no tiene ninguna plantilla.";
 
-
         templateOptions.innerHTML = "";
 
         return;
     }
 
-
     templateSelect.disabled = false;
-
 
     compatibleTemplates.forEach(
         template => {
@@ -203,37 +136,28 @@ function populateTemplateSelect() {
                     "option"
                 );
 
-
             option.value =
                 template.id;
-
 
             option.textContent =
                 template.name;
 
-
             templateSelect.appendChild(
                 option
             );
-
         }
     );
 
-
-    const previousStillExists =
+    if (
         compatibleTemplates.some(
             template =>
                 template.id ===
                 previousValue
-        );
-
-
-    if (previousStillExists) {
-
+        )
+    ) {
         templateSelect.value =
             previousValue;
     }
-
 
     templateChanged();
 }
@@ -242,11 +166,16 @@ function populateTemplateSelect() {
 function enforceRequiredLanguages(
     template
 ) {
-
     releaseLanguageLocks();
 
+    const requiredLanguages =
+        Array.isArray(
+            template.requiredLanguages
+        )
+            ? template.requiredLanguages
+            : [];
 
-    template.requiredLanguages.forEach(
+    requiredLanguages.forEach(
         requiredLanguage => {
 
             const checkbox =
@@ -256,73 +185,67 @@ function enforceRequiredLanguages(
                         requiredLanguage
                 );
 
-
             if (!checkbox) {
                 return;
             }
 
-
             checkbox.checked = true;
-
             checkbox.disabled = true;
-
         }
     );
 }
 
 
 function templateChanged() {
-
     const template =
         getCurrentTemplate();
 
-
     if (!template) {
-
+        templateInformation.textContent = "";
         templateOptions.innerHTML = "";
-
         return;
     }
-
 
     enforceRequiredLanguages(
         template
     );
 
+    const supportedLanguages =
+        Array.isArray(
+            template.supportedLanguages
+        )
+            ? template.supportedLanguages
+            : [];
 
     const languages =
-        template
-            .supportedLanguages
+        supportedLanguages
             .map(
                 language =>
                     language.toUpperCase()
             )
             .join(", ");
 
-
     const automaticClasses =
-        template.automaticClasses ||
-        [];
-
+        Array.isArray(
+            template.automaticClasses
+        )
+            ? template.automaticClasses
+            : [];
 
     const automaticClassesHtml =
         automaticClasses.length > 0
-
             ? `
-            <p>
-                <strong>
-                    Clases que la plantilla generará automáticamente:
-                </strong>
+                <p>
+                    <strong>
+                        Clases generadas automáticamente:
+                    </strong>
 
-                ${automaticClasses.join(", ")}
-            </p>
-        `
-
+                    ${automaticClasses.join(", ")}
+                </p>
+            `
             : "";
 
-
-    templateInformation.innerHTML =
-        `
+    templateInformation.innerHTML = `
         <strong>
             ${template.name}
         </strong>
@@ -339,38 +262,35 @@ function templateChanged() {
         </small>
     `;
 
-
     renderTemplateOptions(
         template
     );
 }
 
 
+// ============================================================
+// OPCIONES DE LAS PLANTILLAS
+// ============================================================
+
 function renderTemplateOptions(
     template
 ) {
-
     templateOptions.innerHTML = "";
 
-
     if (
-        !template.options ||
+        !Array.isArray(
+            template.options
+        ) ||
         template.options.length === 0
     ) {
-
         templateOptions.textContent =
             "Esta plantilla no necesita configuración adicional.";
 
         return;
     }
 
-
     template.options.forEach(
-        option => {
-
-            renderOption(option);
-
-        }
+        renderOption
     );
 }
 
@@ -380,7 +300,6 @@ function renderOption(option) {
     if (
         option.type === "products"
     ) {
-
         renderProductsOption(
             option
         );
@@ -388,12 +307,9 @@ function renderOption(option) {
         return;
     }
 
-
-
     if (
         option.type === "classes"
     ) {
-
         renderClassesOption(
             option
         );
@@ -401,41 +317,40 @@ function renderOption(option) {
         return;
     }
 
-
     const wrapper =
         document.createElement(
             "div"
         );
 
-
     wrapper.className =
         "option-group";
-
 
     const label =
         document.createElement(
             "label"
         );
 
-
     label.textContent =
         option.label;
 
-
     let input;
-
 
     if (
         option.type === "select"
     ) {
-
         input =
             document.createElement(
                 "select"
             );
 
+        const choices =
+            Array.isArray(
+                option.choices
+            )
+                ? option.choices
+                : [];
 
-        option.choices.forEach(
+        choices.forEach(
             choice => {
 
                 const selectOption =
@@ -443,23 +358,15 @@ function renderOption(option) {
                         "option"
                     );
 
-
                 selectOption.value =
                     choice.value;
-
 
                 selectOption.textContent =
                     choice.label;
 
-
-                if (
+                selectOption.selected =
                     choice.value ===
-                    option.default
-                ) {
-
-                    selectOption.selected = true;
-                }
-
+                    option.default;
 
                 input.appendChild(
                     selectOption
@@ -468,47 +375,40 @@ function renderOption(option) {
         );
 
     } else {
-
         input =
             document.createElement(
                 "input"
             );
 
-
         input.type =
-            option.type;
-
+            option.type ||
+            "text";
 
         input.value =
-            option.default ?? "";
-
+            option.default ??
+            "";
 
         if (
             option.type === "number"
         ) {
-
             input.step = "any";
         }
     }
 
-
     input.dataset.option =
         option.id;
 
-
     input.dataset.optionType =
-        option.type;
-
+        option.type ||
+        "text";
 
     label.appendChild(
         input
     );
 
-
     wrapper.appendChild(
         label
     );
-
 
     templateOptions.appendChild(
         wrapper
@@ -516,100 +416,88 @@ function renderOption(option) {
 }
 
 
+// ============================================================
+// EDITOR DE PRODUCTOS
+// Se conserva como capacidad genérica para futuras plantillas.
+// ============================================================
+
 function renderProductsOption(
     option
 ) {
-
     const wrapper =
         document.createElement(
             "div"
         );
 
-
     wrapper.className =
         "option-group";
-
 
     const title =
         document.createElement(
             "h3"
         );
 
-
     title.textContent =
         option.label;
-
 
     const editor =
         document.createElement(
             "div"
         );
 
-
     editor.className =
         "products-editor";
 
-
     editor.dataset.productsEditor =
         option.id;
-
 
     wrapper.append(
         title,
         editor
     );
 
-
     const defaultProducts =
-        option.default || [];
-
+        Array.isArray(
+            option.default
+        )
+            ? option.default
+            : [];
 
     defaultProducts.forEach(
         product => {
-
             addProductRow(
                 editor,
                 product
             );
-
         }
     );
-
 
     const addButton =
         document.createElement(
             "button"
         );
 
-
     addButton.type =
         "button";
-
 
     addButton.className =
         "add-product-button";
 
-
     addButton.textContent =
         "Añadir producto";
-
 
     addButton.addEventListener(
         "click",
         () => {
-
             addProductRow(
                 editor
             );
-
         }
     );
-
 
     wrapper.appendChild(
         addButton
     );
-
 
     templateOptions.appendChild(
         wrapper
@@ -621,150 +509,131 @@ function addProductRow(
     editor,
     product = {}
 ) {
-
     const row =
         document.createElement(
             "div"
         );
 
-
     row.className =
         "product-row";
 
+    row.innerHTML = `
+        <label>
+            SKU
 
-    row.innerHTML =
-        `
-            <label>
-                SKU
+            <input
+                type="text"
+                data-product="sku"
+                value="${escapeAttribute(
+        product.sku || ""
+    )}"
+                placeholder="PROD001"
+            >
+        </label>
 
-                <input
-                    type="text"
-                    data-product="sku"
-                    value="${escapeAttribute(
-            product.sku || ""
-        )}"
-                    placeholder="PROD001"
-                >
-            </label>
+        <label>
+            Nombre
 
-            <label>
-                Nombre
+            <input
+                type="text"
+                data-product="title"
+                value="${escapeAttribute(
+        product.title || ""
+    )}"
+                placeholder="Producto"
+            >
+        </label>
 
-                <input
-                    type="text"
-                    data-product="title"
-                    value="${escapeAttribute(
-            product.title || ""
-        )}"
-                    placeholder="Producto"
-                >
-            </label>
+        <label>
+            Precio
 
-            <label>
-                Precio
-
-                <input
-                    type="number"
-                    step="0.01"
-                    min="0"
-                    data-product="price"
-                    value="${escapeAttribute(
-            product.price ?? ""
-        )}"
-                >
-            </label>
-        `;
-
+            <input
+                type="number"
+                step="0.01"
+                min="0"
+                data-product="price"
+                value="${escapeAttribute(
+        product.price ?? ""
+    )}"
+            >
+        </label>
+    `;
 
     const removeButton =
         document.createElement(
             "button"
         );
 
-
     removeButton.type =
         "button";
-
 
     removeButton.className =
         "remove-product-button";
 
-
     removeButton.textContent =
         "Eliminar";
-
 
     removeButton.addEventListener(
         "click",
         () => {
-
             row.remove();
-
         }
     );
-
 
     row.appendChild(
         removeButton
     );
-
 
     editor.appendChild(
         row
     );
 }
 
+
+// ============================================================
+// EDITOR UNIVERSAL DE CLASES JAVASCRIPT
+// ============================================================
+
 function renderClassesOption(
     option
 ) {
-
     const wrapper =
         document.createElement(
             "div"
         );
 
-
     wrapper.className =
         "option-group";
-
 
     const title =
         document.createElement(
             "h3"
         );
 
-
     title.textContent =
         option.label;
-
 
     const explanation =
         document.createElement(
             "p"
         );
 
-
     explanation.className =
         "help-text";
 
-
     explanation.textContent =
-        "Crea cualquier clase JavaScript. Puedes definir sus atributos y métodos independientemente del tipo de proyecto.";
-
+        "Crea cualquier clase JavaScript. Puedes definir sus atributos, métodos, parámetros y getters/setters.";
 
     const editor =
         document.createElement(
             "div"
         );
 
-
     editor.className =
         "classes-editor";
 
-
     editor.dataset.classesEditor =
         option.id;
-
 
     wrapper.append(
         title,
@@ -772,24 +641,36 @@ function renderClassesOption(
         editor
     );
 
+    const defaultClasses =
+        Array.isArray(
+            option.default
+        )
+            ? option.default
+            : [];
+
+    defaultClasses.forEach(
+        classDefinition => {
+
+            addClassEditor(
+                editor,
+                classDefinition
+            );
+        }
+    );
 
     const addButton =
         document.createElement(
             "button"
         );
 
-
     addButton.type =
         "button";
-
 
     addButton.className =
         "add-class-button";
 
-
     addButton.textContent =
         "Añadir clase";
-
 
     addButton.addEventListener(
         "click",
@@ -798,15 +679,12 @@ function renderClassesOption(
             addClassEditor(
                 editor
             );
-
         }
     );
-
 
     wrapper.appendChild(
         addButton
     );
-
 
     templateOptions.appendChild(
         wrapper
@@ -815,87 +693,116 @@ function renderClassesOption(
 
 
 function addClassEditor(
-    editor
+    editor,
+    classDefinition = {}
 ) {
-
     const classBox =
         document.createElement(
             "div"
         );
 
-
     classBox.className =
         "class-editor";
 
+    const attributes =
+        Array.isArray(
+            classDefinition.attributes
+        )
+            ? classDefinition.attributes.join(
+                ", "
+            )
+            : "";
 
-    classBox.innerHTML =
-        `
-    <label>
-        Nombre de la clase
+    classBox.innerHTML = `
+        <label>
+            Nombre de la clase
 
-        <input
-            type="text"
-            data-class-name
-            placeholder="Biblioteca"
-        >
-    </label>
+            <input
+                type="text"
+                data-class-name
+                value="${escapeAttribute(
+        classDefinition.name || ""
+    )}"
+                placeholder="Biblioteca"
+            >
+        </label>
 
+        <label>
+            Atributos
 
-    <label>
-        Atributos
+            <input
+                type="text"
+                data-class-attributes
+                value="${escapeAttribute(
+        attributes
+    )}"
+                placeholder="libros, nombre, direccion"
+            >
+        </label>
 
-        <input
-            type="text"
-            data-class-attributes
-            placeholder="libros, nombre, direccion"
-        >
-    </label>
+        <label class="class-checkbox">
 
+            <input
+                type="checkbox"
+                data-class-accessors
+                ${classDefinition
+            .generateAccessors ===
+            true
+            ? "checked"
+            : ""
+        }
+            >
 
-    <label class="class-checkbox">
+            Generar getters y setters
 
-        <input
-            type="checkbox"
-            data-class-accessors
-        >
+        </label>
 
-        Generar getters y setters
+        <div class="methods-editor">
 
-    </label>
+            <h4>
+                Métodos
+            </h4>
 
+            <div
+                data-methods-container
+            ></div>
 
-    <div class="methods-editor">
+            <button
+                type="button"
+                class="add-method-button"
+            >
+                Añadir método
+            </button>
 
-        <h4>
-            Métodos
-        </h4>
-
-        <div
-            data-methods-container
-        ></div>
-
-        <button
-            type="button"
-            class="add-method-button"
-        >
-            Añadir método
-        </button>
-
-    </div>
-`;
-
+        </div>
+    `;
 
     const methodsContainer =
         classBox.querySelector(
             "[data-methods-container]"
         );
 
+    const defaultMethods =
+        Array.isArray(
+            classDefinition.methods
+        )
+            ? classDefinition.methods
+            : [];
+
+    defaultMethods.forEach(
+        method => {
+
+            addMethodEditor(
+                methodsContainer,
+                method
+            );
+        }
+    );
 
     const addMethodButton =
         classBox.querySelector(
             ".add-method-button"
         );
-
 
     addMethodButton.addEventListener(
         "click",
@@ -904,43 +811,33 @@ function addClassEditor(
             addMethodEditor(
                 methodsContainer
             );
-
         }
     );
-
 
     const removeClassButton =
         document.createElement(
             "button"
         );
 
-
     removeClassButton.type =
         "button";
-
 
     removeClassButton.className =
         "remove-class-button";
 
-
     removeClassButton.textContent =
         "Eliminar clase";
-
 
     removeClassButton.addEventListener(
         "click",
         () => {
-
             classBox.remove();
-
         }
     );
-
 
     classBox.appendChild(
         removeClassButton
     );
-
 
     editor.appendChild(
         classBox
@@ -949,332 +846,156 @@ function addClassEditor(
 
 
 function addMethodEditor(
-    container
+    container,
+    methodDefinition = {}
 ) {
-
     const row =
         document.createElement(
             "div"
         );
 
-
     row.className =
         "method-row";
 
+    const parameters =
+        Array.isArray(
+            methodDefinition.parameters
+        )
+            ? methodDefinition.parameters.join(
+                ", "
+            )
+            : "";
 
-    row.innerHTML =
-        `
-    <label>
-        Método
+    row.innerHTML = `
+        <label>
+            Método
 
-        <input
-            type="text"
-            data-method-name
-            placeholder="buscarLibro"
-        >
-    </label>
+            <input
+                type="text"
+                data-method-name
+                value="${escapeAttribute(
+        methodDefinition.name || ""
+    )}"
+                placeholder="buscarLibro"
+            >
+        </label>
 
+        <label>
+            Parámetros
 
-    <label>
-        Parámetros
-
-        <input
-            type="text"
-            data-method-parameters
-            placeholder="isbn, usuario"
-        >
-    </label>
-`;
-
+            <input
+                type="text"
+                data-method-parameters
+                value="${escapeAttribute(
+        parameters
+    )}"
+                placeholder="isbn, usuario"
+            >
+        </label>
+    `;
 
     const removeButton =
         document.createElement(
             "button"
         );
 
-
     removeButton.type =
         "button";
-
 
     removeButton.className =
         "remove-method-button";
 
-
     removeButton.textContent =
         "Eliminar";
-
 
     removeButton.addEventListener(
         "click",
         () => {
-
             row.remove();
-
         }
     );
-
 
     row.appendChild(
         removeButton
     );
-
 
     container.appendChild(
         row
     );
 }
 
-function renderClassesOption(
-    option
-) {
 
-    const wrapper =
-        document.createElement(
-            "div"
-        );
-
-
-    wrapper.className =
-        "option-group";
-
-
-    const title =
-        document.createElement(
-            "h3"
-        );
-
-
-    title.textContent =
-        option.label;
-
-
-    const description =
-        document.createElement(
-            "p"
-        );
-
-
-    description.className =
-        "help-text";
-
-
-    description.textContent =
-        "La clase Carrito se generará automáticamente. Aquí puedes crear todas las clases adicionales que necesite tu proyecto.";
-
-
-    const editor =
-        document.createElement(
-            "div"
-        );
-
-
-    editor.className =
-        "classes-editor";
-
-
-    editor.dataset.classesEditor =
-        option.id;
-
-
-    wrapper.append(
-        title,
-        description,
-        editor
-    );
-
-
-    const defaultClasses =
-        option.default ||
-        [];
-
-
-    defaultClasses.forEach(
-        classDefinition => {
-
-            addClassRow(
-                editor,
-                classDefinition
-            );
-
-        }
-    );
-
-
-    const addButton =
-        document.createElement(
-            "button"
-        );
-
-
-    addButton.type =
-        "button";
-
-
-    addButton.className =
-        "add-class-button";
-
-
-    addButton.textContent =
-        "Añadir clase";
-
-
-    addButton.addEventListener(
-        "click",
-        () => {
-
-            addClassRow(
-                editor
-            );
-
-        }
-    );
-
-
-    wrapper.appendChild(
-        addButton
-    );
-
-
-    templateOptions.appendChild(
-        wrapper
-    );
-}
-
-
-function addClassRow(
-    editor,
-    classDefinition = {}
-) {
-
-    const row =
-        document.createElement(
-            "div"
-        );
-
-
-    row.className =
-        "class-row";
-
-
-    const attributes =
-        Array.isArray(
-            classDefinition.attributes
-        )
-
-            ? classDefinition
-                .attributes
-                .join(", ")
-
-            : "";
-
-
-    row.innerHTML =
-        `
-            <label>
-                Nombre de la clase
-
-                <input
-                    type="text"
-                    data-class="name"
-                    value="${escapeAttribute(
-            classDefinition.name || ""
-        )}"
-                    placeholder="Cliente"
-                >
-            </label>
-
-            <label>
-                Atributos
-
-                <input
-                    type="text"
-                    data-class="attributes"
-                    value="${escapeAttribute(
-            attributes
-        )}"
-                    placeholder="nombre, email, edad"
-                >
-            </label>
-
-            <label class="class-checkbox">
-
-                <input
-                    type="checkbox"
-                    data-class="accessors"
-                    ${classDefinition
-            .generateAccessors
-
-            ? "checked"
-            : ""
-        }
-                >
-
-                Generar getters y setters
-
-            </label>
-        `;
-
-
-    const removeButton =
-        document.createElement(
-            "button"
-        );
-
-
-    removeButton.type =
-        "button";
-
-
-    removeButton.className =
-        "remove-class-button";
-
-
-    removeButton.textContent =
-        "Eliminar clase";
-
-
-    removeButton.addEventListener(
-        "click",
-        () => {
-
-            row.remove();
-
-        }
-    );
-
-
-    row.appendChild(
-        removeButton
-    );
-
-
-    editor.appendChild(
-        row
-    );
-}
-
+// ============================================================
+// RECOGIDA DE LA CONFIGURACIÓN
+// ============================================================
 
 function escapeAttribute(value) {
-
     return String(value)
-        .replaceAll("&", "&amp;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;");
+        .replaceAll(
+            "&",
+            "&amp;"
+        )
+        .replaceAll(
+            '"',
+            "&quot;"
+        )
+        .replaceAll(
+            "<",
+            "&lt;"
+        )
+        .replaceAll(
+            ">",
+            "&gt;"
+        );
+}
+
+
+function splitCommaSeparatedValues(
+    value
+) {
+    const text =
+        String(value || "")
+            .trim();
+
+    if (!text) {
+        return [];
+    }
+
+    return text
+        .split(",")
+        .map(
+            item => item.trim()
+        )
+        .filter(Boolean);
 }
 
 
 function collectOptions() {
-
     const options = {};
 
+    collectNormalOptions(
+        options
+    );
 
+    collectProductOptions(
+        options
+    );
+
+    collectClassOptions(
+        options
+    );
+
+    return options;
+}
+
+
+function collectNormalOptions(
+    options
+) {
     const normalInputs =
         templateOptions.querySelectorAll(
             "[data-option]"
         );
-
 
     normalInputs.forEach(
         input => {
@@ -1282,30 +1003,29 @@ function collectOptions() {
             let value =
                 input.value;
 
-
             if (
                 input.dataset.optionType ===
                 "number"
             ) {
-
                 value =
                     Number(value);
             }
 
-
             options[
                 input.dataset.option
             ] = value;
-
         }
     );
+}
 
 
+function collectProductOptions(
+    options
+) {
     const productEditors =
         templateOptions.querySelectorAll(
             "[data-products-editor]"
         );
-
 
     productEditors.forEach(
         editor => {
@@ -1315,171 +1035,211 @@ function collectOptions() {
                     ".product-row"
                 );
 
-
             const products =
                 [...rows].map(
                     row => {
 
-                        const sku =
+                        const skuInput =
                             row.querySelector(
                                 "[data-product='sku']"
-                            ).value;
-
-
-                        const title =
-                            row.querySelector(
-                                "[data-product='title']"
-                            ).value;
-
-
-                        const price =
-                            Number(
-                                row.querySelector(
-                                    "[data-product='price']"
-                                ).value
                             );
 
+                        const titleInput =
+                            row.querySelector(
+                                "[data-product='title']"
+                            );
+
+                        const priceInput =
+                            row.querySelector(
+                                "[data-product='price']"
+                            );
 
                         return {
-                            sku,
-                            title,
-                            price
-                        };
+                            sku:
+                                skuInput
+                                    ? skuInput.value.trim()
+                                    : "",
 
+                            title:
+                                titleInput
+                                    ? titleInput.value.trim()
+                                    : "",
+
+                            price:
+                                priceInput
+                                    ? Number(
+                                        priceInput.value
+                                    )
+                                    : 0
+                        };
                     }
                 );
-
 
             options[
                 editor.dataset.productsEditor
             ] = products;
-
         }
     );
+}
 
+
+function collectClassOptions(
+    options
+) {
     const classEditors =
         templateOptions.querySelectorAll(
             "[data-classes-editor]"
         );
 
-
     classEditors.forEach(
         editor => {
 
-            const rows =
+            const classBoxes =
                 editor.querySelectorAll(
-                    ".class-row"
+                    ".class-editor"
                 );
 
-
             const classes =
-                [...rows]
-
+                [...classBoxes]
                     .map(
-                        row => {
+                        classBox => {
 
-                            const name =
-                                row.querySelector(
-                                    "[data-class='name']"
-                                )
-                                    .value
-                                    .trim();
+                            const nameInput =
+                                classBox.querySelector(
+                                    "[data-class-name]"
+                                );
 
+                            const attributesInput =
+                                classBox.querySelector(
+                                    "[data-class-attributes]"
+                                );
 
-                            const attributesText =
-                                row.querySelector(
-                                    "[data-class='attributes']"
-                                )
-                                    .value
-                                    .trim();
+                            const accessorsInput =
+                                classBox.querySelector(
+                                    "[data-class-accessors]"
+                                );
 
+                            const methodRows =
+                                classBox.querySelectorAll(
+                                    ".method-row"
+                                );
 
-                            const attributes =
-                                attributesText
+                            const methods =
+                                [...methodRows]
+                                    .map(
+                                        row => {
 
-                                    ? attributesText
-                                        .split(",")
-                                        .map(
-                                            attribute =>
-                                                attribute.trim()
-                                        )
-                                        .filter(Boolean)
+                                            const methodNameInput =
+                                                row.querySelector(
+                                                    "[data-method-name]"
+                                                );
 
-                                    : [];
+                                            const parametersInput =
+                                                row.querySelector(
+                                                    "[data-method-parameters]"
+                                                );
 
+                                            return {
+                                                name:
+                                                    methodNameInput
+                                                        ? methodNameInput
+                                                            .value
+                                                            .trim()
+                                                        : "",
 
-                            const generateAccessors =
-                                row.querySelector(
-                                    "[data-class='accessors']"
-                                )
-                                    .checked;
-
+                                                parameters:
+                                                    splitCommaSeparatedValues(
+                                                        parametersInput
+                                                            ? parametersInput.value
+                                                            : ""
+                                                    )
+                                            };
+                                        }
+                                    )
+                                    .filter(
+                                        method =>
+                                            method.name !==
+                                            ""
+                                    );
 
                             return {
+                                name:
+                                    nameInput
+                                        ? nameInput
+                                            .value
+                                            .trim()
+                                        : "",
 
-                                name,
+                                attributes:
+                                    splitCommaSeparatedValues(
+                                        attributesInput
+                                            ? attributesInput.value
+                                            : ""
+                                    ),
 
-                                attributes,
+                                methods,
 
-                                generateAccessors
-
+                                generateAccessors:
+                                    accessorsInput
+                                        ? accessorsInput.checked
+                                        : false
                             };
-
                         }
                     )
-
                     .filter(
-                        classDefinition => {
-
-                            return (
-                                classDefinition.name ||
-                                classDefinition
-                                    .attributes
-                                    .length > 0
-                            );
-
-                        }
+                        classDefinition =>
+                            classDefinition.name !==
+                            ""
                     );
 
-
             options[
-                editor.dataset
-                    .classesEditor
+                editor.dataset.classesEditor
             ] = classes;
-
         }
     );
-
-    return options;
 }
 
 
-function showError(message) {
+// ============================================================
+// RESULTADO Y GENERACIÓN
+// ============================================================
 
+function showError(message) {
     result.className =
         "error";
 
-
     result.textContent =
-        "ERROR\n\n" +
-        message;
+        `ERROR\n\n${message}`;
 }
 
 
 function showSuccess(data) {
-
     result.className =
         "success";
 
-
     const fileList =
-        data.files
-            .map(
-                file =>
-                    "  " + file
-            )
-            .join("\n");
+        Array.isArray(
+            data.files
+        )
+            ? data.files
+                .map(
+                    file =>
+                        `  ${file}`
+                )
+                .join("\n")
+            : "";
 
+    const languages =
+        Array.isArray(
+            data.languages
+        )
+            ? data.languages
+                .map(
+                    language =>
+                        language.toUpperCase()
+                )
+                .join(", ")
+            : "";
 
     result.textContent =
         `PROYECTO GENERADO CORRECTAMENTE
@@ -1494,11 +1254,7 @@ Ruta:
 ${data.projectDirectory}
 
 Lenguajes:
-${data.languages
-            .map(language =>
-                language.toUpperCase()
-            )
-            .join(", ")}
+${languages}
 
 Archivos generados:
 ${fileList}`;
@@ -1511,15 +1267,12 @@ form.addEventListener(
 
         event.preventDefault();
 
-
         const selectedLanguages =
             getSelectedLanguages();
-
 
         if (
             selectedLanguages.length === 0
         ) {
-
             showError(
                 "Selecciona al menos un lenguaje."
             );
@@ -1527,11 +1280,9 @@ form.addEventListener(
             return;
         }
 
-
         if (
             !templateSelect.value
         ) {
-
             showError(
                 "Selecciona una plantilla."
             );
@@ -1539,95 +1290,85 @@ form.addEventListener(
             return;
         }
 
-
         const submitButton =
             form.querySelector(
                 ".generate-button"
             );
-
 
         submitButton.disabled = true;
 
         submitButton.textContent =
             "Generando...";
 
-
         result.className = "";
 
         result.textContent =
             "Generando proyecto...";
 
-
         try {
-
             const response =
                 await fetch(
                     "/api/generate",
                     {
-                        method: "POST",
+                        method:
+                            "POST",
 
                         headers: {
                             "Content-Type":
                                 "application/json"
                         },
 
-                        body: JSON.stringify({
+                        body:
+                            JSON.stringify({
+                                basePath:
+                                    basePathInput.value,
 
-                            basePath:
-                                basePathInput.value,
+                                projectName:
+                                    projectNameInput.value,
 
-                            projectName:
-                                projectNameInput.value,
+                                languages:
+                                    selectedLanguages,
 
-                            languages:
-                                selectedLanguages,
+                                templateId:
+                                    templateSelect.value,
 
-                            templateId:
-                                templateSelect.value,
+                                overwrite:
+                                    overwriteCheckbox.checked,
 
-                            overwrite:
-                                overwriteCheckbox.checked,
-
-                            options:
-                                collectOptions()
-
-                        })
+                                options:
+                                    collectOptions()
+                            })
                     }
                 );
 
-
             const data =
                 await response.json();
-
 
             if (
                 !response.ok ||
                 !data.success
             ) {
-
                 throw new Error(
                     data.error ||
                     "No se pudo generar el proyecto."
                 );
             }
 
-
-            showSuccess(data);
+            showSuccess(
+                data
+            );
 
         } catch (error) {
-
             showError(
                 error.message
             );
 
         } finally {
-
             submitButton.disabled = false;
 
             submitButton.textContent =
                 "Generar proyecto";
         }
-
     }
 );
 
@@ -1639,7 +1380,6 @@ languageCheckboxes.forEach(
             "change",
             populateTemplateSelect
         );
-
     }
 );
 

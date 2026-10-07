@@ -1,154 +1,144 @@
-const RESERVED_WORDS = new Set([
-    "await",
-    "break",
-    "case",
-    "catch",
-    "class",
-    "const",
-    "continue",
-    "debugger",
-    "default",
-    "delete",
-    "do",
-    "else",
-    "enum",
-    "export",
-    "extends",
-    "false",
-    "finally",
-    "for",
-    "function",
-    "if",
-    "implements",
-    "import",
-    "in",
-    "instanceof",
-    "interface",
-    "let",
-    "new",
-    "null",
-    "package",
-    "private",
-    "protected",
-    "public",
-    "return",
-    "static",
-    "super",
-    "switch",
-    "this",
-    "throw",
-    "true",
-    "try",
-    "typeof",
-    "var",
-    "void",
-    "while",
-    "with",
-    "yield"
-]);
+const {
+    validateIdentifier
+} = require(
+    "./syntax-utils"
+);
 
 
-function validateIdentifier(
-    value,
-    description = "Identificador"
-) {
-
-    const identifier =
-        String(value || "")
-            .trim();
+const {
+    generateActions
+} = require(
+    "./action-generator"
+);
 
 
-    if (!identifier) {
-
-        throw new Error(
-            `${description} no puede estar vacío.`
-        );
-    }
-
-
-    if (
-        !/^[A-Za-z_$][A-Za-z0-9_$]*$/
-            .test(identifier)
-    ) {
-
-        throw new Error(
-            `${description} "${identifier}" no es válido en JavaScript.`
-        );
-    }
-
-
-    if (
-        RESERVED_WORDS.has(
-            identifier
-        )
-    ) {
-
-        throw new Error(
-            `${description} "${identifier}" es una palabra reservada.`
-        );
-    }
-
-
-    return identifier;
-}
-
+// ============================================================
+// ATRIBUTOS
+// ============================================================
 
 function parseAttributes(
     attributes
 ) {
-
-    if (!Array.isArray(attributes)) {
+    if (
+        !Array.isArray(
+            attributes
+        )
+    ) {
         return [];
     }
-
 
     const result = [];
 
     const used =
         new Set();
 
-
     for (
         const rawAttribute
         of attributes
     ) {
-
         const name =
             validateIdentifier(
                 rawAttribute,
                 "Atributo"
             );
 
-
         if (
             used.has(name)
         ) {
-
             continue;
         }
-
 
         used.add(name);
 
         result.push(name);
     }
 
+    return result;
+}
+
+
+// ============================================================
+// PARÁMETROS
+// ============================================================
+
+function parseParameters(
+    parameters,
+    description
+) {
+    if (
+        !Array.isArray(
+            parameters
+        )
+    ) {
+        return [];
+    }
+
+    const result = [];
+
+    const used =
+        new Set();
+
+    for (
+        const rawParameter
+        of parameters
+    ) {
+        const parameter =
+            validateIdentifier(
+                rawParameter,
+                description
+            );
+
+        if (
+            used.has(parameter)
+        ) {
+            throw new Error(
+                `${description} "${parameter}" está repetido.`
+            );
+        }
+
+        used.add(
+            parameter
+        );
+
+        result.push(
+            parameter
+        );
+    }
 
     return result;
 }
 
 
+// ============================================================
+// MÉTODOS
+// ============================================================
+
 function parseMethods(
     methods
 ) {
-
-    if (!Array.isArray(methods)) {
+    if (
+        !Array.isArray(
+            methods
+        )
+    ) {
         return [];
     }
 
+    const usedNames =
+        new Set();
 
     return methods.map(
         method => {
+
+            if (
+                !method ||
+                typeof method !==
+                "object"
+            ) {
+                throw new Error(
+                    "Se ha encontrado un método no válido."
+                );
+            }
 
             const name =
                 validateIdentifier(
@@ -156,32 +146,50 @@ function parseMethods(
                     "Método"
                 );
 
+            if (
+                usedNames.has(name)
+            ) {
+                throw new Error(
+                    `El método "${name}" aparece más de una vez en la misma clase.`
+                );
+            }
 
-            const parameters =
-                Array.isArray(
-                    method.parameters
-                )
-                    ? method.parameters.map(
-                        parameter =>
-                            validateIdentifier(
-                                parameter,
-                                `Parámetro de ${name}`
-                            )
-                    )
-                    : [];
-
+            usedNames.add(
+                name
+            );
 
             return {
                 name,
-                parameters
+
+                parameters:
+                    parseParameters(
+                        method.parameters,
+                        `Parámetro de ${name}`
+                    ),
+
+                actions:
+                    Array.isArray(
+                        method.actions
+                    )
+                        ? method.actions
+                        : [],
+
+                async:
+                    method.async ===
+                    true
             };
         }
     );
 }
 
 
-function capitalize(value) {
+// ============================================================
+// UTILIDADES
+// ============================================================
 
+function capitalize(
+    value
+) {
     return (
         value.charAt(0)
             .toUpperCase() +
@@ -190,16 +198,203 @@ function capitalize(value) {
 }
 
 
+// ============================================================
+// CONSTRUCTOR
+// ============================================================
+
+function generateConstructor(
+    specification,
+    attributes
+) {
+    const hasCustomConstructor =
+        specification.constructor &&
+        typeof specification.constructor ===
+        "object";
+
+    const parameters =
+        hasCustomConstructor
+
+            ? parseParameters(
+                specification
+                    .constructor
+                    .parameters,
+                "Parámetro del constructor"
+            )
+
+            : attributes;
+
+
+    const customActions =
+        hasCustomConstructor &&
+            Array.isArray(
+                specification
+                    .constructor
+                    .actions
+            )
+
+            ? specification
+                .constructor
+                .actions
+
+            : [];
+
+
+    let body;
+
+
+    /*
+        Si el usuario ha configurado acciones
+        específicas para el constructor,
+        usamos el motor de acciones.
+    */
+    if (
+        customActions.length > 0
+    ) {
+        body =
+            generateActions(
+                customActions,
+                {
+                    indentLevel: 2
+                }
+            );
+
+        /*
+            Comportamiento por defecto:
+            cada atributo se recibe como parámetro
+            y se asigna a this.
+        */
+    } else if (
+        attributes.length > 0
+    ) {
+        body =
+            attributes
+                .map(
+                    attribute =>
+                        `        this.${attribute} = ${attribute};`
+                )
+                .join("\n");
+
+    } else {
+        body =
+            "        // Esta clase no tiene atributos iniciales.";
+    }
+
+
+    return (
+        `    constructor(` +
+        `${parameters.join(", ")}) {\n\n` +
+        `${body}\n\n` +
+        `    }`
+    );
+}
+
+
+// ============================================================
+// GENERACIÓN DE MÉTODOS
+// ============================================================
+
+function generateMethod(
+    method
+) {
+    const asyncPrefix =
+        method.async
+            ? "async "
+            : "";
+
+    let body;
+
+
+    /*
+        Aquí está el cambio importante.
+
+        Antes todos los métodos acababan
+        inevitablemente en TODO.
+
+        Ahora, si tienen acciones, se genera
+        automáticamente su implementación.
+    */
+    if (
+        method.actions.length > 0
+    ) {
+        body =
+            generateActions(
+                method.actions,
+                {
+                    indentLevel: 2
+                }
+            );
+
+    } else {
+        body =
+            [
+                "        /*",
+                "            TODO:",
+                "            Añade acciones a este método desde Code Generator.",
+                "        */"
+            ]
+                .join("\n");
+    }
+
+
+    return (
+        `    ${asyncPrefix}` +
+        `${method.name}(` +
+        `${method.parameters.join(", ")}) {\n\n` +
+        `${body}\n\n` +
+        `    }`
+    );
+}
+
+
+// ============================================================
+// GETTERS Y SETTERS
+// ============================================================
+
+function generateAccessors(
+    attributes
+) {
+    return attributes.flatMap(
+        attribute => {
+
+            const suffix =
+                capitalize(
+                    attribute
+                );
+
+            return [
+
+                `    get${suffix}() {
+
+        return this.${attribute};
+
+    }`,
+
+                `    set${suffix}(value) {
+
+        this.${attribute} = value;
+
+        return this;
+
+    }`
+
+            ];
+        }
+    );
+}
+
+
+// ============================================================
+// CLASE COMPLETA
+// ============================================================
+
 function generateClass(
     specification
 ) {
-
     if (
         !specification ||
         typeof specification !==
         "object"
     ) {
-
         throw new Error(
             "La especificación de la clase no es válida."
         );
@@ -225,103 +420,44 @@ function generateClass(
         );
 
 
-    const constructorParameters =
-        attributes.join(", ");
-
-
-    const constructorBody =
-        attributes.length > 0
-
-            ? attributes
-                .map(
-                    attribute =>
-                        `        this.${attribute} = ${attribute};`
-                )
-                .join("\n")
-
-            : "        // Esta clase no tiene atributos iniciales.";
-
-
-    const methodBlocks =
-        methods.map(
-            method => {
-
-                const parameters =
-                    method.parameters.join(
-                        ", "
-                    );
-
-
-                return `
-
-    ${method.name}(${parameters}) {
-
-        /*
-            TODO:
-            El comportamiento de este método
-            será generado por el motor de acciones.
-        */
-
-    }`;
-
-            }
+    const blocks = [
+        generateConstructor(
+            specification,
+            attributes
         )
-            .join("\n");
+    ];
 
 
-    let accessorBlocks = "";
+    for (
+        const method
+        of methods
+    ) {
+        blocks.push(
+            generateMethod(
+                method
+            )
+        );
+    }
 
 
     if (
-        specification.generateAccessors ===
+        specification
+            .generateAccessors ===
         true
     ) {
-
-        accessorBlocks =
-            attributes.map(
-                attribute => {
-
-                    const suffix =
-                        capitalize(
-                            attribute
-                        );
-
-
-                    return `
-
-    get${suffix}() {
-
-        return this.${attribute};
-
-    }
-
-
-    set${suffix}(value) {
-
-        this.${attribute} = value;
-
-        return this;
-
-    }`;
-
-                }
+        blocks.push(
+            ...generateAccessors(
+                attributes
             )
-                .join("\n");
+        );
     }
 
 
-    return `export default class ${className} {
-
-    constructor(${constructorParameters}) {
-
-${constructorBody}
-
-    }
-${methodBlocks}
-${accessorBlocks}
-
-}
-`;
+    return (
+        `export default class ${className} {\n\n` +
+        `${blocks.join("\n\n\n")}\n\n` +
+        `}\n`
+    );
 }
 
 
