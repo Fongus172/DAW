@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Ordenador de frases</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+
+            background-color: #121212;
+            color: #e8e8e8;
+        }
+
+        h1 {
+            margin-bottom: 5px;
+            color: #ffffff;
+        }
+
+        .descripcion {
+            color: #a9a9a9;
+            margin-bottom: 25px;
+        }
+
+        .entrada {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        #nuevaFrase {
+            flex: 1;
+
+            padding: 12px;
+
+            font-size: 16px;
+
+            color: #ffffff;
+            background-color: #1e1e1e;
+
+            border: 1px solid #444;
+            border-radius: 6px;
+
+            outline: none;
+        }
+
+        #nuevaFrase:focus {
+            border-color: #6c8cff;
+        }
+
+        #nuevaFrase::placeholder {
+            color: #777;
+        }
+
+        button {
+            padding: 10px 16px;
+
+            border: none;
+            border-radius: 6px;
+
+            cursor: pointer;
+
+            font-size: 14px;
+
+            transition: filter 0.15s ease;
+        }
+
+        button:hover {
+            filter: brightness(1.15);
+        }
+
+        #añadir {
+            background-color: #4169e1;
+            color: white;
+        }
+
+        #ordenar {
+            background-color: #7c4dff;
+            color: white;
+        }
+
+        #copiar {
+            background-color: #269c55;
+            color: white;
+        }
+
+        #vaciar {
+            background-color: #c93d3d;
+            color: white;
+        }
+
+        .acciones {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        #contador {
+            margin-bottom: 10px;
+            color: #a9a9a9;
+        }
+
+        #textoBase {
+            width: 100%;
+            min-height: 500px;
+
+            resize: vertical;
+
+            padding: 15px;
+
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+
+            color: #eeeeee;
+            background-color: #1e1e1e;
+
+            border: 1px solid #444;
+            border-radius: 8px;
+
+            outline: none;
+        }
+
+        #textoBase:focus {
+            border-color: #6c8cff;
+        }
+
+        #textoBase::placeholder {
+            color: #707070;
+        }
+
+        #mensaje {
+            height: 25px;
+
+            margin-top: 10px;
+
+            font-weight: bold;
+        }
+
+        ::selection {
+            background-color: #5468c9;
+            color: white;
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #171717;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #444;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
+</head>
+
+
+<body>
+
+
+    <div class="entrada">
+
+        <input type="text" id="nuevaFrase" placeholder="Escribe una nueva frase..." autofocus>
+
+        <button id="añadir">
+            Añadir frase
+        </button>
+
+    </div>
+
+
+    <div class="acciones">
+
+        <button id="ordenar">
+            Ordenar todo
+        </button>
+
+        <button id="copiar">
+            Copiar todo
+        </button>
+
+        <button id="vaciar">
+            Vaciar
+        </button>
+
+    </div>
+
+
+    <div id="contador">
+        0 frases
+    </div>
+
+
+    <textarea id="textoBase" placeholder="Pega aquí las frases que ya tienes en Google Docs...
+
+Por ejemplo:
+
+Another victim.
+Come closer.
+Hide if you wish.
+You will suffer."></textarea>
+
+
+    <div id="mensaje"></div>
+
+
+
+    <script>
+
+        const inputNuevaFrase =
+            document.getElementById("nuevaFrase");
+
+        const textoBase =
+            document.getElementById("textoBase");
+
+        const botonAñadir =
+            document.getElementById("añadir");
+
+        const botonOrdenar =
+            document.getElementById("ordenar");
+
+        const botonCopiar =
+            document.getElementById("copiar");
+
+        const botonVaciar =
+            document.getElementById("vaciar");
+
+        const contador =
+            document.getElementById("contador");
+
+        const mensaje =
+            document.getElementById("mensaje");
+
+
+
+        /*
+            Al abrir la página recuperamos
+            lo que hubiese quedado guardado.
+        */
+
+        textoBase.value =
+            localStorage.getItem("textoFrases") || "";
+
+
+
+        function obtenerFrases() {
+
+            return textoBase.value
+                .split("\n")
+                .map(frase => frase.trim())
+                .filter(frase => frase !== "");
+
+        }
+
+
+
+        function ordenarFrases(frases) {
+
+            function limpiarParaOrdenar(texto) {
+
+                return texto
+                    // Dejar únicamente letras y números
+                    .replace(/[^\p{L}\p{N}]/gu, "");
+            }
+
+
+            return frases.sort((a, b) => {
+
+                const textoA = limpiarParaOrdenar(a);
+                const textoB = limpiarParaOrdenar(b);
+
+                return textoA.localeCompare(
+                    textoB,
+                    "es",
+                    {
+                        sensitivity: "base"
+                    }
+                );
+
+            });
+
+        }
+
+
+
+        function guardar() {
+
+            localStorage.setItem(
+                "textoFrases",
+                textoBase.value
+            );
+
+        }
+
+
+
+        function actualizarContador() {
+
+            const frases =
+                obtenerFrases();
+
+
+            contador.textContent =
+                frases.length +
+                (frases.length === 1
+                    ? " frase"
+                    : " frases");
+
+        }
+
+
+
+        function mostrarMensaje(texto, color = "green") {
+
+            mensaje.textContent = texto;
+            mensaje.style.color = color;
+
+
+            setTimeout(() => {
+
+                mensaje.textContent = "";
+
+            }, 2000);
+
+        }
+
+
+
+        function ordenarTodo() {
+
+            let frases =
+                obtenerFrases();
+
+
+            frases =
+                ordenarFrases(frases);
+
+
+            textoBase.value =
+                frases.join("\n");
+
+
+            guardar();
+
+            actualizarContador();
+
+        }
+
+
+
+        function añadirFrase() {
+
+            const nuevaFrase =
+                inputNuevaFrase.value.trim();
+
+
+            if (nuevaFrase === "") {
+                return;
+            }
+
+
+            let frases =
+                obtenerFrases();
+
+
+            // Comprobar si la frase exacta ya existe.
+            // Aquí SÍ se tienen en cuenta signos de puntuación.
+            const existe = frases.some(frase =>
+                frase === nuevaFrase
+            );
+
+
+            if (existe) {
+
+                mostrarMensaje(
+                    "Esa frase ya existe.",
+                    "red"
+                );
+
+                return;
+
+            }
+
+
+            frases.push(nuevaFrase);
+
+
+            frases =
+                ordenarFrases(frases);
+
+
+            textoBase.value =
+                frases.join("\n");
+
+
+            guardar();
+
+            actualizarContador();
+
+
+            inputNuevaFrase.value = "";
+
+            inputNuevaFrase.focus();
+
+
+            mostrarMensaje(
+                "Frase añadida."
+            );
+
+        }
+
+
+
+        botonAñadir.addEventListener(
+            "click",
+            añadirFrase
+        );
+
+
+
+        inputNuevaFrase.addEventListener(
+            "keydown",
+            function (evento) {
+
+                if (evento.key === "Enter") {
+
+                    evento.preventDefault();
+
+                    añadirFrase();
+
+                }
+
+            }
+        );
+
+
+
+        botonOrdenar.addEventListener(
+            "click",
+            function () {
+
+                ordenarTodo();
+
+                mostrarMensaje(
+                    "Lista ordenada."
+                );
+
+            }
+        );
+
+
+
+        botonCopiar.addEventListener(
+            "click",
+            async function () {
+
+                await navigator.clipboard.writeText(
+                    textoBase.value
+                );
+
+
+                mostrarMensaje(
+                    "Todo el texto ha sido copiado."
+                );
+
+            }
+        );
+
+
+
+        botonVaciar.addEventListener(
+            "click",
+            function () {
+
+                const confirmar =
+                    confirm(
+                        "¿Seguro que quieres vaciar todo el texto?"
+                    );
+
+
+                if (!confirmar) {
+
+                    return;
+
+                }
+
+
+                textoBase.value = "";
+
+
+                guardar();
+
+                actualizarContador();
+
+            }
+        );
+
+
+
+        /*
+            Si editas manualmente el texto,
+            también se guarda automáticamente.
+        */
+
+        textoBase.addEventListener(
+            "input",
+            function () {
+
+                guardar();
+
+                actualizarContador();
+
+            }
+        );
+
+
+
+        actualizarContador();
+
+    </script>
+
+</body>
+
+</html>

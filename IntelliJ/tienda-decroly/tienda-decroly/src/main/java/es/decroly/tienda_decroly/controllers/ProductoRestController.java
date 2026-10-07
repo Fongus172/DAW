@@ -1,6 +1,7 @@
 package es.decroly.tienda_decroly.controllers;
 
 import es.decroly.tienda_decroly.domain.Producto;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -35,8 +36,9 @@ public class ProductoRestController {
     }
 
     @GetMapping()
-    public List<Producto> listar() {
-        return productos;
+    public ResponseEntity<List<Producto>> listar() {
+
+        return ResponseEntity.ok(productos);
     }
 
     @GetMapping("/{id}")
@@ -78,13 +80,24 @@ public class ProductoRestController {
     }
 
     @DeleteMapping("/{id}")
-    public void borrar(@PathVariable Long id) {
+    public ResponseEntity<Void> borrar(@PathVariable Long id) {
         Iterator<Producto> it = productos.iterator();
         while (it.hasNext()) {
             Producto p = it.next();
             if (p.getId().equals(id)) {
                 it.remove();
+                return ResponseEntity.noContent().build();
             }
         }
+        return;
+    }
+
+    @PostMapping()
+    public ResponseEntity<Producto> crear(@RequestBody Producto producto) {
+        Long id = secuencia.incrementAndGet();
+        Producto nuevoProducto = new Producto(id, producto.getNombre(), producto.getPrecio(), producto.getStock());
+        productos.add(nuevoProducto);
+        URI direccion = URI.create("/api/productos/" + id);
+        return ResponseEntity.created(direccion).body(nuevoProducto);
     }
 }
