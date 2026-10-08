@@ -9,9 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
@@ -32,17 +30,64 @@ public class ProductoRestController {
         productos.add(new Producto(id, nombre, precio, stock));
     }
 
-    private Producto nuevo(Producto producto) {
+    @PostMapping()
+    @ResponseStatus(HttpStatus.CREATED)
+    public Producto crear(@RequestBody Producto producto) {
+        validar(producto);
         Long id = secuencia.incrementAndGet();
-        Producto np = new Producto(id, producto.getNombre(), producto.getPrecio(), producto.getStock());
-        productos.add(np);
-        return np;
+        Producto nuevoProducto = new Producto(id, producto.getNombre(), producto.getPrecio(), producto.getStock());
+        productos.add(nuevoProducto);
+
+        /*Si mantengo la respuesta del post como ResponseEntity<Producto>
+        dejo lo que esta comentado en las lineas siguientes.
+        URI direccion = URI.create("/api/productos/" + id);
+        return ResponseEntity.created(direccion).body(nuevoProducto); */
+
+        return nuevoProducto;
+    }
+
+    private ResponseEntity<Producto> nuevo(Producto producto) {
+        Long id = secuencia.incrementAndGet();
+        Producto nuevoProducto = new Producto(id, producto.getNombre(), producto.getPrecio(), producto.getStock());
+        productos.add(nuevoProducto);
+        URI direccion = URI.create("/api/productos/" + id);
+        return ResponseEntity.created(direccion).body(nuevoProducto);
     }
 
     @GetMapping()
     public ResponseEntity<List<Producto>> listar() {
 
         return ResponseEntity.ok(productos);
+    }
+
+    @GetMapping("/{id}")
+    public Producto buscarPorId(@PathVariable Long id) {
+        /*return productos.stream()
+                .filter(p -> p.getId().equals(id))
+                .findFirst()
+                .orElse(null);
+
+         */
+        /*for (Producto p:  productos){
+            if( p.getId().equals(id)){
+                return ResponseEntity.ok(p);
+            }
+        }
+        return ResponseEntity.notFound().build(); //Error 404*/
+        return findById(id);
+    }
+
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Producto> modificar(@PathVariable Long id,
+                                              @RequestBody Producto datos) {
+        Producto producto = findById(id);
+        validar(datos);
+        producto.setNombre(datos.getNombre());
+        producto.setPrecio(datos.getPrecio());
+        producto.setStock(datos.getStock());
+        //validar(producto);
+        return ResponseEntity.ok(producto);
     }
 
     @DeleteMapping("/{id}")
@@ -52,9 +97,13 @@ public class ProductoRestController {
         productos.remove(producto);
     }
 
-    @GetMapping("/{id}")
-    public Producto buscarPorId(@PathVariable Long id) {
-        return findById(id);
+    private Producto findById(Long id) {
+        for (Producto p : productos) {
+            if (p.getId().equals(id)) {
+                return p;
+            }
+        }
+        throw new NotFoundException("No exixte el producto con id " + id);
     }
 
     private void validar(Producto p) {
@@ -69,65 +118,4 @@ public class ProductoRestController {
         }
     }
 
-    /*@PostMapping()
-    public Producto crear(@RequestBody Producto producto) {
-        producto = nuevo(producto);
-        return producto;
-    }*/
-
-    @PutMapping("/{id}")
-    /*public Producto modificar(@PathVariable Long id, @RequestBody Producto datos) {
-        Optional<Producto> existente = buscar(id);
-        if (existente.isEmpty()) {
-            return null;
-        }
-        Producto producto = existente.get();
-        producto.setNombre(datos.getNombre());
-        producto.setPrecio(datos.getPrecio());
-        producto.setStock(datos.getStock());
-        return producto;
-    }*/
-
-    private Producto findById(Long id) {
-        for (Producto p : productos) {
-            if (p.getId().equals(id)) {
-                return p;
-            }
-        }
-        throw new NotFoundException("No existe el producto con id " + id);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Producto> modificar(@PathVariable Long id,
-                                              @RequestBody Producto datos) {
-        Producto producto = findById(id);
-        producto.setNombre(datos.getNombre());
-        producto.setPrecio(datos.getPrecio());
-        producto.setStock(datos.getStock());
-        validar(producto);
-        return ResponseEntity.ok(producto);
-    }
-
-    /*@DeleteMapping("/{id}")
-    public ResponseEntity<Void> borrar(@PathVariable Long id) {
-        Iterator<Producto> it = productos.iterator();
-        while (it.hasNext()) {
-            Producto p = it.next();
-            if (p.getId().equals(id)) {
-                it.remove();
-                return ResponseEntity.noContent().build();
-            }
-        }
-        return;
-    }*/
-
-    @PostMapping()
-    public Producto crear(@RequestBody Producto producto) {
-        validar(producto);
-        Long id = secuencia.incrementAndGet();
-        Producto nuevoProducto = new Producto(id, producto.getNombre(), producto.getPrecio(), producto.getStock());
-        productos.add(nuevoProducto);
-        URI direccion = URI.create("/api/productos/" + id);
-        return nuevoProducto;
-    }
 }

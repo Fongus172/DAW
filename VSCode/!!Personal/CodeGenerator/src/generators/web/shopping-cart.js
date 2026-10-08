@@ -961,7 +961,7 @@ export async function cargarCatalogo() {
 function generateApplication() {
 
     return `import Carrito
-    from "./classes/Carrito.js";
+    from "./classes/carrito.js";
 
 import {
     cargarCatalogo
@@ -2375,7 +2375,7 @@ function generate({
     */
 
     files[
-        "js/classes/Carrito.js"
+        "js/classes/carrito.js"
     ] =
         generateCarritoClass();
 
