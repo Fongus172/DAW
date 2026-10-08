@@ -578,3 +578,403 @@ pre {
     }
 
 }
+
+/* ============================================================
+   EDITOR VISUAL DE MÉTODOS Y ACCIONES
+   ============================================================ */
+
+.editor-card-header,
+.action-top-row,
+.actions-header {
+    display: flex;
+
+    justify-content:
+        space-between;
+
+    gap: 16px;
+
+    align-items:
+        center;
+}
+
+
+.editor-card-header h4,
+.editor-card-header h5,
+.actions-header h5 {
+    margin: 0;
+}
+
+
+.editor-card-actions {
+    display: flex;
+
+    gap: 8px;
+
+    flex-wrap: wrap;
+}
+
+
+.method-editor {
+    margin-top: 16px;
+
+    padding: 18px;
+
+    border:
+        1px solid #334155;
+
+    border-radius: 10px;
+
+    background: #111827;
+}
+
+
+.method-main-fields {
+    display: grid;
+
+    grid-template-columns:
+        minmax(180px, 1fr) minmax(240px, 2fr);
+
+    gap: 12px;
+}
+
+
+.method-async-checkbox {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-top: 15px;
+}
+
+
+.method-async-checkbox input {
+    width: auto;
+
+    margin: 0;
+}
+
+
+.actions-editor {
+    margin-top: 18px;
+
+    padding-top: 16px;
+
+    border-top:
+        1px solid #334155;
+}
+
+
+.actions-header {
+    align-items:
+        flex-start;
+
+    margin-bottom: 12px;
+}
+
+
+.actions-header h5 {
+    font-size: 1rem;
+}
+
+
+.compact-help {
+    margin: 0;
+
+    font-size: 0.9rem;
+}
+
+
+.actions-container {
+    display: grid;
+
+    gap: 12px;
+}
+
+
+.action-editor {
+    padding: 14px;
+
+    border:
+        1px solid #3b475c;
+
+    border-radius: 10px;
+
+    background: #0b1220;
+}
+
+
+.action-top-row>label {
+    flex: 1;
+
+    margin: 0;
+}
+
+
+.action-body {
+    display: grid;
+
+    gap: 12px;
+
+    margin-top: 12px;
+
+    padding-top: 12px;
+
+    border-top:
+        1px dashed #334155;
+}
+
+
+.expression-editor {
+    padding: 12px;
+
+    border:
+        1px solid #293548;
+
+    border-radius: 8px;
+
+    background: #0f172a;
+}
+
+
+.expression-editor>label:first-child {
+    margin-top: 0;
+}
+
+
+.expression-body {
+    display: grid;
+
+    gap: 10px;
+
+    margin-top: 8px;
+}
+
+
+.expression-body>label,
+.expression-body>.expression-editor {
+    margin-top: 0;
+}
+
+
+.expression-list,
+.object-properties-editor {
+    display: grid;
+
+    gap: 10px;
+}
+
+
+.expression-list-items,
+.object-properties-editor [data-object-rows] {
+    display: grid;
+
+    gap: 10px;
+}
+
+
+.expression-list-item {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr) auto;
+
+    gap: 10px;
+
+    align-items: end;
+}
+
+
+.object-property-row {
+    display: grid;
+
+    grid-template-columns:
+        minmax(140px, 0.6fr) minmax(0, 1.4fr) auto;
+
+    gap: 10px;
+
+    align-items: end;
+}
+
+
+.expression-static-value {
+    margin: 0;
+
+    padding: 10px;
+
+    border-radius: 6px;
+
+    background: #172033;
+
+    color: #cbd5e1;
+
+    font-family:
+        Consolas,
+        "Courier New",
+        monospace;
+}
+
+
+.nested-actions-block {
+    padding: 12px;
+
+    border-left:
+        3px solid #475569;
+
+    border-radius: 6px;
+
+    background: #101827;
+}
+
+
+.nested-actions-block>strong {
+    display: block;
+
+    margin-bottom: 10px;
+}
+
+
+.nested-actions-container {
+    margin-bottom: 10px;
+}
+
+
+.optional-result-details {
+    display: grid;
+
+    grid-template-columns:
+        1fr 2fr;
+
+    gap: 10px;
+}
+
+
+.small-editor-button,
+.add-action-button,
+.remove-action-button,
+.remove-small-button {
+    border: none;
+
+    border-radius: 7px;
+
+    padding: 8px 11px;
+
+    cursor: pointer;
+
+    color: white;
+
+    font-weight: 700;
+}
+
+
+.small-editor-button,
+.add-action-button {
+    background: #374151;
+}
+
+
+.small-editor-button:hover,
+.add-action-button:hover {
+    background: #4b5563;
+}
+
+
+.remove-action-button,
+.remove-small-button {
+    background: #7f1d1d;
+}
+
+
+.remove-action-button:hover,
+.remove-small-button:hover {
+    background: #991b1b;
+}
+
+
+.add-action-button {
+    margin-top: 12px;
+}
+
+
+.reference-input {
+    font-family:
+        Consolas,
+        "Courier New",
+        monospace;
+}
+
+
+.class-editor {
+    margin-top: 18px;
+
+    padding: 20px;
+
+    border:
+        1px solid #374151;
+
+    border-radius: 12px;
+
+    background: #0f172a;
+}
+
+
+.classes-editor {
+    display: grid;
+
+    gap: 20px;
+}
+
+
+.methods-container {
+    display: grid;
+
+    gap: 15px;
+}
+
+
+.help-text {
+    color: #9ca3af;
+
+    line-height: 1.5;
+}
+
+
+.class-checkbox {
+    display: flex;
+
+    gap: 10px;
+
+    align-items: center;
+}
+
+
+.class-checkbox input {
+    width: auto;
+
+    margin: 0;
+}
+
+
+@media (max-width: 800px) {
+
+    .editor-card-header,
+    .action-top-row,
+    .actions-header {
+        align-items:
+            stretch;
+
+        flex-direction:
+            column;
+    }
+
+
+    .method-main-fields,
+    .optional-result-details,
+    .object-property-row,
+    .expression-list-item {
+        grid-template-columns:
+            1fr;
+    }
+
+}
