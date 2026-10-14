@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "nombre":"Portatil 15",
+    "precio": 649.00,
+    "stock": 5
+  },
+  {
+    "id": 2,
+    "nombre":"Auriculares BT",
+    "precio": 59.90,
+    "stock": 25
+  },
+  {
+    "id": 3,
+    "nombre":"Disco SSD 1 TB",
+    "precio": 89.95,
+    "stock": 12
+  },
+  {
+    "id": 4,
+    "nombre":"Portatil 15",
+    "precio": 649.00,
+    "stock": 5
+  }
+]

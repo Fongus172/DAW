@@ -3,6 +3,7 @@ package es.decroly.tienda_decroly.controllers;
 import es.decroly.tienda_decroly.domain.Producto;
 import es.decroly.tienda_decroly.exceptions.BadRequestException;
 import es.decroly.tienda_decroly.exceptions.NotFoundException;
+import es.decroly.tienda_decroly.services.ProductoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,11 +16,13 @@ import java.util.concurrent.atomic.AtomicLong;
 @RestController
 @RequestMapping("/api/productos")
 public class ProductoRestController {
+    private final ProductoService productoService;
     //PROVISIONAL: los datos van a estar temporalmente en memoria
     private final List<Producto> productos = new ArrayList<>();
     private final AtomicLong secuencia = new AtomicLong();
 
-    public ProductoRestController() {
+    public ProductoRestController(ProductoService productoService) {
+        this.productoService = productoService;
         anadir("teclado mecánico", 49.9, 15);
         anadir("Ratón inalámbrico", 19.95, 40);
         anadir("Monitor 24 pulgadas", 139.0, 8);
@@ -33,17 +36,7 @@ public class ProductoRestController {
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public Producto crear(@RequestBody Producto producto) {
-        validar(producto);
-        Long id = secuencia.incrementAndGet();
-        Producto nuevoProducto = new Producto(id, producto.getNombre(), producto.getPrecio(), producto.getStock());
-        productos.add(nuevoProducto);
-
-        /*Si mantengo la respuesta del post como ResponseEntity<Producto>
-        dejo lo que esta comentado en las lineas siguientes.
-        URI direccion = URI.create("/api/productos/" + id);
-        return ResponseEntity.created(direccion).body(nuevoProducto); */
-
-        return nuevoProducto;
+        return productoService.crear(producto);
     }
 
     private ResponseEntity<Producto> nuevo(Producto producto) {
@@ -56,45 +49,24 @@ public class ProductoRestController {
 
     @GetMapping()
     public ResponseEntity<List<Producto>> listar() {
-
-        return ResponseEntity.ok(productos);
+        return productoService.listar();
     }
 
     @GetMapping("/{id}")
     public Producto buscarPorId(@PathVariable Long id) {
-        /*return productos.stream()
-                .filter(p -> p.getId().equals(id))
-                .findFirst()
-                .orElse(null);
-
-         */
-        /*for (Producto p:  productos){
-            if( p.getId().equals(id)){
-                return ResponseEntity.ok(p);
-            }
-        }
-        return ResponseEntity.notFound().build(); //Error 404*/
-        return findById(id);
+        return productoService.buscarPorId(id);
     }
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<Producto> modificar(@PathVariable Long id,
-                                              @RequestBody Producto datos) {
-        Producto producto = findById(id);
-        validar(datos);
-        producto.setNombre(datos.getNombre());
-        producto.setPrecio(datos.getPrecio());
-        producto.setStock(datos.getStock());
-        //validar(producto);
-        return ResponseEntity.ok(producto);
+    public Producto modificar(@PathVariable Long id,
+                              @RequestBody Producto datos) {
+        return productoService.modificar(id, datos);
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void borrar(@PathVariable Long id) {
-        Producto producto = findById(id);
-        productos.remove(producto);
+        productoService.borrar(id);
     }
 
     private Producto findById(Long id) {
