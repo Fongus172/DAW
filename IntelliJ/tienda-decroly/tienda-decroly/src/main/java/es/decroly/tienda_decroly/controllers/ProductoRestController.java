@@ -52,6 +52,8 @@ public class ProductoRestController {
         return productoService.listar();
     }
 
+    @Operation(summary = "Consultar un producto por su id")
+
     @GetMapping("/{id}")
     public Producto buscarPorId(@PathVariable Long id) {
         return productoService.buscarPorId(id);

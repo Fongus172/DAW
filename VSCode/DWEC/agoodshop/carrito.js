@@ -11,12 +11,12 @@ export default class Carrito {
     agregarProducto(producto) {
 
         const productoEncontrado = this.#productosEnCarrito.find(function (productoCarrito) {
-            return productoCarrito.SKU === producto.SKU;
+            return productoCarrito.sku === producto.sku;
         });
 
         if (productoEncontrado === undefined) {
             this.#productosEnCarrito.push({
-                SKU: producto.SKU,
+                sku: producto.sku,
                 title: producto.title,
                 price: producto.price,
                 quantity: 0
@@ -27,7 +27,7 @@ export default class Carrito {
     actualizarUnidades(sku, unidades) {
 
         const producto = this.#productosEnCarrito.find(function (producto) {
-            return producto.SKU === sku;
+            return producto.sku === sku;
         });
 
         if (producto === undefined) {
@@ -35,10 +35,13 @@ export default class Carrito {
         }
 
         if (unidades <= 0) {
+
             this.#productosEnCarrito = this.#productosEnCarrito.filter(function (producto) {
-                return producto.KU !== sku;
+                return producto.sku !== sku;
             });
+
         } else {
+
             producto.quantity = unidades;
         }
 
@@ -49,16 +52,16 @@ export default class Carrito {
 
         this.#total = 0;
 
-        for (const producto of this.#productosEnCarrito) {
-            this.#total += parseFloat(producto.price) * producto.quantity;
-        }
+        this.#productosEnCarrito.forEach(function (producto) {
+            this.#total += Number(producto.price) * producto.quantity;
+        }, this);
     }
 
     obtenerCarrito() {
+
         return {
             total: this.#total,
             products: this.#productosEnCarrito
         };
     }
-
 }
