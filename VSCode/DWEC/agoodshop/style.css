@@ -1,0 +1,112 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: #292929;
+}
+
+h1 {
+    margin: 0;
+    padding: 28px 55px;
+    font-size: 24px;
+    border-bottom: 1px solid #dddddd;
+}
+
+#contenedor {
+    display: flex;
+    align-items: flex-start;
+    gap: 32px;
+
+    max-width: 1200px;
+    margin: 42px auto;
+    padding: 0 30px;
+}
+
+#contenedortabla {
+    flex: 1;
+}
+
+#tablaProductos {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#tablaProductos th {
+    text-align: left;
+    font-weight: normal;
+    font-size: 14px;
+
+    padding-bottom: 14px;
+    border-bottom: 1px solid #cccccc;
+}
+
+#tablaProductos td {
+    padding: 17px 0;
+    border-bottom: 1px solid #eeeeee;
+    vertical-align: middle;
+}
+
+#tablaProductos td:first-child {
+    font-weight: bold;
+}
+
+.cantidad {
+    display: inline-block;
+    width: 30px;
+    text-align: center;
+}
+
+.sumar,
+.restar {
+    width: 30px;
+    height: 30px;
+
+    border: 1px solid #cccccc;
+    border-radius: 6px;
+
+    background-color: white;
+    cursor: pointer;
+
+    font-size: 16px;
+}
+
+.sumar:hover,
+.restar:hover {
+    background-color: #eeeeee;
+}
+
+#resumenCarrito {
+    width: 320px;
+    padding: 24px;
+
+    background-color: #fafafa;
+}
+
+#resumenCarrito h2 {
+    margin-top: 0;
+    margin-bottom: 24px;
+}
+
+#listaResumen > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+
+    margin-bottom: 12px;
+    font-size: 14px;
+}
+
+#resumenCarrito hr {
+    margin: 24px 0;
+    border: none;
+    border-top: 1px solid #cccccc;
+}
+
+#resumenCarrito > div:last-child {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#totalGeneral {
+    font-size: 16px;
+}

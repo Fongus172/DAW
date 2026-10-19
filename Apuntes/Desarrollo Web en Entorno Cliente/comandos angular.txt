@@ -1,0 +1,29 @@
+//Ruta donde alojar los proyectos en el repositorio
+
+cd "/c/Users/daw2/Documents/REPO PROYECTO INTERMODULAR"
+
+//Crear proyecto
+
+ng new nombreDelProyecto --skip-tests
+
+//Moverse a carpeta del proyecto
+
+cd nombreDelProyecto/
+
+//Abrir VSCode cargando la carpeta del proyecto
+
+code .
+
+//Instalar Bootstrap
+npm install Bootstrap
+
+//Modificar en el angular.json
+"src/styles.css", "node_modules/bootstrap/dist/css/bootstrap-grid.min.css"
+
+scripts: [ "node_modules/bootstrap/dist/js/bootstrap.min.js" ]
+
+//Iniciar servicio
+ng s -o
+
+//Crear componentes
+ng g c components/componente-hijo2 --type=component --skip-tests

@@ -26,11 +26,11 @@ fetch("http://localhost:8080/api/carrito")
                 const subtotal = Number(producto.price) * producto.quantity;
 
                 listaResumen.innerHTML += `
-            <div>
-                <span>${producto.title}</span>
-                <span>${subtotal.toFixed(2)} ${datosTienda.currency}</span>
-            </div>
-        `;
+                    <div>
+                        <span>${producto.title} x${producto.quantity}</span>
+                        <span>${subtotal.toFixed(2)} ${datosTienda.currency}</span>
+                    </div>
+                `;
             });
 
             totalGeneral.innerText =

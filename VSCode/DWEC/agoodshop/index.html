@@ -5,37 +5,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agoodshop</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <h1>Agoodshop</h1>
     <div id="contenedor">
         <div id="contenedortabla">
-            <div id="resumenCarrito">
-                <h2>Total</h2>
 
-                <div id="listaResumen"></div>
+            <body>
 
-                <hr>
+                <h1>Agoodshop</h1>
 
-                <div>
-                    <span>TOTAL</span>
-                    <strong id="totalGeneral">0.00 €</strong>
+                <div id="contenedor">
+
+                    <div id="contenedortabla">
+
+                        <table class="table" id="tablaProductos">
+                            <thead>
+                                <tr>
+                                    <th>Producto</th>
+                                    <th>Cantidad</th>
+                                    <th>Precio unidad</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                        </table>
+
+                    </div>
+
+                    <div id="resumenCarrito">
+
+                        <h2>Total</h2>
+
+                        <div id="listaResumen"></div>
+
+                        <hr>
+
+                        <div>
+                            <span>TOTAL</span>
+                            <strong id="totalGeneral">0.00 €</strong>
+                        </div>
+
+                    </div>
+
                 </div>
-            </div>
-            <table class="table" id="tablaProductos">
-                <thead>
-                    <tr>
-                        <th>Producto</th>
-                        <th>Cantidad</th>
-                        <th>Precio unidad</th>
-                        <th>Total</th>
-                    </tr>
-                </thead>
-            </table>
-        </div>
-    </div>
-    <script type="module" src="./scripts.js"></script>
-</body>
 
-</html>
+                <script type="module" src="./scripts.js"></script>
+
+            </body>
