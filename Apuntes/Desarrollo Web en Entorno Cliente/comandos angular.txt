@@ -15,12 +15,12 @@ cd nombreDelProyecto/
 code .
 
 //Instalar Bootstrap
-npm install Bootstrap
+npm install bootstrap
 
 //Modificar en el angular.json
 "src/styles.css", "node_modules/bootstrap/dist/css/bootstrap-grid.min.css"
 
-scripts: [ "node_modules/bootstrap/dist/js/bootstrap.min.js" ]
+"scripts": [ "node_modules/bootstrap/dist/js/bootstrap.min.js" ]
 
 //Iniciar servicio
 ng s -o
