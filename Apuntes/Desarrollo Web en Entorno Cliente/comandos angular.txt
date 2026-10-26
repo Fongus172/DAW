@@ -27,3 +27,6 @@ ng s -o
 
 //Crear componentes
 ng g c components/componente-hijo2 --type=component --skip-tests
+
+//Crear interfaces
+ng g i interfaces/Iaficiones --type=interfaces
