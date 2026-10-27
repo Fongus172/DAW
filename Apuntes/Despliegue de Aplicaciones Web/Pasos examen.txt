@@ -1,0 +1,35 @@
+https://tomcat.apache.org/download-90.cgi
+
+Descargar 64-bit Windows zip
+
+Descomprimir
+
+C:\Users\daw2\Downloads\apache-tomcat-9.0.123-windows-x64\apache-tomcat-9.0.123\bin>catalina.bat run
+Neither the JAVA_HOME nor the JRE_HOME environment variable is defined
+At least one of these environment variable is needed to run this program
+
+C:\Users\daw2\Downloads\apache-tomcat-9.0.123-windows-x64\apache-tomcat-9.0.123\bin>
+
+Copiar ruta del JDK (C:\Program Files\Java\jdk-25.0.3)
+
+En un bloc de notas, poner 'set "JAVA_HOME=C:\Program Files\Java\jdk-25.0.3" '
+
+Archivo > Guardar como
+
+Guardar en "C:\Users\daw2\Downloads\apache-tomcat-9.0.123-windows-x64\apache-tomcat-9.0.123\bin" (la ruta de Tomcat) y guardarlo como "setenv.bat"
+
+Volver a poner C:\Users\daw2\Downloads\apache-tomcat-9.0.123-windows-x64\apache-tomcat-9.0.123\bin>catalina.bat run
+
+En el navegador ir a "http://localhost:8080/"
+
+Descargar Eclipse en "https://www.eclipse.org/downloads/packages/release/2022-06/r/eclipse-ide-enterprise-java-and-web-developers"
+
+Al descomprimir y abrir eclipse.exe, directorio del workspace: C:\Users\daw2\eclipse-workspace
+
+
+
+
+
+
+Habrá un pequeño test de teoría (2 ptos)
+Servidores web estáticos (no podemos usar XAMPP, pero sí IIS o algo asi)
