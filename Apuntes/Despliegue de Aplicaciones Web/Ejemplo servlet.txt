@@ -1,0 +1,72 @@
+############################## CÓDIGO SERVLET ##############################
+
+import java.io.IOException;
+import java.io.PrintWriter;
+ 
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+ 
+/**
+ * Servlet implementation class MyServlet
+ */
+@WebServlet("/MyServlet")
+public class MyServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+        
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public MyServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+ 
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+     */
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+ 
+        //response.setContentType("text/html");
+        //PrintWriter out = response.getWriter();
+        //out.println("<h1>Message from doGet method from MyServlet</h1>");
+         
+    }
+ 
+    /**
+     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+     */
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+       
+        //response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+        //out.println("<h1>Message from doPost method from MyServlet</h1>");
+    	
+    	String name = request.getParameter("username");
+        System.out.println("La palabra "+name+" tiene "+name.length()+" caracteres");
+    	
+    }
+ 
+}
+
+################################ CÓDIGO JSP ################################
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page import="java.util.Date"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Actividad 2</title>
+</head>
+<body>
+    
+    <form method="post" action="MyServlet">
+    	Nombre: <input type="text" name="username" id="username"/> <br/>
+    	<input type="submit" value="Vamos allá"/>
+	</form>
+ 
+</body>
+</html>
