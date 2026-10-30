@@ -1,0 +1,68 @@
+############################## CÓDIGO SERVLET ##############################
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+ 
+@WebServlet("/MyServlet")
+public class MyServlet extends HttpServlet {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String nombre = request.getParameter("name");
+        String email = request.getParameter("email");
+        
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+        out.println("<html><body>");
+        out.println("<h2>Datos recibidos:</h2>");
+        out.println("Nombre: " + nombre + "<br>");
+        out.println("Email: " + email);
+        out.println("</body></html>");
+    }
+}
+
+################################ CÓDIGO HTML ###############################
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Contacto</title>
+</head>
+<body>
+    <h1>Formulario de Contacto</h1>
+    <form action="/MyServlet" method="POST">
+        <label for="name">Nombre:</label><br>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <input type="submit" value="Enviar">
+    </form>
+</body>
+</html>
+
+############################# CAMBIOS HTTP.CONF ############################
+
+Descomentar las siguientes líneas:
+
+LoadModule proxy_module modules/mod_proxy.so
+LoadModule proxy_http_module modules/mod_proxy_http.so
+                              
+########################### CAMBIOS HTTPD-VHOSTS ###########################
+
+Añadimos estas líneas:
+
+<VirtualHost *:80>
+    ServerName localhost
+    ProxyPass "/MyServlet" "http://localhost:8080/actividad2/MyServlet"
+    ProxyPassReverse "/MyServlet" "http://localhost:8080/actividad2/MyServlet"
+</VirtualHost>
+
+(cambia el nombre de tu proyecto Java)
