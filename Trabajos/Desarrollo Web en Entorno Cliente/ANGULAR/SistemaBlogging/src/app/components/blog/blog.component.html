@@ -1,1 +1,79 @@
-<p>blog works!</p>
+<div class="container mt-4">
+    <h1 class="mb-4">Sistema Blogging</h1>
+    <div class="row">
+        <div class="col-md-4">
+            <h2>Nueva noticia</h2>
+            <form>
+                <div class="mb-3">
+                    <label for="titulo" class="form-label">Título</label>
+                    <input
+                        type="text"
+                        id="titulo"
+                        name="titulo"
+                        class="form-control"
+                        [(ngModel)]="titulo"
+                    />
+                </div>
+
+                <div class="mb-3">
+                    <label for="imagen" class="form-label">Imagen</label>
+                    <input
+                        type="text"
+                        id="imagen"
+                        name="imagen"
+                        class="form-control"
+                        [(ngModel)]="imagen"
+                    />
+                </div>
+
+                <div class="mb-3">
+                    <label for="texto" class="form-label">Texto</label>
+                    <textarea
+                        id="texto"
+                        name="texto"
+                        class="form-control"
+                        [(ngModel)]="texto"
+                    ></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="fecha" class="form-label">Fecha</label>
+                    <input
+                        type="date"
+                        id="fecha"
+                        name="fecha"
+                        class="form-control"
+                        [(ngModel)]="fecha"
+                    />
+                </div>
+                <button type="button" class="btn btn-primary" (click)="publicarNoticia()">
+                    Publicar
+                </button>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <h2>Noticias</h2>
+        <div class="lista-noticias">
+            @for (noticia of noticias; track $index) {
+                <div class="card mb-4">
+                    <img [src]="noticia.imagen" class="card-img-top" [alt]="noticia.titulo" />
+
+                    <div class="card-body">
+                        <h3 class="card-title">
+                            {{ noticia.titulo }}
+                        </h3>
+
+                        <p class="card-text">
+                            {{ noticia.texto }}
+                        </p>
+
+                        <p class="text-muted">
+                            {{ noticia.fecha }}
+                        </p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
