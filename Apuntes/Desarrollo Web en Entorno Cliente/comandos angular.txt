@@ -33,3 +33,6 @@ ng g c components/componente-hijo2 --type=component --skip-tests
 
 //Crear interfaces
 ng g i interfaces/Iaficiones --type=interfaces
+
+//Crear servicios
+ng c service services/nombreServicio --type=service --skip-tests
