@@ -1,0 +1,395 @@
+:root {
+    --travel-navy: #013c74;
+    --travel-teal: #00adc4;
+    --travel-coral: #ff8522;
+}
+
+body {
+    margin: 0;
+    color: var(--travel-navy);
+    background-color: white;
+}
+
+/* NAVBAR */
+
+.navbar {
+    padding-top: 18px;
+    padding-bottom: 18px;
+}
+
+.text-brand {
+    color: #00a4b9;
+}
+
+.nav-link {
+    font-weight: 500;
+    position: relative;
+}
+
+.btn-account {
+    background-color: var(--travel-navy);
+    color: white;
+    border-radius: 10px;
+}
+
+.btn-account:hover {
+    background-color: #082f4b;
+    color: white;
+}
+
+.travel-logo {
+    width: 65px;
+    height: 65px;
+    object-fit: contain;
+}
+
+/* HERO */
+
+.hero {
+    position: relative;
+    min-height: 340px;
+    overflow: hidden;
+    background:
+        linear-gradient(rgba(11, 59, 94, 0.25), rgba(11, 59, 94, 0.25)),
+        url("../img/banner.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 3;
+    padding-top: 55px;
+    padding-bottom: 90px;
+}
+
+.hero-title {
+    color: white;
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1.08;
+    margin-bottom: 14px;
+}
+
+.hero-text {
+    color: white;
+    font-size: 1.25rem;
+    margin-bottom: 22px;
+}
+
+.btn-action {
+    background-color: var(--travel-coral);
+    border-color: var(--travel-coral);
+    color: white;
+    font-weight: 600;
+    border-radius: 10px;
+}
+
+.btn-action:hover {
+    background-color: #e96843;
+    border-color: #e96843;
+    color: white;
+}
+
+/* BUSCADOR */
+
+.search-section {
+    position: relative;
+    z-index: 3;
+    margin-top: -48px;
+    padding-bottom: 30px;
+}
+
+.search-box {
+    background-color: white;
+    border: 1px solid #cbdce5;
+    border-radius: 14px;
+    padding: 14px 18px;
+    box-shadow: none;
+}
+
+.search-item {
+    min-height: 62px;
+    padding: 8px 28px;
+    border-right: 1px solid #d8e3e9;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.search-label {
+    color: #6a859b;
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-bottom: 3px;
+}
+
+.search-value {
+    color: var(--travel-navy);
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.search-button-container {
+    padding-left: 24px;
+}
+
+.btn-search {
+    min-height: 50px;
+    background-color: var(--travel-teal);
+    border-color: var(--travel-teal);
+    color: white;
+    font-weight: 600;
+    border-radius: 9px;
+}
+
+@media (max-width: 991.98px) {
+    .search-item {
+        border-right: 0;
+        border-bottom: 1px solid #d8e3e9;
+    }
+
+    .search-button-container {
+        padding: 15px 0 0;
+    }
+}
+
+/* VENTAJAS */
+
+.benefits-section {
+    padding-top: 5px;
+    padding-bottom: 35px;
+}
+
+.benefit-item {
+    min-height: 58px;
+}
+
+.benefit-icon {
+    width: 48px;
+    height: 48px;
+    flex: 0 0 48px;
+    border-radius: 50%;
+    background-color: #e4f5f8;
+    position: relative;
+}
+
+.benefit-icon::after {
+    content: "";
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: var(--travel-teal);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.benefit-title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 3px;
+    color: var(--travel-navy);
+}
+
+.benefit-text {
+    margin-bottom: 0;
+    color: #6a859b;
+    font-size: 0.9rem;
+}
+
+/* DESTINOS */
+
+.destinations-section {
+    padding-bottom: 40px;
+}
+
+.section-title {
+    color: var(--travel-navy);
+    font-size: 1.6rem;
+    font-weight: 700;
+}
+
+.all-offers-link {
+    color: var(--travel-teal);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.all-offers-link:hover {
+    color: #007f8e;
+}
+
+.destination-card {
+    overflow: hidden;
+    border: 1px solid #cbdce5;
+    border-radius: 10px;
+}
+
+.destination-card .card-body {
+    padding: 1.2rem;
+}
+
+.destination-img {
+    width: 100%;
+    height: 100%;
+    min-height: 150px;
+    object-fit: cover;
+    display: block;
+}
+
+.destination-card .card-title {
+    color: var(--travel-navy);
+    font-weight: 700;
+}
+
+.destination-price {
+    color: var(--travel-teal);
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 767.98px) {
+    .hero {
+        min-height: 320px;
+    }
+
+    .hero-title {
+        font-size: 2.2rem;
+    }
+
+    .hero-text {
+        font-size: 1.05rem;
+    }
+
+    .search-section {
+        margin-top: -30px;
+    }
+
+    .all-offers-link {
+        font-size: 0.85rem;
+    }
+}
+
+/* FOOTER */
+
+.travel-footer {
+    background-color: var(--travel-navy);
+    color: white;
+    padding-top: 18px;
+    padding-bottom: 18px;
+}
+
+.footer-brand {
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.footer-slogan {
+    color: #b8cedc;
+    font-size: 0.8rem;
+}
+
+.travel-footer a {
+    color: #d5e2ea;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.travel-footer a:hover {
+    color: white;
+}
+
+@media (max-width: 767.98px) {
+    /* NAVBAR */
+
+    .navbar {
+        padding-top: 12px;
+        padding-bottom: 12px;
+    }
+
+    .navbar-brand {
+        font-size: 1.4rem;
+    }
+
+    .active-link::after {
+        display: none;
+    }
+
+    /* HERO */
+
+    .hero {
+        min-height: 300px;
+        border-bottom-width: 55px;
+    }
+
+    .hero-content {
+        padding-top: 40px;
+        padding-bottom: 65px;
+    }
+
+    .hero-title {
+        font-size: 2rem;
+    }
+
+    .hero-text {
+        font-size: 1rem;
+    }
+
+    /* BUSCADOR */
+
+    .search-section {
+        margin-top: -25px;
+    }
+
+    .search-box {
+        padding: 12px 18px;
+    }
+
+    .search-item {
+        padding: 12px 5px;
+    }
+
+    /* VENTAJAS */
+
+    .benefits-section {
+        padding-top: 15px;
+    }
+
+    /* DESTINOS */
+
+    .destinations-section .d-flex.justify-content-between {
+        align-items: flex-start !important;
+        gap: 12px;
+    }
+
+    .section-title {
+        font-size: 1.35rem;
+    }
+
+    .destination-image {
+        min-height: 165px;
+    }
+
+    /* FOOTER */
+
+    .travel-footer {
+        text-align: center;
+    }
+
+    .travel-footer .d-flex.flex-wrap {
+        justify-content: center;
+    }
+}
+
+.destination-img {
+    width: 100%;
+    height: 100%;
+    min-height: 150px;
+    object-fit: cover;
+    display: block;
+}
