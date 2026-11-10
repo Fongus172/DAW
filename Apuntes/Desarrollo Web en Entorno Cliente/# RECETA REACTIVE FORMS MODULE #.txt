@@ -1,0 +1,21 @@
+# RECETA REACTIVE FORMS MODULE #
+
+1- Importar la librería al componente donde vamos a usar ReactiveFormsModule
+
+	imports: [ReactiveFormsModule]
+
+2- Crear un atributo dentro de la etiqueta form que se llama formGroup que contendrá el nombre del formulario, crear propiedad en el ts e iniciar en el constructor
+
+	modelForm: FormGroup;		// modelForm es el nombre, puede ser cualquiera
+
+	constructor(){
+		this.modelForm = new FormGroup({});
+	}
+
+(en el html)
+
+<form action="" [formGroup]="modelForm" class=...>
+
+3- Maquetar el formulario
+
+4- Necesitamos implementar el evento ngSubmit que llame a una función que NO RECIBE PARÁMETROS. La función
