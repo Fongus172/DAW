@@ -15,7 +15,6 @@ public interface ActividadService {
      */
     List<Actividad> listar();
 
-    // EJEMPLO EXAMEN - BUSCAR POR CAMPO ÚNICO
     // Busca una única actividad usando su ID
     Actividad obtenerPorId(Long id);
 
