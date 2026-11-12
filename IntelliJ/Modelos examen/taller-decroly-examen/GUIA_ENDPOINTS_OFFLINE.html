@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Taller Decroly - Guía offline de endpoints</title>
+<style>
+body{font-family:Arial,sans-serif;max-width:1100px;margin:32px auto;padding:0 22px;line-height:1.5;color:#1f2937;background:#f8fafc}
+h1,h2,h3{color:#0f172a}h1{border-bottom:4px solid #334155;padding-bottom:12px}.box{background:white;border:1px solid #cbd5e1;border-radius:10px;padding:18px;margin:16px 0}.method{display:inline-block;min-width:64px;font-weight:bold}.get{color:#047857}.post{color:#1d4ed8}.put{color:#b45309}.delete{color:#b91c1c}code,pre{font-family:Consolas,monospace;background:#e2e8f0;border-radius:5px}code{padding:2px 5px}pre{padding:12px;overflow:auto}.tag{font-weight:bold;color:#7c3aed}.small{color:#475569;font-size:.94rem}table{border-collapse:collapse;width:100%;background:white}th,td{border:1px solid #cbd5e1;padding:8px;text-align:left}th{background:#e2e8f0}
+</style>
+</head>
+<body>
+<h1>Taller Decroly Examen · Guía offline</h1>
+<p>Referencia local para consultar endpoints sin Internet. Usa <strong>Ctrl+F</strong> y busca palabras como <code>MATRICULA</code>, <code>DNI</code>, <code>FILTRO</code>, <code>409</code>, <code>RESUMEN</code>, <code>FINALIZAR</code> o <code>CONFIGURATIONPROPERTIES</code>.</p>
+
+<div class="box"><h2>Arranque y documentación</h2>
+<p>Aplicación: <code>TallerDecrolyApplication</code></p>
+<p>Swagger: <code>http://localhost:8080/swagger-ui/index.html</code></p>
+<p>OpenAPI JSON: <code>http://localhost:8080/v3/api-docs</code></p>
+<p><span class="method get">GET</span> <code>/api/taller/info</code> <span class="tag">CONFIGURATIONPROPERTIES</span></p>
+<pre>curl.exe http://localhost:8080/api/taller/info</pre>
+</div>
+
+<div class="box"><h2>Clientes</h2>
+<p><span class="method get">GET</span> <code>/api/clientes</code> · listar todos</p>
+<p><span class="method get">GET</span> <code>/api/clientes/{id}</code> · buscar por ID</p>
+<p><span class="method get">GET</span> <code>/api/clientes/dni/{dni}</code> <span class="tag">CAMPO ÚNICO</span></p>
+<p><span class="method get">GET</span> <code>/api/clientes/{id}/vehiculos</code> <span class="tag">RELACIÓN</span></p>
+<p><span class="method post">POST</span> <code>/api/clientes</code> · 201 + Location</p>
+<pre>{
+  "dni": "12345678A",
+  "nombre": "Ana Pérez",
+  "telefono": "600123123"
+}</pre>
+<p><span class="method put">PUT</span> <code>/api/clientes/{id}</code></p>
+<p><span class="method delete">DELETE</span> <code>/api/clientes/{id}</code> · 204 si no tiene vehículos; 409 si los tiene.</p>
+<pre>curl.exe http://localhost:8080/api/clientes/dni/12345678A</pre>
+</div>
+
+<div class="box"><h2>Vehículos</h2>
+<p><span class="method get">GET</span> <code>/api/vehiculos</code></p>
+<p><span class="method get">GET</span> <code>/api/vehiculos?marca=Toyota</code> <span class="tag">FILTRO TEXTO</span></p>
+<p><span class="method get">GET</span> <code>/api/vehiculos?clienteId=1</code> <span class="tag">FILTRO POR RELACIÓN</span></p>
+<p><span class="method get">GET</span> <code>/api/vehiculos?marca=Toyota&amp;clienteId=1&amp;limite=5</code> <span class="tag">VARIOS FILTROS + defaultValue</span></p>
+<p><span class="method get">GET</span> <code>/api/vehiculos/matricula/{matricula}</code> <span class="tag">MATRICULA · CAMPO ÚNICO</span></p>
+<p><span class="method get">GET</span> <code>/api/vehiculos/{id}</code></p>
+<p><span class="method get">GET</span> <code>/api/vehiculos/{id}/reparaciones</code> <span class="tag">CADENA DE 3 ENTIDADES</span></p>
+<p><span class="method get">GET</span> <code>/api/vehiculos/{id}/resumen</code> <span class="tag">DTO CALCULADO</span></p>
+<p><span class="method post">POST</span> <code>/api/vehiculos</code></p>
+<pre>{
+  "matricula": "1234ABC",
+  "marca": "Toyota",
+  "modelo": "Corolla",
+  "clienteId": 1
+}</pre>
+<p><span class="method put">PUT</span> <code>/api/vehiculos/{id}</code></p>
+<p><span class="method delete">DELETE</span> <code>/api/vehiculos/{id}</code> · 204 si no tiene reparaciones; 409 si las tiene.</p>
+<pre>curl.exe "http://localhost:8080/api/vehiculos?marca=Toyota&amp;clienteId=1&amp;limite=5"</pre>
+</div>
+
+<div class="box"><h2>Reparaciones</h2>
+<p><span class="method get">GET</span> <code>/api/reparaciones</code></p>
+<p><span class="method get">GET</span> <code>/api/reparaciones?estado=PENDIENTE</code> <span class="tag">FILTRO ESTADO</span></p>
+<p><span class="method get">GET</span> <code>/api/reparaciones?costeMin=100&amp;costeMax=500</code> <span class="tag">RANGO</span></p>
+<p><span class="method get">GET</span> <code>/api/reparaciones?vehiculoId=1&amp;limite=3</code></p>
+<p><span class="method get">GET</span> <code>/api/reparaciones/activas</code></p>
+<p><span class="method get">GET</span> <code>/api/reparaciones/{id}</code></p>
+<p><span class="method post">POST</span> <code>/api/reparaciones</code></p>
+<pre>{
+  "vehiculoId": 1,
+  "descripcion": "Cambio de pastillas de freno",
+  "estado": "PENDIENTE",
+  "coste": 180.5
+}</pre>
+<p><span class="method put">PUT</span> <code>/api/reparaciones/{id}</code></p>
+<p><span class="method put">PUT</span> <code>/api/reparaciones/{id}/finalizar</code> <span class="tag">FINALIZAR · CAMBIO DE ESTADO</span></p>
+<p class="small">Si la reparación ya está FINALIZADA devuelve 409 Conflict.</p>
+<p><span class="method delete">DELETE</span> <code>/api/reparaciones/{id}</code></p>
+<pre>curl.exe -X PUT http://localhost:8080/api/reparaciones/1/finalizar</pre>
+</div>
+
+<div class="box"><h2>Estados HTTP importantes</h2>
+<table><tr><th>Código</th><th>Cuándo aparece aquí</th></tr>
+<tr><td>200</td><td>GET y PUT correctos. Los filtros sin resultados devuelven 200 + [].</td></tr>
+<tr><td>201</td><td>POST correcto, con cabecera Location.</td></tr>
+<tr><td>204</td><td>DELETE correcto.</td></tr>
+<tr><td>400</td><td>Datos o filtros inválidos: estado incorrecto, coste negativo, relación enviada que no existe.</td></tr>
+<tr><td>404</td><td>Se busca un recurso concreto válido que no existe.</td></tr>
+<tr><td>409</td><td>DNI/matrícula duplicados, padre con hijos al borrar, máximo de reparaciones activas o finalizar dos veces.</td></tr></table>
+</div>
+
+<div class="box"><h2>Qué buscar en IntelliJ</h2>
+<pre>EJEMPLO EXAMEN - BUSCAR POR CAMPO ÚNICO
+EJEMPLO EXAMEN - VARIOS FILTROS OPCIONALES
+EJEMPLO EXAMEN - RECURSOS RELACIONADOS
+EJEMPLO EXAMEN - DTO CON DATOS CALCULADOS
+EJEMPLO EXAMEN - REGLA AL BORRAR
+EJEMPLO EXAMEN - OPERACIÓN ESPECÍFICA
+EJEMPLO EXAMEN - CONFIGURATIONPROPERTIES</pre>
+</div>
+</body></html>

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Guía offline - Biblioteca Decroly Examen</title>
+<style>
+body{font-family:Segoe UI,Arial,sans-serif;max-width:1100px;margin:32px auto;padding:0 20px;color:#1f2937;line-height:1.45;background:#fff}
+h1,h2,h3{color:#1f4e78}h1{font-size:2rem;margin-bottom:.2rem}.sub{color:#6b7280;margin-top:0}.box{padding:12px 16px;border-left:5px solid #1f4e78;background:#eef6fb;margin:16px 0}.warn{border-color:#c77700;background:#fff7df}.err{border-color:#b91c1c;background:#fff0f0}
+table{border-collapse:collapse;width:100%;margin:12px 0 24px;font-size:.92rem}th{background:#1f4e78;color:white;text-align:left}th,td{border:1px solid #cbd5e1;padding:8px;vertical-align:top}code,pre{font-family:Consolas,monospace}pre{background:#f5f5f5;padding:14px;overflow:auto;border-radius:6px}.tag{display:inline-block;background:#e5eef7;border-radius:4px;padding:2px 7px;font-family:Consolas,monospace;font-size:.85rem}.method{font-weight:700}.get{color:#0b6e4f}.post{color:#9a6700}.put{color:#2457a6}.delete{color:#a12622}a{color:#1f4e78}.toc a{margin-right:12px;white-space:nowrap}
+</style></head><body>
+<h1>Biblioteca Decroly Examen - Guía offline de endpoints</h1>
+<p class="sub">No necesita Internet. Usa <b>Ctrl + F</b> para buscar: RANGO, ISBN, 409, DTO, FILTRO, BORRAR, LOCATION, CONFIGURACIÓN...</p>
+<div class="box"><b>Base URL:</b> <code>http://localhost:8080</code></div>
+<div class="box warn"><b>Plan B sin Postman:</b> usa el navegador para GET sencillos o <code>curl.exe</code> para cualquier método.</div>
+<div class="toc"><a href="#all">Todos los endpoints</a><a href="#filters">Filtros</a><a href="#bodies">JSON</a><a href="#errors">Errores</a><a href="#patterns">Patrones</a><a href="#curl">curl</a></div>
+<h2 id="all">Todos los endpoints</h2>
+<table><tr><th>Método</th><th>Ruta</th><th>Descripción</th><th>Estados</th></tr>
+<tr><td class="method get">GET</td><td><code>/api/categorias</code></td><td>Lista todas las categorías.</td><td>200</td></tr>
+<tr><td class="method get">GET</td><td><code>/api/categorias/{id}</code></td><td>Obtiene una categoría concreta.</td><td>200 / 404</td></tr>
+<tr><td class="method post">POST</td><td><code>/api/categorias</code></td><td>Crea una categoría.</td><td>201 / 400 / 409</td></tr>
+<tr><td class="method put">PUT</td><td><code>/api/categorias/{id}</code></td><td>Modifica una categoría.</td><td>200 / 400 / 404 / 409</td></tr>
+<tr><td class="method delete">DELETE</td><td><code>/api/categorias/{id}</code></td><td>Borra una categoría solo si no tiene libros.</td><td>204 / 404 / 409</td></tr>
+<tr><td class="method get">GET</td><td><code>/api/categorias/{id}/libros</code></td><td>Lista los libros que pertenecen a una categoría.</td><td>200 / 404</td></tr>
+<tr><td class="method get">GET</td><td><code>/api/categorias/{id}/resumen</code></td><td>Devuelve datos calculados de la categoría mediante DTO.</td><td>200 / 404</td></tr>
+<tr><td class="method get">GET</td><td><code>/api/libros</code></td><td>Lista libros; también admite filtros opcionales.</td><td>200 / 400</td></tr>
+<tr><td class="method get">GET</td><td><code>/api/libros/{id}</code></td><td>Obtiene un libro por ID.</td><td>200 / 404</td></tr>
+<tr><td class="method get">GET</td><td><code>/api/libros/isbn/{isbn}</code></td><td>Obtiene un libro por su ISBN único.</td><td>200 / 400 / 404</td></tr>
+<tr><td class="method get">GET</td><td><code>/api/libros/disponibles</code></td><td>Lista libros con disponibles &gt; 0.</td><td>200</td></tr>
+<tr><td class="method post">POST</td><td><code>/api/libros</code></td><td>Crea un libro y devuelve 201 + Location.</td><td>201 / 400 / 409</td></tr>
+<tr><td class="method put">PUT</td><td><code>/api/libros/{id}</code></td><td>Modifica un libro.</td><td>200 / 400 / 404 / 409</td></tr>
+<tr><td class="method delete">DELETE</td><td><code>/api/libros/{id}</code></td><td>Elimina un libro.</td><td>204 / 404</td></tr>
+<tr><td class="method get">GET</td><td><code>/api/biblioteca/info</code></td><td>Devuelve propiedades de configuración.</td><td>200</td></tr>
+</table>
+<h2 id="filters">Filtros de <code>GET /api/libros</code></h2><table><tr><th>Ejemplo</th><th>Qué hace</th></tr><tr><td><code>/api/libros?autor=Cervantes</code></td><td>Texto parcial por autor; no distingue mayúsculas.</td></tr><tr><td><code>/api/libros?titulo=Quijote</code></td><td>Texto parcial por título.</td></tr><tr><td><code>/api/libros?anio=2024</code></td><td>Año exacto.</td></tr><tr><td><code>/api/libros?desde=2000</code></td><td>Año mínimo, incluido.</td></tr><tr><td><code>/api/libros?hasta=2020</code></td><td>Año máximo, incluido.</td></tr><tr><td><code>/api/libros?desde=2000&amp;hasta=2020</code></td><td>Rango de años.</td></tr><tr><td><code>/api/libros?autor=Cervantes&amp;titulo=Quijote</code></td><td>Varios filtros combinados.</td></tr><tr><td><code>/api/libros?limite=5</code></td><td>Devuelve como máximo 5 resultados.</td></tr></table><div class="box"><b>Regla:</b> filtro válido sin resultados = <code>200 []</code>. Recurso concreto inexistente = <code>404</code>.</div>
+<h2 id="bodies">Cuerpos JSON rápidos</h2>
+<h3>POST /api/categorias</h3><pre>{
+  "nombre": "Ciencia ficción",
+  "descripcion": "Libros de ciencia ficción"
+}</pre>
+<h3>POST /api/libros</h3><pre>{
+  "isbn": "9781234567890",
+  "titulo": "El libro de prueba",
+  "autor": "Autor Prueba",
+  "anioPublicacion": 2024,
+  "ejemplares": 3,
+  "categoriaId": 1
+}</pre>
+<h2 id="errors">Errores</h2>
+<table><tr><th>Estado</th><th>Idea</th><th>Ejemplos</th></tr>
+<tr><td>400</td><td>Dato o parámetro inválido</td><td>ISBN mal formado; título vacío; ejemplares &lt; 1; rango imposible</td></tr>
+<tr><td>404</td><td>Recurso concreto no existe</td><td>ID 999; ISBN válido pero inexistente</td></tr>
+<tr><td>409</td><td>Conflicto con datos/estado</td><td>Duplicado; borrar categoría con libros</td></tr>
+<tr><td>201</td><td>Creación correcta</td><td>POST, con Location</td></tr>
+<tr><td>204</td><td>Operación correcta sin cuerpo</td><td>DELETE</td></tr></table>
+<h2 id="patterns">Patrones para buscar en IntelliJ</h2>
+<ul>
+<li><span class="tag">FILTRO TEXTO</span> - contains + toLowerCase.</li>
+<li><span class="tag">FILTRO POR RANGO</span> - mínimo/máximo y 400 si el rango es inválido.</li>
+<li><span class="tag">VARIOS FILTROS OPCIONALES</span> - parámetros null se ignoran.</li>
+<li><span class="tag">BUSCAR POR CAMPO ÚNICO</span> - ISBN; sirve de modelo para DNI/email/código.</li>
+<li><span class="tag">RESULTADO CALCULADO</span> - DTO con conteos/totales.</li>
+<li><span class="tag">REGLA AL BORRAR</span> - 409 si el estado no permite borrar.</li>
+<li><span class="tag">RESPONSEENTITY CREATED + LOCATION</span> - POST con 201 y cabecera Location.</li>
+</ul>
+<h2 id="curl">curl.exe offline</h2>
+<pre>curl.exe http://localhost:8080/api/libros
+curl.exe "http://localhost:8080/api/libros?desde=2000&hasta=2025"
+curl.exe http://localhost:8080/api/libros/isbn/9781234567890
+curl.exe -X DELETE http://localhost:8080/api/libros/1</pre>
+<p><b>Archivos de referencia:</b> <code>GUIA_EXAMEN.md</code>, <code>postman/Biblioteca Decroly Examen.postman_collection.json</code> y este HTML.</p>
+</body></html>

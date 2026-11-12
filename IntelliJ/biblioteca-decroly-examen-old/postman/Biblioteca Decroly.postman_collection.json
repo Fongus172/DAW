@@ -1,0 +1,904 @@
+﻿{
+    "info":  {
+                 "_postman_id":  "1e95a8c0-6396-4a74-a7f1-d0ae6e203b6d",
+                 "name":  "Biblioteca Decroly",
+                 "schema":  "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+                 "_exporter_id":  "58661515",
+                 "_collection_link":  "https://go.postman.co/collection/58661515-1e95a8c0-6396-4a74-a7f1-d0ae6e203b6d?source=collection_link"
+             },
+    "item":  [
+                 {
+                     "name":  "CategorÃ­as",
+                     "item":  [
+                                  {
+                                      "name":  "Listar categorÃ­as",
+                                      "event":  [
+                                                    {
+                                                        "listen":  "test",
+                                                        "script":  {
+                                                                       "type":  "text/javascript",
+                                                                       "exec":  [
+                                                                                    "pm.test(\"Status 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"La respuesta es una lista\", function () {\r\n    const json = pm.response.json();\r\n    pm.expect(json).to.be.an(\"array\");\r\n});"
+                                                                                ]
+                                                                   }
+                                                    }
+                                                ],
+                                      "request":  {
+                                                      "method":  "GET",
+                                                      "header":  [
+
+                                                                 ],
+                                                      "body":  {
+                                                                   "mode":  "raw",
+                                                                   "raw":  "",
+                                                                   "options":  {
+                                                                                   "raw":  {
+                                                                                               "language":  "json"
+                                                                                           }
+                                                                               }
+                                                               },
+                                                      "url":  {
+                                                                  "raw":  "{{baseUrl}}/api/categorias",
+                                                                  "host":  [
+                                                                               "{{baseUrl}}"
+                                                                           ],
+                                                                  "path":  [
+                                                                               "api",
+                                                                               "categorias"
+                                                                           ]
+                                                              }
+                                                  },
+                                      "response":  [
+
+                                                   ]
+                                  },
+                                  {
+                                      "name":  "Crear categorÃ­a",
+                                      "event":  [
+                                                    {
+                                                        "listen":  "test",
+                                                        "script":  {
+                                                                       "type":  "text/javascript",
+                                                                       "exec":  [
+                                                                                    "pm.test(\"Status 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\nconst json = pm.response.json();\r\nconst cuerpoEnviado = JSON.parse(pm.request.body.raw);\r\n\r\npm.test(\"La categorÃ­a creada contiene los datos correctos\", function () {\r\n    pm.expect(json.id).to.exist;\r\n    pm.expect(json.nombre).to.eql(cuerpoEnviado.nombre);\r\n    pm.expect(json.descripcion).to.eql(cuerpoEnviado.descripcion);\r\n});\r\n\r\npm.collectionVariables.set(\"idCategoria\", json.id);\r\npm.collectionVariables.set(\"nombreCategoria\", json.nombre);\r\npm.collectionVariables.set(\"descripcionCategoria\", json.descripcion);"
+                                                                                ]
+                                                                   }
+                                                    }
+                                                ],
+                                      "request":  {
+                                                      "method":  "POST",
+                                                      "header":  [
+
+                                                                 ],
+                                                      "body":  {
+                                                                   "mode":  "raw",
+                                                                   "raw":  "{\r\n  \"nombre\": \"Comic\",\r\n  \"descripcion\": \"Comics de acciÃ³n\"\r\n}",
+                                                                   "options":  {
+                                                                                   "raw":  {
+                                                                                               "language":  "json"
+                                                                                           }
+                                                                               }
+                                                               },
+                                                      "url":  {
+                                                                  "raw":  "{{baseUrl}}/api/categorias",
+                                                                  "host":  [
+                                                                               "{{baseUrl}}"
+                                                                           ],
+                                                                  "path":  [
+                                                                               "api",
+                                                                               "categorias"
+                                                                           ]
+                                                              }
+                                                  },
+                                      "response":  [
+
+                                                   ]
+                                  },
+                                  {
+                                      "name":  "Obtener categorÃ­a por ID",
+                                      "event":  [
+                                                    {
+                                                        "listen":  "test",
+                                                        "script":  {
+                                                                       "type":  "text/javascript",
+                                                                       "exec":  [
+                                                                                    "pm.test(\"Status 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\nconst json = pm.response.json();\r\n\r\npm.test(\"Devuelve la categorÃ­a creada\", function () {\r\n    pm.expect(String(json.id)).to.eql(\r\n        String(pm.collectionVariables.get(\"idCategoria\"))\r\n    );\r\n\r\n    pm.expect(json.nombre).to.eql(\r\n        pm.collectionVariables.get(\"nombreCategoria\")\r\n    );\r\n\r\n    pm.expect(json.descripcion).to.eql(\r\n        pm.collectionVariables.get(\"descripcionCategoria\")\r\n    );\r\n});"
+                                                                                ]
+                                                                   }
+                                                    }
+                                                ],
+                                      "request":  {
+                                                      "method":  "GET",
+                                                      "header":  [
+
+                                                                 ],
+                                                      "url":  {
+                                                                  "raw":  "{{baseUrl}}/api/categorias/{{idCategoria}}",
+                                                                  "host":  [
+                                                                               "{{baseUrl}}"
+                                                                           ],
+                                                                  "path":  [
+                                                                               "api",
+                                                                               "categorias",
+                                                                               "{{idCategoria}}"
+                                                                           ]
+                                                              }
+                                                  },
+                                      "response":  [
+
+                                                   ]
+                                  },
+                                  {
+                                      "name":  "Modificar categorÃ­a",
+                                      "event":  [
+                                                    {
+                                                        "listen":  "test",
+                                                        "script":  {
+                                                                       "type":  "text/javascript",
+                                                                       "exec":  [
+                                                                                    "pm.test(\"Status 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\nconst json = pm.response.json();\r\n\r\npm.test(\"La categorÃ­a se ha modificado correctamente\", function () {\r\n    pm.expect(String(json.id)).to.eql(\r\n        String(pm.collectionVariables.get(\"idCategoria\"))\r\n    );\r\n    pm.expect(json.nombre).to.eql(\"Narrativa\");\r\n    pm.expect(json.descripcion).to.eql(\"Novelas y otros libros narrativos\");\r\n});"
+                                                                                ]
+                                                                   }
+                                                    }
+                                                ],
+                                      "request":  {
+                                                      "method":  "PUT",
+                                                      "header":  [
+
+                                                                 ],
+                                                      "body":  {
+                                                                   "mode":  "raw",
+                                                                   "raw":  "{\r\n  \"nombre\": \"Narrativa\",\r\n  \"descripcion\": \"Novelas y otros libros narrativos\"\r\n}",
+                                                                   "options":  {
+                                                                                   "raw":  {
+                                                                                               "language":  "json"
+                                                                                           }
+                                                                               }
+                                                               },
+                                                      "url":  {
+                                                                  "raw":  "{{baseUrl}}/api/categorias/{{idCategoria}}",
+                                                                  "host":  [
+                                                                               "{{baseUrl}}"
+                                                                           ],
+                                                                  "path":  [
+                                                                               "api",
+                                                                               "categorias",
+                                                                               "{{idCategoria}}"
+                                                                           ]
+                                                              }
+                                                  },
+                                      "response":  [
+
+                                                   ]
+                                  },
+                                  {
+                                      "name":  "Crear categorÃ­a duplicada",
+                                      "event":  [
+                                                    {
+                                                        "listen":  "test",
+                                                        "script":  {
+                                                                       "type":  "text/javascript",
+                                                                       "exec":  [
+                                                                                    "pm.test(\"Status 409\", function () {\r\n    pm.response.to.have.status(409);\r\n});\r\n\r\nconst json = pm.response.json();\r\n\r\npm.test(\"Devuelve un ProblemDetail de conflicto\", function () {\r\n    pm.expect(json.status).to.eql(409);\r\n    pm.expect(json.detail).to.exist;\r\n});"
+                                                                                ]
+                                                                   }
+                                                    }
+                                                ],
+                                      "request":  {
+                                                      "method":  "POST",
+                                                      "header":  [
+
+                                                                 ],
+                                                      "body":  {
+                                                                   "mode":  "raw",
+                                                                   "raw":  "{\r\n  \"nombre\": \"Narrativa\",\r\n  \"descripcion\": \"CategorÃ­a duplicada\"\r\n}",
+                                                                   "options":  {
+                                                                                   "raw":  {
+                                                                                               "language":  "json"
+                                                                                           }
+                                                                               }
+                                                               },
+                                                      "url":  {
+                                                                  "raw":  "{{baseUrl}}/api/categorias",
+                                                                  "host":  [
+                                                                               "{{baseUrl}}"
+                                                                           ],
+                                                                  "path":  [
+                                                                               "api",
+                                                                               "categorias"
+                                                                           ]
+                                                              }
+                                                  },
+                                      "response":  [
+
+                                                   ]
+                                  },
+                                  {
+                                      "name":  "Crear categorÃ­a con datos no vÃ¡lidos",
+                                      "event":  [
+                                                    {
+                                                        "listen":  "test",
+                                                        "script":  {
+                                                                       "type":  "text/javascript",
+                                                                       "exec":  [
+                                                                                    "pm.test(\"Status 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\nconst json = pm.response.json();\r\n\r\npm.test(\"Devuelve un ProblemDetail de datos no vÃ¡lidos\", function () {\r\n    pm.expect(json.status).to.eql(400);\r\n    pm.expect(json.detail).to.exist;\r\n});"
+                                                                                ]
+                                                                   }
+                                                    }
+                                                ],
+                                      "request":  {
+                                                      "method":  "POST",
+                                                      "header":  [
+
+                                                                 ],
+                                                      "body":  {
+                                                                   "mode":  "raw",
+                                                                   "raw":  "{\r\n  \"nombre\": \"\",\r\n  \"descripcion\": \"CategorÃ­a incorrecta\"\r\n}",
+                                                                   "options":  {
+                                                                                   "raw":  {
+                                                                                               "language":  "json"
+                                                                                           }
+                                                                               }
+                                                               },
+                                                      "url":  {
+                                                                  "raw":  "{{baseUrl}}/api/categorias",
+                                                                  "host":  [
+                                                                               "{{baseUrl}}"
+                                                                           ],
+                                                                  "path":  [
+                                                                               "api",
+                                                                               "categorias"
+                                                                           ]
+                                                              }
+                                                  },
+                                      "response":  [
+
+                                                   ]
+                                  },
+                                  {
+                                      "name":  "Obtener categorÃ­a inexistente",
+                                      "event":  [
+                                                    {
+                                                        "listen":  "test",
+                                                        "script":  {
+                                                                       "type":  "text/javascript",
+                                                                       "exec":  [
+                                                                                    "pm.test(\"Status 404\", function () {\r\n    pm.response.to.have.status(404);\r\n});\r\n\r\nconst json = pm.response.json();\r\n\r\npm.test(\"Devuelve un ProblemDetail de recurso no encontrado\", function () {\r\n    pm.expect(json.status).to.eql(404);\r\n    pm.expect(json.detail).to.exist;\r\n});"
+                                                                                ]
+                                                                   }
+                                                    }
+                                                ],
+                                      "request":  {
+                                                      "method":  "GET",
+                                                      "header":  [
+
+                                                                 ],
+                                                      "url":  {
+                                                                  "raw":  "{{baseUrl}}/api/categorias/999",
+                                                                  "host":  [
+                                                                               "{{baseUrl}}"
+                                                                           ],
+                                                                  "path":  [
+                                                                               "api",
+                                                                               "categorias",
+                                                                               "999"
+                                                                           ]
+                                                              }
+                                                  },
+                                      "response":  [
+
+                                                   ]
+                                  },
+                                  {
+                                      "name":  "Eliminar categorÃ­a",
+                                      "event":  [
+                                                    {
+                                                        "listen":  "test",
+                                                        "script":  {
+                                                                       "type":  "text/javascript",
+                                                                       "exec":  [
+                                                                                    "pm.test(\"Status 204\", function () {\r\n    pm.response.to.have.status(204);\r\n});\r\n\r\npm.test(\"La respuesta no contiene cuerpo\", function () {\r\n    pm.expect(pm.response.text()).to.eql(\"\");\r\n});"
+                                                                                ]
+                                                                   }
+                                                    }
+                                                ],
+                                      "request":  {
+                                                      "method":  "DELETE",
+                                                      "header":  [
+
+                                                                 ],
+                                                      "body":  {
+                                                                   "mode":  "raw",
+                                                                   "raw":  "",
+                                                                   "options":  {
+                                                                                   "raw":  {
+                                                                                               "language":  "json"
+                                                                                           }
+                                                                               }
+                                                               },
+                                                      "url":  {
+                                                                  "raw":  "{{baseUrl}}/api/categorias/{{idCategoria}}",
+                                                                  "host":  [
+                                                                               "{{baseUrl}}"
+                                                                           ],
+                                                                  "path":  [
+                                                                               "api",
+                                                                               "categorias",
+                                                                               "{{idCategoria}}"
+                                                                           ]
+                                                              }
+                                                  },
+                                      "response":  [
+
+                                                   ]
+                                  }
+                              ]
+                 },
+                 {
+                     "name":  "Libros",
+                     "item":  [
+                                  {
+                                      "name":  "Crear categorÃ­a para libros",
+                                      "event":  [
+                                                    {
+                                                        "listen":  "test",
+                                                        "script":  {
+                                                                       "type":  "text/javascript",
+                                                                       "exec":  [
+                                                                                    "pm.test(\"Status 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\nconst json = pm.response.json();\r\npm.collectionVariables.set(\"idCategoriaLibros\", json.id);"
+                                                                                ]
+                                                                   }
+                                                    }
+                                                ],
+                                      "request":  {
+                                                      "method":  "POST",
+                                                      "header":  [
+
+                                                                 ],
+                                                      "body":  {
+                                                                   "mode":  "raw",
+                                                                   "raw":  "{\r\n  \"nombre\": \"Ciencia ficciÃ³n\",\r\n  \"descripcion\": \"Libros de ciencia ficciÃ³n\"\r\n}",
+                                                                   "options":  {
+                                                                                   "raw":  {
+                                                                                               "language":  "json"
+                                                                                           }
+                                                                               }
+                                                               },
+                                                      "url":  {
+                                                                  "raw":  "{{baseUrl}}/api/categorias",
+                                                                  "host":  [
+                                                                               "{{baseUrl}}"
+                                                                           ],
+                                                                  "path":  [
+                                                                               "api",
+                                                                               "categorias"
+                                                                           ]
+                                                              }
+                                                  },
+                                      "response":  [
+
+                                                   ]
+                                  },
+                                  {
+                                      "name":  "Crear libro",
+                                      "event":  [
+                                                    {
+                                                        "listen":  "test",
+                                                        "script":  {
+                                                                       "type":  "text/javascript",
+                                                                       "exec":  [
+                                                                                    "pm.test(\"Status 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\nconst json = pm.response.json();\r\n\r\npm.test(\"El libro creado contiene los datos correctos\", function () {\r\n    pm.expect(json.id).to.exist;\r\n    pm.expect(json.isbn).to.eql(\"9781234567890\");\r\n    pm.expect(json.titulo).to.eql(\"El libro de prueba\");\r\n    pm.expect(json.autor).to.eql(\"Autor Prueba\");\r\n    pm.expect(json.anioPublicacion).to.eql(2024);\r\n    pm.expect(json.ejemplares).to.eql(3);\r\n    pm.expect(json.disponibles).to.eql(3);\r\n    pm.expect(String(json.categoriaId)).to.eql(\r\n        String(pm.collectionVariables.get(\"idCategoriaLibros\"))\r\n    );\r\n});\r\n\r\npm.collectionVariables.set(\"idLibro\", json.id);"
+                                                                                ]
+                                                                   }
+                                                    }
+                                                ],
+                                      "request":  {
+                                                      "method":  "POST",
+                                                      "header":  [
+
+                                                                 ],
+                                                      "body":  {
+                                                                   "mode":  "raw",
+                                                                   "raw":  "{\r\n  \"isbn\": \"9781234567890\",\r\n  \"titulo\": \"El libro de prueba\",\r\n  \"autor\": \"Autor Prueba\",\r\n  \"anioPublicacion\": 2024,\r\n  \"ejemplares\": 3,\r\n  \"categoriaId\": {{idCategoriaLibros}}\r\n}",
+                                                                   "options":  {
+                                                                                   "raw":  {
+                                                                                               "language":  "json"
+                                                                                           }
+                                                                               }
+                                                               },
+                                                      "url":  {
+                                                                  "raw":  "{{baseUrl}}/api/libros",
+                                                                  "host":  [
+                                                                               "{{baseUrl}}"
+                                                                           ],
+                                                                  "path":  [
+                                                                               "api",
+                                                                               "libros"
+                                                                           ]
+                                                              }
+                                                  },
+                                      "response":  [
+
+                                                   ]
+                                  },
+                                  {
+                                      "name":  "Listar libros de una categorÃ­a",
+                                      "event":  [
+                                                    {
+                                                        "listen":  "test",
+                                                        "script":  {
+                                                                       "type":  "text/javascript",
+                                                                       "exec":  [
+                                                                                    "pm.test(\"Status 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\nconst json = pm.response.json();\r\n\r\npm.test(\"La respuesta es una lista\", function () {\r\n    pm.expect(json).to.be.an(\"array\");\r\n});\r\n\r\npm.test(\"La categorÃ­a contiene el libro creado\", function () {\r\n    const idLibro = String(pm.collectionVariables.get(\"idLibro\"));\r\n\r\n    const encontrado = json.some(function (libro) {\r\n        return String(libro.id) === idLibro;\r\n    });\r\n\r\n    pm.expect(encontrado).to.be.true;\r\n});\r\n\r\npm.test(\"Todos los libros pertenecen a la categorÃ­a indicada\", function () {\r\n    const idCategoria = String(\r\n        pm.collectionVariables.get(\"idCategoriaLibros\")\r\n    );\r\n\r\n    json.forEach(function (libro) {\r\n        pm.expect(String(libro.categoriaId)).to.eql(idCategoria);\r\n    });\r\n});"
+                                                                                ]
+                                                                   }
+                                                    }
+                                                ],
+                                      "request":  {
+                                                      "method":  "GET",
+                                                      "header":  [
+
+                                                                 ],
+                                                      "url":  {
+                                                                  "raw":  "{{baseUrl}}/api/categorias/{{idCategoriaLibros}}/libros",
+                                                                  "host":  [
+                                                                               "{{baseUrl}}"
+                                                                           ],
+                                                                  "path":  [
+                                                                               "api",
+                                                                               "categorias",
+                                                                               "{{idCategoriaLibros}}",
+                                                                               "libros"
+                                                                           ]
+                                                              }
+                                                  },
+                                      "response":  [
+
+                                                   ]
+                                  },
+                                  {
+                                      "name":  "Listar libros",
+                                      "event":  [
+                                                    {
+                                                        "listen":  "test",
+                                                        "script":  {
+                                                                       "type":  "text/javascript",
+                                                                       "exec":  [
+                                                                                    "pm.test(\"Status 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\nconst json = pm.response.json();\r\n\r\npm.test(\"La respuesta es una lista\", function () {\r\n    pm.expect(json).to.be.an(\"array\");\r\n});\r\n\r\npm.test(\"La lista contiene el libro creado\", function () {\r\n    const idLibro = String(pm.collectionVariables.get(\"idLibro\"));\r\n\r\n    const encontrado = json.some(function (libro) {\r\n        return String(libro.id) === idLibro;\r\n    });\r\n\r\n    pm.expect(encontrado).to.be.true;\r\n});"
+                                                                                ]
+                                                                   }
+                                                    }
+                                                ],
+                                      "request":  {
+                                                      "method":  "GET",
+                                                      "header":  [
+
+                                                                 ],
+                                                      "url":  {
+                                                                  "raw":  "{{baseUrl}}/api/libros",
+                                                                  "host":  [
+                                                                               "{{baseUrl}}"
+                                                                           ],
+                                                                  "path":  [
+                                                                               "api",
+                                                                               "libros"
+                                                                           ]
+                                                              }
+                                                  },
+                                      "response":  [
+
+                                                   ]
+                                  },
+                                  {
+                                      "name":  "Filtrar libros por autor",
+                                      "event":  [
+                                                    {
+                                                        "listen":  "test",
+                                                        "script":  {
+                                                                       "type":  "text/javascript",
+                                                                       "exec":  [
+                                                                                    "pm.test(\"Status 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\nconst json = pm.response.json();\r\n\r\npm.test(\"La respuesta es una lista\", function () {\r\n    pm.expect(json).to.be.an(\"array\");\r\n});\r\n\r\npm.test(\"Los libros devueltos contienen el autor buscado\", function () {\r\n    json.forEach(function (libro) {\r\n        pm.expect(libro.autor.toLowerCase()).to.include(\"prueba\");\r\n    });\r\n});\r\n\r\npm.test(\"El filtro incluye el libro creado\", function () {\r\n    const idLibro = String(pm.collectionVariables.get(\"idLibro\"));\r\n\r\n    const encontrado = json.some(function (libro) {\r\n        return String(libro.id) === idLibro;\r\n    });\r\n\r\n    pm.expect(encontrado).to.be.true;\r\n});"
+                                                                                ]
+                                                                   }
+                                                    }
+                                                ],
+                                      "request":  {
+                                                      "method":  "GET",
+                                                      "header":  [
+
+                                                                 ],
+                                                      "url":  {
+                                                                  "raw":  "{{baseUrl}}/api/libros?autor=prueba",
+                                                                  "host":  [
+                                                                               "{{baseUrl}}"
+                                                                           ],
+                                                                  "path":  [
+                                                                               "api",
+                                                                               "libros"
+                                                                           ],
+                                                                  "query":  [
+                                                                                {
+                                                                                    "key":  "autor",
+                                                                                    "value":  "prueba"
+                                                                                }
+                                                                            ]
+                                                              }
+                                                  },
+                                      "response":  [
+
+                                                   ]
+                                  },
+                                  {
+                                      "name":  "Listar libros disponibles",
+                                      "event":  [
+                                                    {
+                                                        "listen":  "test",
+                                                        "script":  {
+                                                                       "type":  "text/javascript",
+                                                                       "exec":  [
+                                                                                    "pm.test(\"Status 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\nconst json = pm.response.json();\r\n\r\npm.test(\"La respuesta es una lista\", function () {\r\n    pm.expect(json).to.be.an(\"array\");\r\n});\r\n\r\npm.test(\"Todos los libros tienen ejemplares disponibles\", function () {\r\n    json.forEach(function (libro) {\r\n        pm.expect(libro.disponibles).to.be.above(0);\r\n    });\r\n});\r\n\r\npm.test(\"La lista incluye el libro creado\", function () {\r\n    const idLibro = String(pm.collectionVariables.get(\"idLibro\"));\r\n\r\n    const encontrado = json.some(function (libro) {\r\n        return String(libro.id) === idLibro;\r\n    });\r\n\r\n    pm.expect(encontrado).to.be.true;\r\n});"
+                                                                                ]
+                                                                   }
+                                                    }
+                                                ],
+                                      "request":  {
+                                                      "method":  "GET",
+                                                      "header":  [
+
+                                                                 ],
+                                                      "url":  {
+                                                                  "raw":  "{{baseUrl}}/api/libros/disponibles",
+                                                                  "host":  [
+                                                                               "{{baseUrl}}"
+                                                                           ],
+                                                                  "path":  [
+                                                                               "api",
+                                                                               "libros",
+                                                                               "disponibles"
+                                                                           ]
+                                                              }
+                                                  },
+                                      "response":  [
+
+                                                   ]
+                                  },
+                                  {
+                                      "name":  "Obtener libro por ID",
+                                      "event":  [
+                                                    {
+                                                        "listen":  "test",
+                                                        "script":  {
+                                                                       "type":  "text/javascript",
+                                                                       "exec":  [
+                                                                                    "pm.test(\"Status 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\nconst json = pm.response.json();\r\n\r\npm.test(\"Devuelve el libro creado\", function () {\r\n    pm.expect(String(json.id)).to.eql(\r\n        String(pm.collectionVariables.get(\"idLibro\"))\r\n    );\r\n    pm.expect(json.isbn).to.eql(\"9781234567890\");\r\n    pm.expect(json.titulo).to.eql(\"El libro de prueba\");\r\n    pm.expect(json.autor).to.eql(\"Autor Prueba\");\r\n    pm.expect(json.ejemplares).to.eql(3);\r\n    pm.expect(json.disponibles).to.eql(3);\r\n});"
+                                                                                ]
+                                                                   }
+                                                    }
+                                                ],
+                                      "request":  {
+                                                      "method":  "GET",
+                                                      "header":  [
+
+                                                                 ],
+                                                      "url":  {
+                                                                  "raw":  "{{baseUrl}}/api/libros/{{idLibro}}",
+                                                                  "host":  [
+                                                                               "{{baseUrl}}"
+                                                                           ],
+                                                                  "path":  [
+                                                                               "api",
+                                                                               "libros",
+                                                                               "{{idLibro}}"
+                                                                           ]
+                                                              }
+                                                  },
+                                      "response":  [
+
+                                                   ]
+                                  },
+                                  {
+                                      "name":  "Modificar libro",
+                                      "event":  [
+                                                    {
+                                                        "listen":  "test",
+                                                        "script":  {
+                                                                       "type":  "text/javascript",
+                                                                       "exec":  [
+                                                                                    "pm.test(\"Status 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\nconst json = pm.response.json();\r\n\r\npm.test(\"El libro se ha modificado correctamente\", function () {\r\n    pm.expect(String(json.id)).to.eql(\r\n        String(pm.collectionVariables.get(\"idLibro\"))\r\n    );\r\n    pm.expect(json.isbn).to.eql(\"9781234567890\");\r\n    pm.expect(json.titulo).to.eql(\"El libro de prueba actualizado\");\r\n    pm.expect(json.autor).to.eql(\"Autor Prueba\");\r\n    pm.expect(json.anioPublicacion).to.eql(2025);\r\n    pm.expect(json.ejemplares).to.eql(5);\r\n    pm.expect(json.disponibles).to.eql(5);\r\n    pm.expect(String(json.categoriaId)).to.eql(\r\n        String(pm.collectionVariables.get(\"idCategoriaLibros\"))\r\n    );\r\n});"
+                                                                                ]
+                                                                   }
+                                                    }
+                                                ],
+                                      "request":  {
+                                                      "method":  "PUT",
+                                                      "header":  [
+
+                                                                 ],
+                                                      "body":  {
+                                                                   "mode":  "raw",
+                                                                   "raw":  "{\r\n  \"isbn\": \"9781234567890\",\r\n  \"titulo\": \"El libro de prueba actualizado\",\r\n  \"autor\": \"Autor Prueba\",\r\n  \"anioPublicacion\": 2025,\r\n  \"ejemplares\": 5,\r\n  \"categoriaId\": {{idCategoriaLibros}}\r\n}",
+                                                                   "options":  {
+                                                                                   "raw":  {
+                                                                                               "language":  "json"
+                                                                                           }
+                                                                               }
+                                                               },
+                                                      "url":  {
+                                                                  "raw":  "{{baseUrl}}/api/libros/{{idLibro}}",
+                                                                  "host":  [
+                                                                               "{{baseUrl}}"
+                                                                           ],
+                                                                  "path":  [
+                                                                               "api",
+                                                                               "libros",
+                                                                               "{{idLibro}}"
+                                                                           ]
+                                                              }
+                                                  },
+                                      "response":  [
+
+                                                   ]
+                                  },
+                                  {
+                                      "name":  "Crear libro con ISBN duplicado",
+                                      "event":  [
+                                                    {
+                                                        "listen":  "test",
+                                                        "script":  {
+                                                                       "type":  "text/javascript",
+                                                                       "exec":  [
+                                                                                    "pm.test(\"Status 409\", function () {\r\n    pm.response.to.have.status(409);\r\n});\r\n\r\nconst json = pm.response.json();\r\n\r\npm.test(\"Devuelve un ProblemDetail de conflicto\", function () {\r\n    pm.expect(json.status).to.eql(409);\r\n    pm.expect(json.detail).to.exist;\r\n});"
+                                                                                ]
+                                                                   }
+                                                    }
+                                                ],
+                                      "request":  {
+                                                      "method":  "POST",
+                                                      "header":  [
+
+                                                                 ],
+                                                      "body":  {
+                                                                   "mode":  "raw",
+                                                                   "raw":  "{\r\n  \"isbn\": \"9781234567890\",\r\n  \"titulo\": \"Otro libro\",\r\n  \"autor\": \"Otro autor\",\r\n  \"anioPublicacion\": 2026,\r\n  \"ejemplares\": 1,\r\n  \"categoriaId\": {{idCategoriaLibros}}\r\n}",
+                                                                   "options":  {
+                                                                                   "raw":  {
+                                                                                               "language":  "json"
+                                                                                           }
+                                                                               }
+                                                               },
+                                                      "url":  {
+                                                                  "raw":  "{{baseUrl}}/api/libros",
+                                                                  "host":  [
+                                                                               "{{baseUrl}}"
+                                                                           ],
+                                                                  "path":  [
+                                                                               "api",
+                                                                               "libros"
+                                                                           ]
+                                                              }
+                                                  },
+                                      "response":  [
+
+                                                   ]
+                                  },
+                                  {
+                                      "name":  "Crear libro con datos no vÃ¡lidos",
+                                      "event":  [
+                                                    {
+                                                        "listen":  "test",
+                                                        "script":  {
+                                                                       "type":  "text/javascript",
+                                                                       "exec":  [
+                                                                                    "pm.test(\"Status 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\nconst json = pm.response.json();\r\n\r\npm.test(\"Devuelve un ProblemDetail de datos no vÃ¡lidos\", function () {\r\n    pm.expect(json.status).to.eql(400);\r\n    pm.expect(json.detail).to.exist;\r\n});"
+                                                                                ]
+                                                                   }
+                                                    }
+                                                ],
+                                      "request":  {
+                                                      "method":  "POST",
+                                                      "header":  [
+
+                                                                 ],
+                                                      "body":  {
+                                                                   "mode":  "raw",
+                                                                   "raw":  "{\r\n  \"isbn\": \"123\",\r\n  \"titulo\": \"Libro incorrecto\",\r\n  \"autor\": \"Autor Prueba\",\r\n  \"anioPublicacion\": 2026,\r\n  \"ejemplares\": 1,\r\n  \"categoriaId\": {{idCategoriaLibros}}\r\n}",
+                                                                   "options":  {
+                                                                                   "raw":  {
+                                                                                               "language":  "json"
+                                                                                           }
+                                                                               }
+                                                               },
+                                                      "url":  {
+                                                                  "raw":  "{{baseUrl}}/api/libros",
+                                                                  "host":  [
+                                                                               "{{baseUrl}}"
+                                                                           ],
+                                                                  "path":  [
+                                                                               "api",
+                                                                               "libros"
+                                                                           ]
+                                                              }
+                                                  },
+                                      "response":  [
+
+                                                   ]
+                                  },
+                                  {
+                                      "name":  "Crear libro con categorÃ­a inexistente",
+                                      "event":  [
+                                                    {
+                                                        "listen":  "test",
+                                                        "script":  {
+                                                                       "type":  "text/javascript",
+                                                                       "exec":  [
+                                                                                    "pm.test(\"Status 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\nconst json = pm.response.json();\r\n\r\npm.test(\"Devuelve un ProblemDetail porque la categorÃ­a no existe\", function () {\r\n    pm.expect(json.status).to.eql(400);\r\n    pm.expect(json.detail).to.eql(\"La categorÃ­a indicada no existe\");\r\n});"
+                                                                                ]
+                                                                   }
+                                                    }
+                                                ],
+                                      "request":  {
+                                                      "method":  "POST",
+                                                      "header":  [
+
+                                                                 ],
+                                                      "body":  {
+                                                                   "mode":  "raw",
+                                                                   "raw":  "{\r\n    \"isbn\": \"9781234567892\",\r\n    \"titulo\": \"Libro con categoria inexistente\",\r\n    \"autor\": \"Autor Prueba\",\r\n    \"anioPublicacion\": 2024,\r\n    \"ejemplares\": 1,\r\n    \"categoriaId\": 999\r\n}",
+                                                                   "options":  {
+                                                                                   "raw":  {
+                                                                                               "language":  "json"
+                                                                                           }
+                                                                               }
+                                                               },
+                                                      "url":  {
+                                                                  "raw":  "{{baseUrl}}/api/libros",
+                                                                  "host":  [
+                                                                               "{{baseUrl}}"
+                                                                           ],
+                                                                  "path":  [
+                                                                               "api",
+                                                                               "libros"
+                                                                           ]
+                                                              }
+                                                  },
+                                      "response":  [
+
+                                                   ]
+                                  },
+                                  {
+                                      "name":  "Obtener libro inexistente",
+                                      "event":  [
+                                                    {
+                                                        "listen":  "test",
+                                                        "script":  {
+                                                                       "type":  "text/javascript",
+                                                                       "exec":  [
+                                                                                    "pm.test(\"Status 404\", function () {\r\n    pm.response.to.have.status(404);\r\n});\r\n\r\nconst json = pm.response.json();\r\n\r\npm.test(\"Devuelve un ProblemDetail de recurso no encontrado\", function () {\r\n    pm.expect(json.status).to.eql(404);\r\n    pm.expect(json.detail).to.exist;\r\n});"
+                                                                                ]
+                                                                   }
+                                                    }
+                                                ],
+                                      "request":  {
+                                                      "method":  "GET",
+                                                      "header":  [
+
+                                                                 ],
+                                                      "url":  {
+                                                                  "raw":  "{{baseUrl}}/api/libros/999",
+                                                                  "host":  [
+                                                                               "{{baseUrl}}"
+                                                                           ],
+                                                                  "path":  [
+                                                                               "api",
+                                                                               "libros",
+                                                                               "999"
+                                                                           ]
+                                                              }
+                                                  },
+                                      "response":  [
+
+                                                   ]
+                                  },
+                                  {
+                                      "name":  "Eliminar libro",
+                                      "event":  [
+                                                    {
+                                                        "listen":  "test",
+                                                        "script":  {
+                                                                       "type":  "text/javascript",
+                                                                       "exec":  [
+                                                                                    "pm.test(\"Status 204\", function () {\r\n    pm.response.to.have.status(204);\r\n});\r\n\r\npm.test(\"La respuesta no contiene cuerpo\", function () {\r\n    pm.expect(pm.response.text()).to.eql(\"\");\r\n});"
+                                                                                ]
+                                                                   }
+                                                    }
+                                                ],
+                                      "request":  {
+                                                      "method":  "DELETE",
+                                                      "header":  [
+
+                                                                 ],
+                                                      "url":  {
+                                                                  "raw":  "{{baseUrl}}/api/libros/{{idLibro}}",
+                                                                  "host":  [
+                                                                               "{{baseUrl}}"
+                                                                           ],
+                                                                  "path":  [
+                                                                               "api",
+                                                                               "libros",
+                                                                               "{{idLibro}}"
+                                                                           ]
+                                                              }
+                                                  },
+                                      "response":  [
+
+                                                   ]
+                                  }
+                              ]
+                 },
+                 {
+                     "name":  "Biblioteca",
+                     "item":  [
+                                  {
+                                      "name":  "Obtener informaciÃ³n de la biblioteca",
+                                      "event":  [
+                                                    {
+                                                        "listen":  "test",
+                                                        "script":  {
+                                                                       "type":  "text/javascript",
+                                                                       "exec":  [
+                                                                                    "pm.test(\"Status 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"La respuesta contiene la configuraciÃ³n correcta\", function () {\r\n    const json = pm.response.json();\r\n\r\n    pm.expect(json.nombre).to.eql(\"Biblioteca Decroly\");\r\n    pm.expect(json.maxPrestamos).to.eql(3);\r\n    pm.expect(json.diasPrestamo).to.eql(15);\r\n});"
+                                                                                ]
+                                                                   }
+                                                    }
+                                                ],
+                                      "request":  {
+                                                      "method":  "GET",
+                                                      "header":  [
+
+                                                                 ],
+                                                      "url":  {
+                                                                  "raw":  "{{baseUrl}}/api/biblioteca/info",
+                                                                  "host":  [
+                                                                               "{{baseUrl}}"
+                                                                           ],
+                                                                  "path":  [
+                                                                               "api",
+                                                                               "biblioteca",
+                                                                               "info"
+                                                                           ]
+                                                              }
+                                                  },
+                                      "response":  [
+
+                                                   ]
+                                  }
+                              ]
+                 }
+             ],
+    "variable":  [
+                     {
+                         "key":  "baseUrl",
+                         "value":  "http://localhost:8080"
+                     },
+                     {
+                         "key":  "idCategoria",
+                         "value":  ""
+                     },
+                     {
+                         "key":  "idCategoriaLibros",
+                         "value":  ""
+                     },
+                     {
+                         "key":  "idLibro",
+                         "value":  ""
+                     },
+                     {
+                         "key":  "nombreCategoria",
+                         "value":  ""
+                     },
+                     {
+                         "key":  "descripcionCategoria",
+                         "value":  ""
+                     }
+                 ]
+}

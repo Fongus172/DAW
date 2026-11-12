@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Tienda Decroly - Guía offline de endpoints</title>
+<style>
+body{font-family:Arial,sans-serif;max-width:1200px;margin:32px auto;padding:0 18px;line-height:1.45;color:#222}
+h1,h2{color:#19324d} table{width:100%;border-collapse:collapse;margin:16px 0 28px}
+th,td{border:1px solid #bbb;padding:9px;text-align:left;vertical-align:top} th{background:#eef3f8}
+code,pre{font-family:Consolas,monospace} pre{background:#f5f5f5;border:1px solid #ddd;padding:12px;overflow:auto}
+.note{background:#fff7d6;border-left:5px solid #d0a000;padding:12px}
+</style>
+</head><body>
+<h1>Tienda Decroly Examen</h1>
+<p>Guía local para consultar endpoints sin Internet. Usa <strong>Ctrl+F</strong> para buscar palabras como <code>stock</code>, <code>409</code>, <code>rango</code>, <code>código</code>, <code>pedido</code> o <code>DTO</code>.</p>
+<div class="note"><strong>Base:</strong> <code>http://localhost:8080</code>. Esta página no necesita que Spring Boot esté arrancado para consultarla.</div>
+<h2>Endpoints</h2>
+<table><thead><tr><th>Método</th><th>Ruta</th><th>Qué demuestra</th></tr></thead><tbody><tr><td><code>GET</code></td><td><code>/api/tienda/info</code></td><td>Lee nombre, IVA y máximo de unidades desde application.properties.</td></tr>
+<tr><td><code>GET</code></td><td><code>/api/categorias</code></td><td>Lista todas las categorías.</td></tr>
+<tr><td><code>GET</code></td><td><code>/api/categorias/{id}</code></td><td>Obtiene una categoría por ID. 404 si no existe.</td></tr>
+<tr><td><code>POST</code></td><td><code>/api/categorias</code></td><td>Crea una categoría. 201 + Location. 409 si el nombre ya existe.</td></tr>
+<tr><td><code>PUT</code></td><td><code>/api/categorias/{id}</code></td><td>Modifica una categoría.</td></tr>
+<tr><td><code>DELETE</code></td><td><code>/api/categorias/{id}</code></td><td>Borra solo si no tiene productos. 409 si está en uso.</td></tr>
+<tr><td><code>GET</code></td><td><code>/api/categorias/{id}/productos</code></td><td>Lista los productos de una categoría.</td></tr>
+<tr><td><code>GET</code></td><td><code>/api/categorias/{id}/resumen</code></td><td>DTO calculado: productos, stock total y valor del stock.</td></tr>
+<tr><td><code>GET</code></td><td><code>/api/productos</code></td><td>Lista productos. Acepta filtros opcionales.</td></tr>
+<tr><td><code>GET</code></td><td><code>/api/productos?nombre=teclado</code></td><td>Filtro de texto por nombre.</td></tr>
+<tr><td><code>GET</code></td><td><code>/api/productos?precioMin=20&precioMax=100</code></td><td>Filtro por rango de precio.</td></tr>
+<tr><td><code>GET</code></td><td><code>/api/productos?categoriaId=1&limite=5</code></td><td>Filtro por categoría + límite con defaultValue.</td></tr>
+<tr><td><code>GET</code></td><td><code>/api/productos/disponibles</code></td><td>Productos con stock > 0.</td></tr>
+<tr><td><code>GET</code></td><td><code>/api/productos/codigo/{codigo}</code></td><td>Busca por código único.</td></tr>
+<tr><td><code>GET</code></td><td><code>/api/productos/{id}</code></td><td>Obtiene un producto por ID.</td></tr>
+<tr><td><code>POST</code></td><td><code>/api/productos</code></td><td>Crea un producto. Valida código único, precio, stock y categoría.</td></tr>
+<tr><td><code>PUT</code></td><td><code>/api/productos/{id}</code></td><td>Modifica un producto.</td></tr>
+<tr><td><code>DELETE</code></td><td><code>/api/productos/{id}</code></td><td>Borra solo si no tiene pedidos. 409 si está en uso.</td></tr>
+<tr><td><code>GET</code></td><td><code>/api/pedidos</code></td><td>Lista todos los pedidos.</td></tr>
+<tr><td><code>GET</code></td><td><code>/api/pedidos/{id}</code></td><td>Obtiene un pedido por ID.</td></tr>
+<tr><td><code>POST</code></td><td><code>/api/pedidos</code></td><td>Crea pedido, comprueba stock, lo descuenta y calcula el total.</td></tr>
+<tr><td><code>PUT</code></td><td><code>/api/pedidos/{id}</code></td><td>Modifica pedido y reajusta stock.</td></tr>
+<tr><td><code>DELETE</code></td><td><code>/api/pedidos/{id}</code></td><td>Elimina pedido y devuelve unidades al stock.</td></tr>
+<tr><td><code>GET</code></td><td><code>/api/productos/{id}/pedidos</code></td><td>Lista pedidos de un producto.</td></tr></tbody></table>
+<h2>Cuerpos JSON útiles</h2>
+<h3>Crear categoría</h3><pre>{
+  "nombre": "Informática",
+  "descripcion": "Productos de informática y accesorios"
+}</pre>
+<h3>Crear producto</h3><pre>{
+  "codigo": "TEC-001",
+  "nombre": "Teclado mecánico",
+  "precio": 49.9,
+  "stock": 15,
+  "categoriaId": 1
+}</pre>
+<h3>Crear pedido</h3><pre>{
+  "productoId": 1,
+  "unidades": 2
+}</pre>
+<h2>Pruebas con curl.exe</h2>
+<pre>curl.exe -i http://localhost:8080/api/productos
+curl.exe -i "http://localhost:8080/api/productos?precioMin=20&precioMax=100"
+curl.exe -i http://localhost:8080/api/productos/codigo/TEC-001
+curl.exe -i http://localhost:8080/api/categorias/1/resumen</pre>
+<p>Para POST/PUT/DELETE puedes consultar también la colección Postman incluida en la carpeta <code>postman</code>.</p>
+</body></html>

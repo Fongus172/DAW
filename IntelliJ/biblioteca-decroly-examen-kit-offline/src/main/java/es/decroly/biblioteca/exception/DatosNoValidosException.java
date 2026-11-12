@@ -1,0 +1,8 @@
+package es.decroly.biblioteca.exception;
+
+public class DatosNoValidosException extends RuntimeException {
+
+    public DatosNoValidosException(String mensaje) {
+        super(mensaje);
+  ;  }
+}

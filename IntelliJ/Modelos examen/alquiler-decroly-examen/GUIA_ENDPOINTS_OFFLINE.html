@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alquiler Decroly - Guía offline de endpoints</title>
+<style>
+body{font-family:Arial,sans-serif;max-width:1150px;margin:30px auto;padding:0 20px;line-height:1.5;color:#1f2937}h1{margin-bottom:5px}h2{margin-top:32px;border-bottom:2px solid #ddd;padding-bottom:6px}h3{margin-top:24px}.nota{background:#f3f4f6;padding:14px;border-left:5px solid #555}code,pre{font-family:Consolas,monospace}code{background:#f3f4f6;padding:2px 5px;border-radius:4px}pre{background:#111827;color:#f9fafb;padding:14px;border-radius:7px;overflow:auto}.endpoint{border:1px solid #ddd;border-radius:7px;padding:12px 14px;margin:10px 0}.metodo{font-weight:bold;display:inline-block;min-width:65px}.buscar{background:#fff7ed;padding:10px;border:1px solid #fed7aa;border-radius:7px}table{border-collapse:collapse;width:100%}th,td{border:1px solid #ddd;padding:8px;text-align:left}th{background:#f3f4f6}.estado{font-weight:bold}</style>
+</head>
+<body>
+<h1>Alquiler Decroly Examen</h1>
+<p>Guía local para consultar endpoints sin Internet. Usa <strong>Ctrl + F</strong> para buscar palabras como <code>MATRICULA</code>, <code>DNI</code>, <code>DISPONIBLE</code>, <code>DEVOLVER</code>, <code>RANGO</code>, <code>409</code>, <code>DTO</code> o <code>CONFIGURATIONPROPERTIES</code>.</p>
+<div class="nota"><strong>Base:</strong> <code>http://localhost:8080</code>. Los datos se guardan solo en memoria y se pierden al reiniciar.</div>
+
+<h2>1. Información y configuración</h2>
+<div class="endpoint"><span class="metodo">GET</span><code>/api/alquiler/info</code><br>Lee <code>alquiler.nombre</code> y <code>alquiler.max-dias</code> mediante <strong>@ConfigurationProperties</strong>.</div>
+
+<h2>2. Categorías de vehículos</h2>
+<div class="endpoint"><span class="metodo">GET</span><code>/api/categorias</code> - Lista categorías.</div>
+<div class="endpoint"><span class="metodo">GET</span><code>/api/categorias/{id}</code> - Categoría concreta. Inexistente: <span class="estado">404</span>.</div>
+<div class="endpoint"><span class="metodo">GET</span><code>/api/categorias/{id}/vehiculos</code> - <strong>RECURSOS RELACIONADOS</strong>.</div>
+<div class="endpoint"><span class="metodo">POST</span><code>/api/categorias</code> - Crea categoría. Devuelve <span class="estado">201 + Location</span>.<pre>{
+  "nombre": "Turismo",
+  "descripcion": "Vehículos para uso diario"
+}</pre></div>
+<div class="endpoint"><span class="metodo">PUT</span><code>/api/categorias/{id}</code> - Modifica categoría.</div>
+<div class="endpoint"><span class="metodo">DELETE</span><code>/api/categorias/{id}</code> - <span class="estado">204</span> si no tiene vehículos; <span class="estado">409</span> si tiene vehículos asociados.</div>
+
+<h2>3. Clientes</h2>
+<div class="endpoint"><span class="metodo">GET</span><code>/api/clientes</code></div>
+<div class="endpoint"><span class="metodo">GET</span><code>/api/clientes/{id}</code></div>
+<div class="endpoint"><span class="metodo">GET</span><code>/api/clientes/dni/{dni}</code> - <strong>BUSCAR POR CAMPO ÚNICO</strong>. Vacío/inválido: 400. No existente: 404.</div>
+<div class="endpoint"><span class="metodo">GET</span><code>/api/clientes/{id}/alquileres</code> - Alquileres relacionados con el cliente.</div>
+<div class="endpoint"><span class="metodo">POST</span><code>/api/clientes</code><pre>{
+  "dni": "12345678A",
+  "nombre": "Ana Pérez",
+  "email": "ana@correo.es"
+}</pre>DNI repetido: <span class="estado">409</span>.</div>
+<div class="endpoint"><span class="metodo">PUT</span><code>/api/clientes/{id}</code></div>
+<div class="endpoint"><span class="metodo">DELETE</span><code>/api/clientes/{id}</code> - 409 si tiene alquileres.</div>
+
+<h2>4. Vehículos</h2>
+<div class="endpoint"><span class="metodo">GET</span><code>/api/vehiculos</code></div>
+<div class="endpoint"><span class="metodo">GET</span><code>/api/vehiculos?marca=Seat</code> - <strong>FILTRO TEXTO</strong>.</div>
+<div class="endpoint"><span class="metodo">GET</span><code>/api/vehiculos?precioMin=30&amp;precioMax=80</code> - <strong>RANGO NUMÉRICO</strong>.</div>
+<div class="endpoint"><span class="metodo">GET</span><code>/api/vehiculos?categoriaId=1&amp;disponible=true&amp;limite=5</code> - <strong>VARIOS FILTROS + defaultValue</strong>.</div>
+<div class="endpoint"><span class="metodo">GET</span><code>/api/vehiculos/disponibles</code> - Solo vehículos libres.</div>
+<div class="endpoint"><span class="metodo">GET</span><code>/api/vehiculos/matricula/{matricula}</code> - <strong>CAMPO ÚNICO</strong>.</div>
+<div class="endpoint"><span class="metodo">GET</span><code>/api/vehiculos/{id}</code></div>
+<div class="endpoint"><span class="metodo">GET</span><code>/api/vehiculos/{id}/alquileres</code> - Historial del vehículo.</div>
+<div class="endpoint"><span class="metodo">GET</span><code>/api/vehiculos/{id}/resumen</code> - <strong>DTO CALCULADO</strong>: total de alquileres, activos e ingresos.</div>
+<div class="endpoint"><span class="metodo">POST</span><code>/api/vehiculos</code><pre>{
+  "matricula": "1234ABC",
+  "marca": "Seat",
+  "modelo": "Leon",
+  "precioDia": 45.5,
+  "categoriaId": 1
+}</pre>El vehículo se crea automáticamente con <code>disponible=true</code>.</div>
+<div class="endpoint"><span class="metodo">PUT</span><code>/api/vehiculos/{id}</code> - No permite cambiar manualmente disponibilidad.</div>
+<div class="endpoint"><span class="metodo">DELETE</span><code>/api/vehiculos/{id}</code> - 409 si tiene alquileres.</div>
+
+<h2>5. Alquileres</h2>
+<div class="endpoint"><span class="metodo">GET</span><code>/api/alquileres</code></div>
+<div class="endpoint"><span class="metodo">GET</span><code>/api/alquileres?activo=true</code></div>
+<div class="endpoint"><span class="metodo">GET</span><code>/api/alquileres?clienteId=1&amp;vehiculoId=1</code></div>
+<div class="endpoint"><span class="metodo">GET</span><code>/api/alquileres?totalMin=100&amp;totalMax=500&amp;limite=5</code> - Rango + límite.</div>
+<div class="endpoint"><span class="metodo">GET</span><code>/api/alquileres/activos</code></div>
+<div class="endpoint"><span class="metodo">GET</span><code>/api/alquileres/{id}</code></div>
+<div class="endpoint"><span class="metodo">POST</span><code>/api/alquileres</code> - <strong>CREAR + CAMBIAR ESTADO DE OTRO RECURSO</strong>.<pre>{
+  "clienteId": 1,
+  "vehiculoId": 1,
+  "dias": 5
+}</pre>Calcula <code>precioTotal = precioDia * dias</code>, crea el alquiler activo y pone el vehículo no disponible. Vehículo ya ocupado: <span class="estado">409</span>. Más días que <code>max-dias</code>: <span class="estado">400</span>.</div>
+<div class="endpoint"><span class="metodo">PUT</span><code>/api/alquileres/{id}</code> - Modifica un alquiler activo. Si cambia de vehículo, libera el anterior y ocupa el nuevo. Alquiler ya devuelto o nuevo vehículo ocupado: 409.</div>
+<div class="endpoint"><span class="metodo">PUT</span><code>/api/alquileres/{id}/devolver</code> - <strong>OPERACIÓN ESPECÍFICA</strong>. Pone <code>activo=false</code> y el vehículo vuelve a disponible. Repetir: <span class="estado">409</span>.</div>
+<div class="endpoint"><span class="metodo">DELETE</span><code>/api/alquileres/{id}</code> - Solo puede eliminarse si ya fue devuelto. Activo: 409.</div>
+
+<h2>6. Estados HTTP utilizados</h2>
+<table><tr><th>Código</th><th>Uso</th></tr><tr><td>200</td><td>GET/PUT correctos.</td></tr><tr><td>201</td><td>POST correcto, con Location.</td></tr><tr><td>204</td><td>DELETE correcto.</td></tr><tr><td>400</td><td>Datos o parámetros inválidos.</td></tr><tr><td>404</td><td>Recurso concreto no encontrado.</td></tr><tr><td>409</td><td>Conflicto con el estado actual: matrícula/DNI repetido, vehículo ocupado, devolución repetida, relaciones al borrar...</td></tr></table>
+
+<h2>7. Pruebas rápidas con curl.exe</h2>
+<pre>curl.exe http://localhost:8080/api/vehiculos
+curl.exe http://localhost:8080/api/vehiculos/disponibles
+curl.exe "http://localhost:8080/api/vehiculos?precioMin=30&precioMax=80&disponible=true"
+curl.exe http://localhost:8080/api/alquileres/activos
+curl.exe http://localhost:8080/api/alquiler/info</pre>
+
+<div class="buscar"><strong>En IntelliJ:</strong> busca <code>EJEMPLO EXAMEN -</code> para saltar directamente a los patrones más reutilizables.</div>
+</body>
+</html>
