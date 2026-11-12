@@ -1,0 +1,293 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Gimnasio Decroly API",
+    "contact": {
+      "name": "Iván Marín"
+    },
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Generated server url"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Gimnasio",
+      "description": "Información de configuracion del gimnasio"
+    },
+    {
+      "name": "Actividades",
+      "description": "Operaciones relacionadas con las actividades"
+    }
+  ],
+  "paths": {
+    "/api/actividades/{id}": {
+      "get": {
+        "tags": [
+          "Actividades"
+        ],
+        "summary": "Buscar una actividad por ID",
+        "operationId": "obtenerPorId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Actividad encontrada",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Actividad"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Actividad no encontrada",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Actividad"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Actividades"
+        ],
+        "summary": "Modificar una actividad",
+        "operationId": "modificar",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Actividad"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Actividad modificada correctamente",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Actividad"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos no válidos",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Actividad"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Actividad no encontrada",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Actividad"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Ya existe otra actividad con ese nombre",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Actividad"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Actividades"
+        ],
+        "summary": "Eliminar una actividad",
+        "operationId": "eliminar",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Actividad eliminada correctamente"
+          },
+          "404": {
+            "description": "Actividad no encontrada"
+          }
+        }
+      }
+    },
+    "/api/actividades": {
+      "get": {
+        "tags": [
+          "Actividades"
+        ],
+        "summary": "Obtener todas las actividades",
+        "operationId": "listar",
+        "responses": {
+          "200": {
+            "description": "Lista de actividades obtenida correctamente",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Actividad"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Actividades"
+        ],
+        "summary": "Crear una actividad",
+        "operationId": "crear",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Actividad"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Actividad creada",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Actividad"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos no válidos",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Actividad"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Ya existe una actividad con ese nombre",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Actividad"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/gimnasio/info": {
+      "get": {
+        "tags": [
+          "Gimnasio"
+        ],
+        "summary": "Obtener información del gimnasio",
+        "operationId": "obtenerInfo",
+        "responses": {
+          "200": {
+            "description": "Información obtenida correctamente",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {}
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Actividad": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "nombre": {
+            "type": "string",
+            "example": "Pilates"
+          },
+          "monitor": {
+            "type": "string",
+            "example": "Laura Gómez"
+          },
+          "plazas": {
+            "type": "integer",
+            "format": "int32",
+            "example": 12
+          },
+          "plazasLibres": {
+            "type": "integer",
+            "format": "int32",
+            "example": 0
+          }
+        }
+      }
+    }
+  }
+}
