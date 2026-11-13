@@ -1,0 +1,162 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f0f4f8;
+    color: #333;
+}
+
+.contenedor {
+    max-width: 1000px;
+    margin: auto;
+    padding: 0 20px;
+}
+
+/* Cabecera */
+
+header {
+    background-color: #2874a6;
+    color: white;
+    text-align: center;
+    padding: 25px 0;
+}
+
+header h1 {
+    margin-bottom: 10px;
+}
+
+/* Menú de navegación */
+
+nav {
+    background-color: #1b4f72;
+    padding: 12px 0;
+}
+
+.menu {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+/* Secciones principales */
+
+main {
+    padding-top: 30px !important;
+    padding-bottom: 30px !important;
+}
+
+section {
+    margin-bottom: 30px;
+}
+
+h2 {
+    color: #2874a6;
+}
+
+.panel {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+}
+
+/* Tarjetas */
+
+.tarjetas {
+    display: flex;
+    gap: 15px;
+}
+
+.tarjeta {
+    flex: 1;
+}
+
+/* Tabla */
+
+.tabla-scroll {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #d6eaf8;
+}
+
+/* Formulario */
+
+.campo {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+}
+
+/* Botones */
+
+.boton {
+    display: inline-block;
+    background-color: #2874a6;
+    color: white;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.boton:hover {
+    background-color: #1b4f72;
+}
+
+/* Pie de página */
+
+footer {
+    background-color: #1b4f72;
+    color: white;
+    text-align: center;
+    padding: 15px;
+}
+
+/* Adaptación a pantallas pequeñas */
+
+@media (max-width: 600px) {
+    .tarjetas {
+        flex-direction: column;
+    }
+
+    .menu {
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+}

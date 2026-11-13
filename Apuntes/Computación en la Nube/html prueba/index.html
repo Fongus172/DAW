@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Mi web de prácticas</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <!-- 1. CABECERA: cambia el título según el ejercicio -->
+        <header>
+            <div class="contenedor">
+                <h1>Mi web de prácticas</h1>
+                <p>Una página sencilla para desplegar con Docker y Nginx</p>
+            </div>
+        </header>
+
+        <!-- 2. MENÚ: cada enlace lleva a una sección de esta misma página -->
+        <nav>
+            <div class="contenedor menu">
+                <a href="#inicio">Inicio</a>
+                <a href="#servicios">Servicios</a>
+                <a href="#datos">Datos</a>
+                <a href="#contacto">Contacto</a>
+            </div>
+        </nav>
+
+        <main class="contenedor">
+            <!-- 3. PRESENTACIÓN: modifica el texto principal -->
+            <section id="inicio" class="panel presentacion">
+                <h2>¡Bienvenido!</h2>
+                <p>
+                    Esta página está preparada con HTML y CSS. Se puede
+                    modificar para distintos ejercicios y publicar desde un
+                    contenedor Nginx.
+                </p>
+                <a class="boton" href="#servicios">Ver contenido</a>
+            </section>
+
+            <!-- 4. TARJETAS: cambia, añade o elimina las que necesites -->
+            <section id="servicios">
+                <h2>Servicios</h2>
+                <div class="tarjetas">
+                    <article class="panel tarjeta">
+                        <h3>Servicio 1</h3>
+                        <p>Descripción breve del primer servicio.</p>
+                    </article>
+                    <article class="panel tarjeta">
+                        <h3>Servicio 2</h3>
+                        <p>Descripción breve del segundo servicio.</p>
+                    </article>
+                    <article class="panel tarjeta">
+                        <h3>Servicio 3</h3>
+                        <p>Descripción breve del tercer servicio.</p>
+                    </article>
+                </div>
+            </section>
+
+            <!-- 5. TABLA: útil si piden productos, usuarios, precios o estados -->
+            <section id="datos" class="panel">
+                <h2>Tabla de ejemplo</h2>
+                <div class="tabla-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Precio</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Producto A</td>
+                                <td>15 €</td>
+                                <td>Disponible</td>
+                            </tr>
+                            <tr>
+                                <td>Producto B</td>
+                                <td>25 €</td>
+                                <td>Disponible</td>
+                            </tr>
+                            <tr>
+                                <td>Producto C</td>
+                                <td>10 €</td>
+                                <td>Agotado</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- 6. FORMULARIO: visual; no envía datos sin un servidor o código adicional -->
+            <section id="contacto" class="panel">
+                <h2>Formulario de contacto</h2>
+                <form>
+                    <div class="campo">
+                        <label for="nombre">Nombre</label>
+                        <input
+                            type="text"
+                            id="nombre"
+                            name="nombre"
+                            placeholder="Tu nombre"
+                            required
+                        />
+                    </div>
+                    <div class="campo">
+                        <label for="correo">Correo electrónico</label>
+                        <input
+                            type="email"
+                            id="correo"
+                            name="correo"
+                            placeholder="nombre@ejemplo.com"
+                            required
+                        />
+                    </div>
+                    <div class="campo">
+                        <label for="tipo">Tipo de consulta</label>
+                        <select id="tipo" name="tipo">
+                            <option value="general">Consulta general</option>
+                            <option value="soporte">Soporte</option>
+                        </select>
+                    </div>
+                    <div class="campo">
+                        <label for="mensaje">Mensaje</label>
+                        <textarea
+                            id="mensaje"
+                            name="mensaje"
+                            rows="4"
+                            placeholder="Escribe aquí..."
+                        ></textarea>
+                    </div>
+                    <button class="boton" type="button">
+                        Enviar (demostración)
+                    </button>
+                </form>
+            </section>
+        </main>
+
+        <!-- 7. PIE DE PÁGINA -->
+        <footer>
+            <div class="contenedor">
+                <p>Práctica de Computación en la Nube · 2026</p>
+            </div>
+        </footer>
+    </body>
+</html>
