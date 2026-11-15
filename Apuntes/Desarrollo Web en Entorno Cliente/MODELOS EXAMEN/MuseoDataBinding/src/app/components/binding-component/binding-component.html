@@ -1,0 +1,65 @@
+<section>
+    <h2>1. Data Binding y eventos</h2>
+
+    <div class="card p-4 mb-4">
+        <!-- Interpolación: mostramos directamente propiedades y métodos del TypeScript. -->
+        <h3>{{ nombreMuseo }}</h3>
+        <p>{{ obtenerSaludo() }}</p>
+        <p>Has pulsado el botón {{ contadorClicks }} veces.</p>
+
+        <!-- Property Binding: el valor de src y alt viene del TypeScript. -->
+        <img class="imagen-obra mb-3" [src]="imagenObra" [alt]="nombreMuseo" />
+
+        <!-- [innerHTML] interpreta las etiquetas HTML guardadas en el string. -->
+        <p [innerHTML]="descripcionHtml"></p>
+
+        <!-- Property Binding sobre href. -->
+        <a [href]="webMuseo" target="_blank" class="mb-3 d-block">Abrir documentación de Angular</a>
+
+        <!-- Class Binding: la clase se aplica únicamente cuando el booleano es true. -->
+        <p class="estado-obra" [class.destacada]="obraDestacada">
+            Estado de la obra: {{ obraDestacada ? "Destacada" : "Normal" }}
+        </p>
+
+        <div class="d-flex flex-wrap gap-2 mb-4">
+            <!-- Event Binding. -->
+            <button class="btn btn-primary" (click)="contarClick()">Contar click</button>
+            <button class="btn btn-outline-primary" (click)="cambiarDestacada()">Cambiar destacada</button>
+
+            <!-- Property Binding con disabled. -->
+            <button class="btn btn-success" [disabled]="!entradaDisponible">Comprar entrada</button>
+        </div>
+
+        <h4>Two Way Data Binding con ngModel</h4>
+
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label for="nombre" class="form-label">Nombre del visitante</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    id="nombre"
+                    name="nombre"
+                    [(ngModel)]="nombreVisitante"
+                    (input)="mostrarValorEvento($event)"
+                />
+            </div>
+
+            <div class="col-md-6">
+                <label for="edad" class="form-label">Edad</label>
+                <input
+                    type="number"
+                    class="form-control"
+                    id="edad"
+                    name="edad"
+                    [(ngModel)]="edadVisitante"
+                    (blur)="validarEdad()"
+                />
+            </div>
+        </div>
+
+        <div class="alert alert-info mt-3 mb-0">
+            Nombre: {{ nombreVisitante || "Sin indicar" }} | Edad: {{ edadVisitante }}
+        </div>
+    </div>
+</section>

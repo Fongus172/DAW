@@ -1,0 +1,13 @@
+<div class="card border-primary shadow-sm">
+    <div class="card-body">
+        <h5 class="card-title">Componente de ciclo de vida</h5>
+        <p>Valor recibido del padre: <strong>{{ valorRecibido }}</strong></p>
+        <p>Contador local: <strong>{{ contadorLocal }}</strong></p>
+        <button class="btn btn-outline-primary" (click)="sumarContador()">
+            Cambiar estado local
+        </button>
+        <p class="text-muted small mt-3 mb-0">
+            Abre la consola del navegador para ver el orden de ejecución de los hooks.
+        </p>
+    </div>
+</div>

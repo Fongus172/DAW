@@ -1,0 +1,36 @@
+<article class="card h-100 shadow-sm">
+    <div class="card-body d-flex flex-column">
+        <!-- posicion también ha llegado desde el padre mediante Input. -->
+        <p class="text-muted mb-1">Libro {{ posicion + 1 }}</p>
+
+        <!-- libro es el objeto que el padre ha enviado al hijo. -->
+        <h3 class="h5">{{ libro.titulo }}</h3>
+        <p class="mb-1"><strong>Autor:</strong> {{ libro.autor }}</p>
+        <p class="mb-1"><strong>Género:</strong> {{ libro.genero }}</p>
+        <p><strong>Páginas:</strong> {{ libro.paginas }}</p>
+
+        @if (libro.disponible) {
+            <p class="badge text-bg-success align-self-start">Disponible</p>
+        } @else {
+            <p class="badge text-bg-secondary align-self-start">Prestado</p>
+        }
+
+        <div class="mt-auto d-flex flex-wrap gap-2">
+            <!--
+                Estos clicks NO modifican directamente el array del padre.
+                Llaman a métodos del hijo y esos métodos emiten un Output.
+            -->
+            <button class="btn btn-primary btn-sm" type="button" (click)="seleccionar()">
+                Ver detalle
+            </button>
+
+            <button class="btn btn-warning btn-sm" type="button" (click)="cambiarEstado()">
+                Cambiar estado
+            </button>
+
+            <button class="btn btn-danger btn-sm" type="button" (click)="eliminar()">
+                Eliminar
+            </button>
+        </div>
+    </div>
+</article>

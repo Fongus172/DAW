@@ -1,0 +1,32 @@
+<section class="mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h2>Cartelera de series</h2>
+            <p class="text-muted mb-0">Datos cargados mediante fetch desde la API usada en clase.</p>
+        </div>
+        <button class="btn btn-outline-secondary" (click)="recargar()">Recargar API</button>
+    </div>
+
+    @if (getError() !== "") {
+        <div class="alert alert-danger">{{ getError() }}</div>
+    }
+
+    @if (estaCargando() && series.length === 0) {
+        <div class="alert alert-info">Cargando series...</div>
+    }
+
+    <div class="row g-4">
+        @for (serie of series; track serie.id) {
+            <div class="col-md-6 col-xl-4">
+                <app-serie-card
+                    [serie]="serie"
+                    (reservar)="reservarSerie($event)"
+                ></app-serie-card>
+            </div>
+        } @empty {
+            @if (!estaCargando()) {
+                <p>No hay series que mostrar.</p>
+            }
+        }
+    </div>
+</section>

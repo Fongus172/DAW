@@ -1,0 +1,15 @@
+<section>
+    <h2>5. Signals básicos</h2>
+
+    <div class="card p-4">
+        <!-- Para leer un signal desde el HTML hay que llamarlo con (). -->
+        <p>Sala actual: <strong>{{ nombreSala() }}</strong></p>
+        <p>Número de visitas registradas: <strong>{{ visitas() }}</strong></p>
+
+        <div class="d-flex flex-wrap gap-2">
+            <button class="btn btn-primary" (click)="sumarVisita()">Añadir visita</button>
+            <button class="btn btn-secondary" (click)="reiniciarVisitas()">Reiniciar</button>
+            <button class="btn btn-outline-dark" (click)="cambiarSala()">Cambiar sala</button>
+        </div>
+    </div>
+</section>

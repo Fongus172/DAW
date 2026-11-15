@@ -1,0 +1,20 @@
+<header class="bg-dark text-white py-4 mb-4">
+    <div class="container">
+        <h1 class="mb-1">Festival de Series</h1>
+        <p class="mb-0">Proyecto modelo completo para examen de Angular</p>
+    </div>
+</header>
+
+<main class="container pb-5">
+    <app-resumen></app-resumen>
+
+    <app-serie-list (serieSeleccionada)="seleccionarSerie($event)"></app-serie-list>
+
+    <div id="reservas">
+        <app-reserva-form [serieSeleccionada]="serieSeleccionada"></app-reserva-form>
+    </div>
+
+    <app-reserva-list></app-reserva-list>
+
+    <app-usuario-reactive></app-usuario-reactive>
+</main>

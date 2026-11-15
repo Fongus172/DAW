@@ -1,0 +1,105 @@
+<section class="card shadow-sm p-4 mb-4">
+    <h2 class="h4">Añadir serie al catálogo local</h2>
+    <p class="text-muted">
+        Este formulario añade la serie al array de Angular. No modifica la API externa.
+    </p>
+
+    <form [formGroup]="serieForm" (ngSubmit)="getDataForm()">
+        <div class="mb-3">
+            <label for="title" class="form-label">Título</label>
+            <input
+                type="text"
+                class="form-control"
+                id="title"
+                name="title"
+                formControlName="title"
+                placeholder="Ejemplo: Dark"
+            />
+            @if (checkControl("title", "required")) {
+                <p class="text-danger mb-0">El título es obligatorio.</p>
+            }
+        </div>
+
+        <div class="mb-3">
+            <label for="creator" class="form-label">Creador</label>
+            <input
+                type="text"
+                class="form-control"
+                id="creator"
+                name="creator"
+                formControlName="creator"
+                placeholder="Nombre del creador"
+            />
+            @if (checkControl("creator", "required")) {
+                <p class="text-danger mb-0">El creador es obligatorio.</p>
+            }
+        </div>
+
+        <div class="mb-3">
+            <label for="rating" class="form-label">Puntuación (0 - 10)</label>
+            <input
+                type="number"
+                class="form-control"
+                id="rating"
+                name="rating"
+                formControlName="rating"
+                step="0.1"
+            />
+            @if (checkControl("rating", "required")) {
+                <p class="text-danger mb-0">La puntuación es obligatoria.</p>
+            }
+            @if (checkControl("rating", "min") || checkControl("rating", "max")) {
+                <p class="text-danger mb-0">La puntuación debe estar entre 0 y 10.</p>
+            }
+        </div>
+
+        <div class="mb-3">
+            <label for="dates" class="form-label">Fechas de emisión</label>
+            <input
+                type="text"
+                class="form-control"
+                id="dates"
+                name="dates"
+                formControlName="dates"
+                placeholder="Ejemplo: 2017-2020"
+            />
+            @if (checkControl("dates", "required")) {
+                <p class="text-danger mb-0">Las fechas son obligatorias.</p>
+            }
+        </div>
+
+        <div class="mb-3">
+            <label for="image" class="form-label">URL de imagen</label>
+            <input
+                type="text"
+                class="form-control"
+                id="image"
+                name="image"
+                formControlName="image"
+                placeholder="https://..."
+            />
+            @if (checkControl("image", "required")) {
+                <p class="text-danger mb-0">La imagen es obligatoria.</p>
+            }
+        </div>
+
+        <div class="mb-3">
+            <label for="channel" class="form-label">Canal / plataforma</label>
+            <input
+                type="text"
+                class="form-control"
+                id="channel"
+                name="channel"
+                formControlName="channel"
+                placeholder="Netflix, HBO, AMC..."
+            />
+            @if (checkControl("channel", "required")) {
+                <p class="text-danger mb-0">El canal es obligatorio.</p>
+            }
+        </div>
+
+        <button type="submit" class="btn btn-success" [disabled]="serieForm.invalid">
+            Guardar serie
+        </button>
+    </form>
+</section>

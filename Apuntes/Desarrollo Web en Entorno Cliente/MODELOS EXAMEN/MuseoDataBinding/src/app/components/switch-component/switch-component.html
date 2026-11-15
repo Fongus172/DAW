@@ -1,0 +1,34 @@
+<section>
+    <h2>4. Control Flow con &#64;switch</h2>
+
+    <div class="d-flex flex-wrap gap-2 mb-3">
+        <button class="btn btn-outline-dark" (click)="cambiarRol('director')">Director</button>
+        <button class="btn btn-outline-dark" (click)="cambiarRol('guia')">Guía</button>
+        <button class="btn btn-outline-dark" (click)="cambiarRol('visitante')">Visitante</button>
+        <button class="btn btn-outline-dark" (click)="cambiarRol('otro')">Sin rol</button>
+    </div>
+
+    <p>Rol actual: <strong>{{ rol }}</strong></p>
+
+    <!-- @switch muestra un bloque diferente dependiendo del valor de rol. -->
+    @switch (rol) {
+        @case ("director") {
+            <div class="alert alert-primary">
+                <strong>Menú de director:</strong> gestionar obras, gestionar usuarios y consultar informes.
+            </div>
+        }
+        @case ("guia") {
+            <div class="alert alert-info">
+                <strong>Menú de guía:</strong> consultar salas y recorridos.
+            </div>
+        }
+        @case ("visitante") {
+            <div class="alert alert-success">
+                <strong>Menú de visitante:</strong> consultar exposiciones y comprar entradas.
+            </div>
+        }
+        @default {
+            <div class="alert alert-danger">No tienes permisos asociados a este rol.</div>
+        }
+    }
+</section>

@@ -1,0 +1,8 @@
+/* Estilos globales: afectan a toda la aplicación. */
+body {
+    background-color: #f4f5f7;
+}
+
+h2 {
+    margin-bottom: 20px;
+}

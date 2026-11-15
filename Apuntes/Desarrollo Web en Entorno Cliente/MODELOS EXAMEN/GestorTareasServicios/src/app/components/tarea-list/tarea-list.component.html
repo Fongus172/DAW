@@ -1,0 +1,27 @@
+<section class="mb-4">
+    <div class="d-flex justify-content-between align-items-center gap-3 mb-3 flex-wrap">
+        <div>
+            <h2 class="h4 mb-1">Lista de tareas</h2>
+            <p class="text-muted mb-0">Los datos proceden del servicio compartido.</p>
+        </div>
+
+        @if (tareas.length > 0) {
+            <button type="button" class="btn btn-outline-danger" (click)="eliminarCompletadas()">
+                Eliminar completadas
+            </button>
+        }
+    </div>
+
+    <div class="row g-3">
+        @for (tarea of tareas; track tarea.id) {
+            <div class="col-md-6 col-xl-4">
+                <!-- Cada tarjeta recibe una tarea, pero modifica los datos a través del servicio. -->
+                <app-tarea-card [tarea]="tarea"></app-tarea-card>
+            </div>
+        } @empty {
+            <div class="col-12">
+                <div class="alert alert-info mb-0">No hay tareas registradas.</div>
+            </div>
+        }
+    </div>
+</section>

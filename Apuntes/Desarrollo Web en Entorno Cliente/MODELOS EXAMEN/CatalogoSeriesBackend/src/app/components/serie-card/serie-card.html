@@ -1,0 +1,16 @@
+<div class="card h-100 shadow-sm">
+    <img [src]="miSerie.image" [alt]="miSerie.title" class="card-img-top serie-imagen" />
+
+    <div class="card-body d-flex flex-column">
+        <h3 class="h5 card-title">{{ miSerie.title }}</h3>
+
+        <p class="mb-1"><strong>Creador:</strong> {{ miSerie.creator }}</p>
+        <p class="mb-1"><strong>Canal:</strong> {{ miSerie.channel }}</p>
+        <p class="mb-1"><strong>Emisión:</strong> {{ miSerie.dates }}</p>
+        <p class="mb-3"><strong>Puntuación:</strong> {{ miSerie.rating }}/10</p>
+
+        <button class="btn btn-danger mt-auto" (click)="deleteSerie()">
+            Eliminar del array local
+        </button>
+    </div>
+</div>

@@ -1,0 +1,292 @@
+<div class="container py-4">
+    <header class="text-center mb-4">
+        <h1>Clínica Reactive Forms</h1>
+        <p class="text-muted mb-0">
+            Alta, validación, edición y eliminación de pacientes con formularios reactivos.
+        </p>
+    </header>
+
+    <div class="row g-4">
+        <div class="col-lg-5">
+            <form
+                [formGroup]="modelForm"
+                class="card shadow-sm p-4"
+                (ngSubmit)="guardarPaciente()"
+            >
+                <!-- El id existe en el FormGroup aunque no necesitemos mostrarlo al usuario. -->
+
+                @if (modelForm.get("id")?.value === -1) {
+                    <h2 class="h4 mb-3">Nuevo paciente</h2>
+                } @else {
+                    <h2 class="h4 mb-3">Editando paciente</h2>
+                    <div class="alert alert-warning py-2">
+                        Estás modificando un paciente existente.
+                    </div>
+                }
+
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <!-- formControlName conecta este input con el FormControl "nombre" del TS. -->
+                    <input
+                        type="text"
+                        id="nombre"
+                        class="form-control"
+                        formControlName="nombre"
+                        placeholder="Introduce el nombre"
+                    />
+
+                    @if (checkControl("nombre", "required")) {
+                        <p class="error">El nombre es obligatorio.</p>
+                    }
+                    @if (checkControl("nombre", "minlength")) {
+                        <p class="error">El nombre debe tener al menos 3 caracteres.</p>
+                    }
+                </div>
+
+                <div class="mb-3">
+                    <label for="apellidos" class="form-label">Apellidos</label>
+                    <input
+                        type="text"
+                        id="apellidos"
+                        class="form-control"
+                        formControlName="apellidos"
+                        placeholder="Introduce los apellidos"
+                    />
+
+                    @if (checkControl("apellidos", "required")) {
+                        <p class="error">Los apellidos son obligatorios.</p>
+                    }
+                    @if (checkControl("apellidos", "minlength")) {
+                        <p class="error">Los apellidos deben tener al menos 3 caracteres.</p>
+                    }
+                </div>
+
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input
+                        type="text"
+                        id="email"
+                        class="form-control"
+                        formControlName="email"
+                        placeholder="persona@correo.com"
+                    />
+
+                    @if (checkControl("email", "required")) {
+                        <p class="error">El email es obligatorio.</p>
+                    }
+                    @if (checkControl("email", "pattern")) {
+                        <p class="error">El email no tiene un formato correcto.</p>
+                    }
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="edad" class="form-label">Edad</label>
+                        <input
+                            type="number"
+                            id="edad"
+                            class="form-control"
+                            formControlName="edad"
+                            placeholder="Edad"
+                        />
+
+                        @if (checkControl("edad", "required")) {
+                            <p class="error">La edad es obligatoria.</p>
+                        }
+                        @if (checkControl("edad", "min") || checkControl("edad", "max")) {
+                            <p class="error">La edad debe estar entre 0 y 120.</p>
+                        }
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="grupoSanguineo" class="form-label">Grupo sanguíneo</label>
+                        <select
+                            id="grupoSanguineo"
+                            class="form-select"
+                            formControlName="grupoSanguineo"
+                        >
+                            <option value="">Selecciona...</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                        </select>
+
+                        @if (checkControl("grupoSanguineo", "required")) {
+                            <p class="error">Debes seleccionar un grupo sanguíneo.</p>
+                        }
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="dni" class="form-label">DNI</label>
+                    <input
+                        type="text"
+                        id="dni"
+                        class="form-control"
+                        formControlName="dni"
+                        placeholder="12345678Z"
+                    />
+
+                    @if (checkControl("dni", "required")) {
+                        <p class="error">El DNI es obligatorio.</p>
+                    }
+                    @if (checkControl("dni", "pattern")) {
+                        <p class="error">El DNI debe tener 8 números y una letra mayúscula válida.</p>
+                    }
+                    @if (checkControl("dni", "dniletter")) {
+                        <p class="error">La letra no corresponde con el número del DNI.</p>
+                    }
+                </div>
+
+                <div class="mb-3">
+                    <label for="telefono" class="form-label">Teléfono</label>
+                    <input
+                        type="text"
+                        id="telefono"
+                        class="form-control"
+                        formControlName="telefono"
+                        placeholder="612345678"
+                    />
+
+                    @if (checkControl("telefono", "required")) {
+                        <p class="error">El teléfono es obligatorio.</p>
+                    }
+                    @if (checkControl("telefono", "pattern")) {
+                        <p class="error">Debe tener 9 cifras y empezar por 6, 7, 8 o 9.</p>
+                    }
+                </div>
+
+                <div class="mb-3">
+                    <label for="password" class="form-label">Contraseña</label>
+                    <input
+                        type="password"
+                        id="password"
+                        class="form-control"
+                        formControlName="password"
+                    />
+
+                    @if (checkControl("password", "required")) {
+                        <p class="error">La contraseña es obligatoria.</p>
+                    }
+                    @if (checkControl("password", "minlength")) {
+                        <p class="error">La contraseña debe tener al menos 5 caracteres.</p>
+                    }
+                </div>
+
+                <div class="mb-3">
+                    <label for="repitePassword" class="form-label">Repite la contraseña</label>
+                    <input
+                        type="password"
+                        id="repitePassword"
+                        class="form-control"
+                        formControlName="repitePassword"
+                    />
+
+                    @if (checkControl("repitePassword", "required")) {
+                        <p class="error">Debes repetir la contraseña.</p>
+                    }
+                    @if (checkControl("repitePassword", "minlength")) {
+                        <p class="error">Debe tener al menos 5 caracteres.</p>
+                    }
+                    @if (
+                        modelForm.hasError("passwordnotmatches") &&
+                        modelForm.get("repitePassword")?.touched
+                    ) {
+                        <p class="error">Las contraseñas no coinciden.</p>
+                    }
+                </div>
+
+                <div class="d-flex gap-2 mt-2">
+                    <!-- Desactivar el botón cuando el FormGroup completo es inválido. -->
+                    <button type="submit" class="btn btn-success" [disabled]="modelForm.invalid">
+                        @if (modelForm.get("id")?.value === -1) {
+                            Guardar paciente
+                        } @else {
+                            Guardar cambios
+                        }
+                    </button>
+
+                    @if (modelForm.get("id")?.value !== -1) {
+                        <button
+                            type="button"
+                            class="btn btn-secondary"
+                            (click)="cancelarEdicion()"
+                        >
+                            Cancelar edición
+                        </button>
+                    }
+                </div>
+            </form>
+
+            <section class="card shadow-sm p-3 mt-4">
+                <h2 class="h5">Estados del formulario</h2>
+                <p class="small text-muted">
+                    Esta caja está aquí como chuleta para recordar los estados de Reactive Forms.
+                </p>
+
+                <div class="row small">
+                    <div class="col-6"><strong>Valid:</strong> {{ modelForm.valid }}</div>
+                    <div class="col-6"><strong>Invalid:</strong> {{ modelForm.invalid }}</div>
+                    <div class="col-6"><strong>Pristine:</strong> {{ modelForm.pristine }}</div>
+                    <div class="col-6"><strong>Dirty:</strong> {{ modelForm.dirty }}</div>
+                    <div class="col-6"><strong>Touched:</strong> {{ modelForm.touched }}</div>
+                    <div class="col-6"><strong>Untouched:</strong> {{ modelForm.untouched }}</div>
+                </div>
+            </section>
+        </div>
+
+        <div class="col-lg-7">
+            <section class="card shadow-sm p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="h4 mb-0">Pacientes registrados</h2>
+                    <span class="badge text-bg-primary">{{ pacientes.length }}</span>
+                </div>
+
+                @for (paciente of pacientes; track paciente.id) {
+                    <article class="paciente border rounded p-3 mb-3">
+                        <div class="d-flex justify-content-between gap-3 flex-wrap">
+                            <div>
+                                <h3 class="h5 mb-1">
+                                    {{ paciente.nombre }} {{ paciente.apellidos }}
+                                </h3>
+                                <p class="mb-1"><strong>DNI:</strong> {{ paciente.dni }}</p>
+                                <p class="mb-1"><strong>Email:</strong> {{ paciente.email }}</p>
+                                <p class="mb-1"><strong>Teléfono:</strong> {{ paciente.telefono }}</p>
+                                <p class="mb-0">
+                                    <strong>Edad:</strong> {{ paciente.edad }} años ·
+                                    <strong>Grupo:</strong> {{ paciente.grupoSanguineo }}
+                                </p>
+                            </div>
+
+                            <div class="d-flex gap-2 align-items-start">
+                                <button
+                                    type="button"
+                                    class="btn btn-outline-primary btn-sm"
+                                    (click)="editarPaciente(paciente)"
+                                >
+                                    Editar
+                                </button>
+                                <button
+                                    type="button"
+                                    class="btn btn-outline-danger btn-sm"
+                                    (click)="eliminarPaciente(paciente.id)"
+                                >
+                                    Eliminar
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+                } @empty {
+                    <div class="alert alert-info mb-0">
+                        No hay pacientes registrados.
+                    </div>
+                }
+            </section>
+        </div>
+    </div>
+</div>

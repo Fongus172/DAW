@@ -1,0 +1,72 @@
+<section class="card shadow-sm p-4 mb-4">
+    <h2 class="h4">Nueva tarea</h2>
+    <p class="text-muted">
+        Este componente añade tareas mediante el servicio. No posee su propio array.
+    </p>
+
+    <!--
+        #formTarea="ngForm" crea una variable de plantilla que representa el formulario.
+        ngSubmit llama al método del TypeScript cuando se envía correctamente.
+    -->
+    <form #formTarea="ngForm" (ngSubmit)="getDataForm(formTarea)" novalidate>
+        <div class="mb-3">
+            <label for="titulo" class="form-label">Título</label>
+            <input
+                type="text"
+                id="titulo"
+                name="titulo"
+                class="form-control"
+                placeholder="Ej. Terminar práctica de Angular"
+                ngModel
+                required
+                minlength="3"
+                #titulo="ngModel"
+            />
+
+            @if (titulo.invalid && titulo.touched) {
+                <div class="text-danger mt-1">
+                    @if (titulo.errors?.["required"]) {
+                        <small>El título es obligatorio.</small>
+                    }
+                    @if (titulo.errors?.["minlength"]) {
+                        <small>El título debe tener al menos 3 caracteres.</small>
+                    }
+                </div>
+            }
+        </div>
+
+        <div class="mb-3">
+            <label for="descripcion" class="form-label">Descripción</label>
+            <textarea
+                id="descripcion"
+                name="descripcion"
+                class="form-control"
+                rows="3"
+                placeholder="Describe brevemente la tarea"
+                ngModel
+            ></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="prioridad" class="form-label">Prioridad</label>
+            <select
+                id="prioridad"
+                name="prioridad"
+                class="form-select"
+                ngModel="Media"
+                required
+                #prioridad="ngModel"
+            >
+                <option value="Baja">Baja</option>
+                <option value="Media">Media</option>
+                <option value="Alta">Alta</option>
+            </select>
+
+            @if (prioridad.invalid && prioridad.touched) {
+                <small class="text-danger">Debes seleccionar una prioridad.</small>
+            }
+        </div>
+
+        <button type="submit" class="btn btn-primary">Añadir tarea</button>
+    </form>
+</section>

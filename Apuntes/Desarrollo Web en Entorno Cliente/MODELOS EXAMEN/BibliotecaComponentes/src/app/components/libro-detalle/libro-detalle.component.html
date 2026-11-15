@@ -1,0 +1,24 @@
+<section class="card border-primary shadow-sm">
+    <div class="card-body">
+        <h2 class="h4">Detalle del libro</h2>
+        <hr />
+
+        <p><strong>ID:</strong> {{ libro.id }}</p>
+        <p><strong>Título:</strong> {{ libro.titulo }}</p>
+        <p><strong>Autor:</strong> {{ libro.autor }}</p>
+        <p><strong>Género:</strong> {{ libro.genero }}</p>
+        <p><strong>Páginas:</strong> {{ libro.paginas }}</p>
+        <p>
+            <strong>Estado:</strong>
+            @if (libro.disponible) {
+                Disponible
+            } @else {
+                Prestado
+            }
+        </p>
+
+        <button class="btn btn-outline-primary" type="button" (click)="cerrar()">
+            Cerrar detalle
+        </button>
+    </div>
+</section>

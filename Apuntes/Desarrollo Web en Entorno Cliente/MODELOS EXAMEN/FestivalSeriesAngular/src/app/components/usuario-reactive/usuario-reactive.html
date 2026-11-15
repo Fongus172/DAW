@@ -1,0 +1,87 @@
+<section class="card shadow-sm mb-5">
+    <div class="card-body">
+        <h2>Registro de asistente</h2>
+        <p class="text-muted">Ejemplo completo de Reactive Forms y validaciones.</p>
+
+        @if (mensaje !== "") {
+            <div class="alert alert-success">{{ mensaje }}</div>
+        }
+
+        <form [formGroup]="modelForm" (ngSubmit)="getDataForm()" novalidate>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Nombre</label>
+                    <input class="form-control" type="text" formControlName="nombre" />
+                    @if (checkControl("nombre", "required")) {
+                        <p class="error">El nombre es obligatorio.</p>
+                    }
+                    @if (checkControl("nombre", "minlength")) {
+                        <p class="error">Mínimo 3 caracteres.</p>
+                    }
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Email</label>
+                    <input class="form-control" type="email" formControlName="email" />
+                    @if (checkControl("email", "required")) {
+                        <p class="error">El email es obligatorio.</p>
+                    }
+                    @if (checkControl("email", "pattern")) {
+                        <p class="error">Formato de email incorrecto.</p>
+                    }
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Edad</label>
+                    <input class="form-control" type="number" formControlName="edad" />
+                    @if (checkControl("edad", "required")) {
+                        <p class="error">La edad es obligatoria.</p>
+                    }
+                    @if (checkControl("edad", "min") || checkControl("edad", "max")) {
+                        <p class="error">La edad debe estar entre 18 y 120.</p>
+                    }
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">DNI</label>
+                    <input class="form-control" type="text" formControlName="dni" />
+                    @if (checkControl("dni", "required")) {
+                        <p class="error">El DNI es obligatorio.</p>
+                    }
+                    @if (checkControl("dni", "pattern")) {
+                        <p class="error">Formato esperado: 8 números y una letra válida.</p>
+                    }
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Contraseña</label>
+                    <input class="form-control" type="password" formControlName="password" />
+                    @if (checkControl("password", "required")) {
+                        <p class="error">La contraseña es obligatoria.</p>
+                    }
+                    @if (checkControl("password", "minlength")) {
+                        <p class="error">Mínimo 5 caracteres.</p>
+                    }
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Repetir contraseña</label>
+                    <input class="form-control" type="password" formControlName="repitePassword" />
+                    @if (checkControl("repitePassword", "required")) {
+                        <p class="error">Debes repetir la contraseña.</p>
+                    }
+                    @if (modelForm.hasError("passwordnotmatches") && modelForm.get("repitePassword")?.touched) {
+                        <p class="error">Las contraseñas no coinciden.</p>
+                    }
+                </div>
+            </div>
+
+            <button class="btn btn-primary mt-3" type="submit">Registrar asistente</button>
+        </form>
+
+        <hr />
+        <small>
+            Estado del formulario: valid={{ modelForm.valid }}, dirty={{ modelForm.dirty }}, touched={{ modelForm.touched }}
+        </small>
+    </div>
+</section>

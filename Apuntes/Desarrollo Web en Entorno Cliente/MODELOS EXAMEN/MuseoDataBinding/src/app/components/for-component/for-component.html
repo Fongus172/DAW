@@ -1,0 +1,39 @@
+<section>
+    <h2>3. Control Flow con &#64;for y &#64;empty</h2>
+
+    <div class="d-flex flex-wrap gap-2 mb-3">
+        <button class="btn btn-success" (click)="insertarObra()">Insertar obra</button>
+        <button class="btn btn-danger" (click)="eliminarUltimaObra()">Eliminar última</button>
+        <button class="btn btn-outline-danger" (click)="vaciarMuseo()">Vaciar museo</button>
+    </div>
+
+    <div class="row g-3">
+        <!--
+            track obra.id identifica de forma única cada elemento.
+            También usamos variables internas de &#64;for como $index, $even, $first y $last.
+        -->
+        @for (obra of obras; track obra.id; let i = $index; let par = $even; let primero = $first; let ultimo = $last) {
+            <div class="col-md-6">
+                <article class="card h-100 p-3" [class.fila-par]="par">
+                    <p class="mb-1"><strong>#{{ i }}</strong></p>
+                    <h3>{{ obra.titulo }}</h3>
+                    <p class="mb-1">Autor: {{ obra.autor }}</p>
+                    <p class="mb-1">Año: {{ obra.anio }}</p>
+                    <p class="mb-1">Sala: {{ obra.sala }}</p>
+
+                    @if (primero) {
+                        <span class="badge text-bg-success">Primera obra</span>
+                    }
+
+                    @if (ultimo) {
+                        <span class="badge text-bg-secondary mt-1">Última obra</span>
+                    }
+                </article>
+            </div>
+        } @empty {
+            <div class="col-12">
+                <div class="alert alert-warning">No hay obras que mostrar.</div>
+            </div>
+        }
+    </div>
+</section>

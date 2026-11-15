@@ -1,0 +1,21 @@
+.error {
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 4px;
+    margin-bottom: 0;
+}
+
+.paciente {
+    background-color: #ffffff;
+}
+
+/* Angular añade automáticamente estas clases según el estado del control. */
+input.ng-invalid.ng-touched,
+select.ng-invalid.ng-touched {
+    border-color: #dc3545;
+}
+
+input.ng-valid.ng-touched,
+select.ng-valid.ng-touched {
+    border-color: #198754;
+}

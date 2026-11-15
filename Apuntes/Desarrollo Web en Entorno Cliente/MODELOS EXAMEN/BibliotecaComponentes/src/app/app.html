@@ -1,0 +1,68 @@
+<main class="container py-4">
+    <header class="mb-4">
+        <h1>Biblioteca Componentes</h1>
+        <p class="lead mb-1">Ejemplo completo de comunicación entre componentes padre e hijo.</p>
+        <p class="text-muted mb-0">El padre posee los datos; los hijos reciben información y emiten eventos.</p>
+    </header>
+
+    <section class="alert alert-info">
+        <strong>Último evento recibido por el padre:</strong>
+        {{ ultimoEvento }}
+    </section>
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="h4 mb-0">Catálogo de libros</h2>
+        <button class="btn btn-outline-secondary" type="button" (click)="restaurarLibros()">
+            Restaurar libros
+        </button>
+    </div>
+
+    <div class="row g-3 mb-4">
+        <!--
+            El bucle for pertenece al PADRE.
+            Por cada objeto libro creamos un componente hijo LibroCardComponent.
+        -->
+        @for (libro of libros; track libro.id; let indice = $index) {
+            <div class="col-12 col-md-6 col-xl-4">
+                <app-libro-card
+                    [libro]="libro"
+                    [posicion]="indice"
+                    (seleccionarLibro)="seleccionarLibro($event)"
+                    (cambiarDisponibilidad)="cambiarDisponibilidad($event)"
+                    (eliminarLibro)="eliminarLibro($event)"
+                ></app-libro-card>
+            </div>
+        } @empty {
+            <div class="col-12">
+                <div class="alert alert-warning mb-0">
+                    No quedan libros en la biblioteca.
+                </div>
+            </div>
+        }
+    </div>
+
+    <!--
+        Solo cargamos el segundo hijo cuando existe un libro seleccionado.
+        Le enviamos el objeto por Input y escuchamos su Output cerrarDetalle.
+    -->
+    @if (libroSeleccionado !== undefined) {
+        <app-libro-detalle
+            [libro]="libroSeleccionado"
+            (cerrarDetalle)="cerrarDetalle()"
+        ></app-libro-detalle>
+    }
+
+    <section class="card mt-4">
+        <div class="card-body">
+            <h2 class="h5">Esquema mental del proyecto</h2>
+            <pre class="mb-0">PADRE (App)
+  |-- [libro] y [posicion] ----------> HIJO (LibroCard)
+  |<-- (seleccionarLibro) + $event ---|
+  |<-- (cambiarDisponibilidad) -------|
+  |<-- (eliminarLibro) ---------------|
+  |
+  |-- [libro] -----------------------> HIJO (LibroDetalle)
+  |<-- (cerrarDetalle) ---------------|</pre>
+        </div>
+    </section>
+</main>

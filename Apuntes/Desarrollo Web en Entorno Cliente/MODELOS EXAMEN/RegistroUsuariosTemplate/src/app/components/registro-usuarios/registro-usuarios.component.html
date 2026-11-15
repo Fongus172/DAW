@@ -1,0 +1,403 @@
+<div class="row g-4">
+    <!-- ============================================================ -->
+    <!-- FORMULARIO 1: REGISTRO                                      -->
+    <!-- ============================================================ -->
+    <div class="col-lg-7">
+        <section class="card shadow-sm h-100">
+            <div class="card-body p-4">
+                <h2>Crear una cuenta</h2>
+                <p class="text-muted">
+                    Ejemplo completo de formulario Template Driven con validaciones.
+                </p>
+
+                <!--
+                    #registroForm="ngForm" crea una variable de plantilla que representa el formulario.
+                    (ngSubmit) llama al método del TypeScript al enviar el formulario.
+                    novalidate evita depender de los mensajes automáticos del navegador.
+                -->
+                <form
+                    #registroForm="ngForm"
+                    (ngSubmit)="registrar(registroForm)"
+                    novalidate
+                >
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="nombre" class="form-label">Nombre</label>
+                            <!--
+                                name es obligatorio en Template Forms.
+                                ngModel registra el campo dentro de registroForm.
+                                #nombre="ngModel" nos permite consultar sus errores en el HTML.
+                            -->
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="nombre"
+                                name="nombre"
+                                placeholder="Iván"
+                                ngModel
+                                #nombre="ngModel"
+                                required
+                                minlength="2"
+                                maxlength="40"
+                            />
+
+                            @if (nombre.invalid && nombre.touched) {
+                                <div class="text-danger small mt-1">
+                                    @if (nombre.errors?.['required']) {
+                                        <p class="mb-0">El nombre es obligatorio.</p>
+                                    }
+                                    @if (nombre.errors?.['minlength']) {
+                                        <p class="mb-0">Debe tener al menos 2 caracteres.</p>
+                                    }
+                                </div>
+                            }
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="apellidos" class="form-label">Apellidos</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="apellidos"
+                                name="apellidos"
+                                ngModel
+                                #apellidos="ngModel"
+                                required
+                                minlength="2"
+                                maxlength="60"
+                            />
+
+                            @if (apellidos.invalid && apellidos.touched) {
+                                <div class="text-danger small mt-1">
+                                    <p class="mb-0">Introduce unos apellidos válidos.</p>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="usuario" class="form-label">Usuario</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="usuario"
+                                name="usuario"
+                                ngModel
+                                #usuario="ngModel"
+                                required
+                                minlength="4"
+                                maxlength="20"
+                            />
+
+                            @if (usuario.invalid && usuario.touched) {
+                                <div class="text-danger small mt-1">
+                                    <p class="mb-0">El usuario debe tener entre 4 y 20 caracteres.</p>
+                                </div>
+                            }
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="email" class="form-label">Correo electrónico</label>
+                            <input
+                                type="email"
+                                class="form-control"
+                                id="email"
+                                name="email"
+                                ngModel
+                                #email="ngModel"
+                                required
+                                email
+                            />
+
+                            @if (email.invalid && email.touched) {
+                                <div class="text-danger small mt-1">
+                                    @if (email.errors?.['required']) {
+                                        <p class="mb-0">El email es obligatorio.</p>
+                                    }
+                                    @if (email.errors?.['email']) {
+                                        <p class="mb-0">El formato del email no es correcto.</p>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="dni" class="form-label">DNI</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="dni"
+                                name="dni"
+                                placeholder="12345678A"
+                                ngModel
+                                #dni="ngModel"
+                                required
+                                pattern="[0-9]{8}[A-Za-z]"
+                            />
+
+                            @if (dni.invalid && dni.touched) {
+                                <div class="text-danger small mt-1">
+                                    <p class="mb-0">Usa 8 números y una letra.</p>
+                                </div>
+                            }
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label for="edad" class="form-label">Edad</label>
+                            <input
+                                type="number"
+                                class="form-control"
+                                id="edad"
+                                name="edad"
+                                ngModel
+                                #edad="ngModel"
+                                required
+                                min="18"
+                                max="120"
+                                step="1"
+                            />
+
+                            @if (edad.invalid && edad.touched) {
+                                <div class="text-danger small mt-1">
+                                    <p class="mb-0">La edad debe estar entre 18 y 120.</p>
+                                </div>
+                            }
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label for="telefono" class="form-label">Teléfono</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="telefono"
+                                name="telefono"
+                                placeholder="600123123"
+                                ngModel
+                                #telefono="ngModel"
+                                required
+                                pattern="[0-9]{9}"
+                            />
+
+                            @if (telefono.invalid && telefono.touched) {
+                                <div class="text-danger small mt-1">
+                                    <p class="mb-0">Debe contener exactamente 9 números.</p>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="provincia" class="form-label">Provincia</label>
+                        <select
+                            class="form-select"
+                            id="provincia"
+                            name="provincia"
+                            ngModel
+                            #provincia="ngModel"
+                            required
+                        >
+                            <option value="">Selecciona una provincia</option>
+                            <option value="Cantabria">Cantabria</option>
+                            <option value="Asturias">Asturias</option>
+                            <option value="Bizkaia">Bizkaia</option>
+                            <option value="Madrid">Madrid</option>
+                            <option value="Otra">Otra</option>
+                        </select>
+
+                        @if (provincia.invalid && provincia.touched) {
+                            <div class="text-danger small mt-1">
+                                <p class="mb-0">Selecciona una provincia.</p>
+                            </div>
+                        }
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="password" class="form-label">Contraseña</label>
+                            <input
+                                type="password"
+                                class="form-control"
+                                id="password"
+                                name="password"
+                                ngModel
+                                #password="ngModel"
+                                required
+                                minlength="6"
+                            />
+
+                            @if (password.invalid && password.touched) {
+                                <div class="text-danger small mt-1">
+                                    <p class="mb-0">Debe tener al menos 6 caracteres.</p>
+                                </div>
+                            }
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="repitePassword" class="form-label">Repite la contraseña</label>
+                            <input
+                                type="password"
+                                class="form-control"
+                                id="repitePassword"
+                                name="repitePassword"
+                                ngModel
+                                #repitePassword="ngModel"
+                                required
+                                minlength="6"
+                            />
+
+                            @if (repitePassword.invalid && repitePassword.touched) {
+                                <div class="text-danger small mt-1">
+                                    <p class="mb-0">Repite la contraseña.</p>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="form-check mb-3">
+                        <input
+                            class="form-check-input"
+                            type="checkbox"
+                            id="aceptaCondiciones"
+                            name="aceptaCondiciones"
+                            ngModel
+                            #aceptaCondiciones="ngModel"
+                            required
+                        />
+                        <label class="form-check-label" for="aceptaCondiciones">
+                            Acepto las condiciones de uso
+                        </label>
+
+                        @if (aceptaCondiciones.invalid && aceptaCondiciones.touched) {
+                            <p class="text-danger small mt-1">Debes aceptar las condiciones.</p>
+                        }
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        Registrarme
+                    </button>
+
+                    <!-- Mostramos el estado general para tener una referencia durante el examen. -->
+                    <span class="ms-3 small text-muted">
+                        Formulario válido: {{ registroForm.valid }}
+                    </span>
+                </form>
+
+                @if (mensajeRegistro !== '') {
+                    <div class="alert alert-info mt-3 mb-0">
+                        {{ mensajeRegistro }}
+                    </div>
+                }
+            </div>
+        </section>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- FORMULARIO 2: LOGIN                                         -->
+    <!-- ============================================================ -->
+    <div class="col-lg-5">
+        <section class="card shadow-sm mb-4">
+            <div class="card-body p-4">
+                <h2>Iniciar sesión</h2>
+                <p class="text-muted">Puedes entrar usando el usuario o el email registrado.</p>
+
+                <form #loginForm="ngForm" (ngSubmit)="iniciarSesion(loginForm)" novalidate>
+                    <div class="mb-3">
+                        <label for="identificador" class="form-label">Usuario o email</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="identificador"
+                            name="identificador"
+                            ngModel
+                            #identificador="ngModel"
+                            required
+                        />
+
+                        @if (identificador.invalid && identificador.touched) {
+                            <p class="text-danger small mt-1">Este campo es obligatorio.</p>
+                        }
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="loginPassword" class="form-label">Contraseña</label>
+                        <input
+                            type="password"
+                            class="form-control"
+                            id="loginPassword"
+                            name="loginPassword"
+                            ngModel
+                            #loginPassword="ngModel"
+                            required
+                        />
+
+                        @if (loginPassword.invalid && loginPassword.touched) {
+                            <p class="text-danger small mt-1">La contraseña es obligatoria.</p>
+                        }
+                    </div>
+
+                    <button type="submit" class="btn btn-success">Entrar</button>
+                </form>
+
+                @if (mensajeLogin !== '') {
+                    <div
+                        class="alert mt-3 mb-0"
+                        [class.alert-success]="loginCorrecto"
+                        [class.alert-danger]="!loginCorrecto"
+                    >
+                        {{ mensajeLogin }}
+                    </div>
+                }
+            </div>
+        </section>
+
+        <!-- ======================================================== -->
+        <!-- LISTADO DE USUARIOS                                     -->
+        <!-- ======================================================== -->
+        <section class="card shadow-sm">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                        <h2 class="h4 mb-0">Usuarios registrados</h2>
+                        <small class="text-muted">Total: {{ usuarios.length }}</small>
+                    </div>
+                </div>
+
+                @for (item of usuarios; track item.dni) {
+                    <div class="usuario border rounded p-3 mb-2">
+                        <strong>{{ item.nombre }} {{ item.apellidos }}</strong>
+                        <div class="small text-muted">&#64;{{ item.usuario }}</div>
+                        <div>{{ item.email }}</div>
+                        <div class="small">{{ item.edad }} años - {{ item.provincia }}</div>
+                    </div>
+                } @empty {
+                    <div class="alert alert-secondary mb-0">
+                        Todavía no hay usuarios registrados.
+                    </div>
+                }
+
+                <div class="d-flex gap-2 mt-3">
+                    <button
+                        type="button"
+                        class="btn btn-outline-warning btn-sm"
+                        (click)="eliminarUltimoUsuario()"
+                        [disabled]="usuarios.length === 0"
+                    >
+                        Eliminar último
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn btn-outline-danger btn-sm"
+                        (click)="vaciarUsuarios()"
+                        [disabled]="usuarios.length === 0"
+                    >
+                        Vaciar lista
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

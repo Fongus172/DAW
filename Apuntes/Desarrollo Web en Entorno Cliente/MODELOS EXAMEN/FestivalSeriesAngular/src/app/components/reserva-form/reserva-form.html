@@ -1,0 +1,103 @@
+<section class="card shadow-sm mb-5">
+    <div class="card-body">
+        <h2>Reserva de proyección</h2>
+
+        @if (serieSeleccionada === null) {
+            <div class="alert alert-warning">
+                Selecciona una serie de la cartelera para poder reservar.
+            </div>
+        } @else {
+            <div class="alert alert-primary">
+                Serie seleccionada: <strong>{{ serieSeleccionada.title }}</strong>
+            </div>
+        }
+
+        @if (mensaje !== "") {
+            <div class="alert alert-success">{{ mensaje }}</div>
+        }
+
+        <form #reservaForm="ngForm" (ngSubmit)="getDataForm(reservaForm)" novalidate>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label" for="nombre">Nombre</label>
+                    <input
+                        id="nombre"
+                        class="form-control"
+                        type="text"
+                        name="nombre"
+                        ngModel
+                        required
+                        minlength="3"
+                        #nombre="ngModel"
+                    />
+                    @if (nombre.touched && nombre.errors?.["required"]) {
+                        <p class="error">El nombre es obligatorio.</p>
+                    }
+                    @if (nombre.touched && nombre.errors?.["minlength"]) {
+                        <p class="error">El nombre debe tener al menos 3 caracteres.</p>
+                    }
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label" for="email">Email</label>
+                    <input
+                        id="email"
+                        class="form-control"
+                        type="email"
+                        name="email"
+                        ngModel
+                        required
+                        email
+                        #email="ngModel"
+                    />
+                    @if (email.touched && email.errors?.["required"]) {
+                        <p class="error">El email es obligatorio.</p>
+                    }
+                    @if (email.touched && email.errors?.["email"]) {
+                        <p class="error">El formato del email no es válido.</p>
+                    }
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label" for="entradas">Entradas</label>
+                    <input
+                        id="entradas"
+                        class="form-control"
+                        type="number"
+                        name="entradas"
+                        ngModel
+                        required
+                        min="1"
+                        max="10"
+                        #entradas="ngModel"
+                    />
+                    @if (entradas.touched && entradas.invalid) {
+                        <p class="error">Introduce entre 1 y 10 entradas.</p>
+                    }
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label" for="turno">Turno</label>
+                    <select
+                        id="turno"
+                        class="form-select"
+                        name="turno"
+                        ngModel
+                        required
+                        #turno="ngModel"
+                    >
+                        <option value="">Selecciona un turno</option>
+                        <option value="Mañana">Mañana</option>
+                        <option value="Tarde">Tarde</option>
+                        <option value="Noche">Noche</option>
+                    </select>
+                    @if (turno.touched && turno.invalid) {
+                        <p class="error">Debes seleccionar un turno.</p>
+                    }
+                </div>
+            </div>
+
+            <button class="btn btn-success mt-3" type="submit">Guardar reserva</button>
+        </form>
+    </div>
+</section>

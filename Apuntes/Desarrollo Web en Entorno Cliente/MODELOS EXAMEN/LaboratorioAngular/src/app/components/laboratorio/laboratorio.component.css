@@ -1,0 +1,24 @@
+.bloque {
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+    padding: 24px;
+}
+
+.ejemplo-estilo {
+    padding: 16px;
+    border-radius: 8px;
+    transition: 0.2s;
+}
+
+.activo {
+    background-color: #d1e7dd;
+    border: 1px solid #a3cfbb;
+    color: #0a3622;
+}
+
+.inactivo {
+    background-color: #f8d7da;
+    border: 1px solid #f1aeb5;
+    color: #58151c;
+}

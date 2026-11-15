@@ -1,0 +1,19 @@
+/* Estilos mínimos. Bootstrap hace casi toda la maquetación. */
+
+h2 {
+    font-weight: 600;
+}
+
+.usuario {
+    background-color: #f8f9fa;
+}
+
+input.ng-invalid.ng-touched,
+select.ng-invalid.ng-touched {
+    border-color: #dc3545;
+}
+
+input.ng-valid.ng-touched,
+select.ng-valid.ng-touched {
+    border-color: #198754;
+}

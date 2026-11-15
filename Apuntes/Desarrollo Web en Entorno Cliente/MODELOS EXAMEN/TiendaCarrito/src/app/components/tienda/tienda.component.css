@@ -1,0 +1,11 @@
+.carrito {
+    top: 1rem;
+}
+
+.cantidad {
+    max-width: 85px;
+}
+
+.card {
+    border: 1px solid #dee2e6;
+}

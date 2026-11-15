@@ -1,0 +1,12 @@
+h1 {
+    font-weight: 700;
+}
+
+.card {
+    border: 0;
+}
+
+.table th,
+.table td {
+    vertical-align: middle;
+}

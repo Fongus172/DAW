@@ -1,0 +1,4 @@
+/* Se activa mediante [class.fila-par] usando la variable $even de @for. */
+.fila-par {
+    background-color: #f8f9fa;
+}

@@ -1,0 +1,59 @@
+<section class="card shadow-sm mb-5">
+    <div class="card-body">
+        <h2>Reservas realizadas</h2>
+
+        <div class="table-responsive">
+            <table class="table align-middle">
+                <thead>
+                    <tr>
+                        <th>Serie</th>
+                        <th>Persona</th>
+                        <th>Turno</th>
+                        <th>Entradas</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (reserva of reservas; track reserva.id) {
+                        <tr>
+                            <td>{{ reserva.serieTitulo }}</td>
+                            <td>
+                                {{ reserva.nombre }}<br />
+                                <small class="text-muted">{{ reserva.email }}</small>
+                            </td>
+                            <td>
+                                @switch (reserva.turno) {
+                                    @case ("Mañana") {
+                                        <span class="badge text-bg-info">Mañana</span>
+                                    }
+                                    @case ("Tarde") {
+                                        <span class="badge text-bg-warning">Tarde</span>
+                                    }
+                                    @default {
+                                        <span class="badge text-bg-dark">Noche</span>
+                                    }
+                                }
+                            </td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-secondary" (click)="restarEntrada(reserva.id)">-</button>
+                                <strong class="mx-2">{{ reserva.entradas }}</strong>
+                                <button
+                                    class="btn btn-sm btn-outline-secondary"
+                                    (click)="sumarEntrada(reserva.id)"
+                                    [disabled]="reserva.entradas >= 10"
+                                >+</button>
+                            </td>
+                            <td>
+                                <button class="btn btn-sm btn-danger" (click)="eliminar(reserva.id)">Eliminar</button>
+                            </td>
+                        </tr>
+                    } @empty {
+                        <tr>
+                            <td colspan="5" class="text-center text-muted">No hay reservas todavía.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,37 @@
+<div class="container py-4">
+    <header class="mb-4">
+        <h1>Museo Angular</h1>
+        <p class="text-muted mb-3">
+            Proyecto de repaso de Data Binding, eventos, Two Way Binding, Control Flow y Signals.
+        </p>
+
+        <!-- Event Binding: cada botón llama a cambiarEjemplo() con un valor distinto. -->
+        <div class="d-flex flex-wrap gap-2">
+            <button class="btn btn-primary" (click)="cambiarEjemplo('binding')">Data Binding</button>
+            <button class="btn btn-secondary" (click)="cambiarEjemplo('if')">&#64;if</button>
+            <button class="btn btn-success" (click)="cambiarEjemplo('for')">&#64;for</button>
+            <button class="btn btn-warning" (click)="cambiarEjemplo('switch')">&#64;switch</button>
+            <button class="btn btn-dark" (click)="cambiarEjemplo('signal')">Signals</button>
+        </div>
+    </header>
+
+    <hr />
+
+    <!--
+        Control Flow con &#64;if.
+        Angular solo carga el componente cuya condición sea verdadera.
+    -->
+    @if (ejemploActivo === "binding") {
+        <app-binding-component></app-binding-component>
+    } @else if (ejemploActivo === "if") {
+        <app-if-component></app-if-component>
+    } @else if (ejemploActivo === "for") {
+        <app-for-component></app-for-component>
+    } @else if (ejemploActivo === "switch") {
+        <app-switch-component></app-switch-component>
+    } @else if (ejemploActivo === "signal") {
+        <app-signal-component></app-signal-component>
+    } @else {
+        <p class="alert alert-danger">No se ha seleccionado ningún ejemplo válido.</p>
+    }
+</div>

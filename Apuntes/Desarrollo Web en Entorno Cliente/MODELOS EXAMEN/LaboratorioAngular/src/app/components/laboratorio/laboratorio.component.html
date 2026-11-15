@@ -1,0 +1,166 @@
+<div class="container py-4">
+    <header class="mb-4">
+        <h1>Laboratorio Angular</h1>
+        <p class="lead mb-0">
+            Ejemplos pequeños de conceptos menos frecuentes del temario, reunidos en un único proyecto.
+        </p>
+    </header>
+
+    <!-- ============================================================
+         1. SIGNALS
+         ============================================================ -->
+    <section class="bloque mb-4">
+        <h2>1. Signals</h2>
+        <p>
+            El valor se lee llamando al signal como una función y se modifica mediante
+            <code>.set()</code>.
+        </p>
+
+        <div class="alert alert-primary">
+            Valor del signal: <strong>{{ contadorSignal() }}</strong>
+        </div>
+
+        <button class="btn btn-primary me-2" (click)="sumarSignal()">Sumar</button>
+        <button class="btn btn-outline-secondary" (click)="reiniciarSignal()">Reiniciar</button>
+    </section>
+
+    <!-- ============================================================
+         2. ngClass Y ngStyle
+         ============================================================ -->
+    <section class="bloque mb-4">
+        <h2>2. ngClass y ngStyle</h2>
+
+        <!--
+            ngClass recibe un objeto. La clave es una clase CSS y el valor booleano
+            indica si Angular debe aplicarla o no.
+        -->
+        <p
+            class="ejemplo-estilo"
+            [ngClass]="{ activo: activo, inactivo: !activo }"
+            [ngStyle]="{ 'font-size.px': tamanoTexto }"
+        >
+            Este párrafo cambia de clase y de tamaño desde TypeScript.
+        </p>
+
+        <button class="btn btn-success me-2" (click)="cambiarActivo()">Cambiar estado</button>
+        <button class="btn btn-outline-dark me-2" (click)="aumentarTexto()">Aumentar texto</button>
+        <button class="btn btn-outline-dark" (click)="reducirTexto()">Reducir texto</button>
+    </section>
+
+    <!-- ============================================================
+         3. EVENT Y innerHTML
+         ============================================================ -->
+    <section class="bloque mb-4">
+        <h2>3. Evento del DOM e innerHTML</h2>
+
+        <label for="textoEvento" class="form-label">Escribe algo:</label>
+        <input
+            id="textoEvento"
+            class="form-control mb-3"
+            type="text"
+            (input)="capturarTexto($event)"
+        />
+
+        <p>Valor capturado desde el evento: <strong>{{ textoEvento }}</strong></p>
+
+        <!--
+            Si interpolásemos contenidoHtml con llaves, las etiquetas aparecerían como
+            texto. Property Binding con innerHTML hace que el navegador interprete el HTML.
+        -->
+        <div class="alert alert-light border" [innerHTML]="contenidoHtml"></div>
+    </section>
+
+    <!-- ============================================================
+         4. SWITCH
+         ============================================================ -->
+    <section class="bloque mb-4">
+        <h2>4. Switch</h2>
+
+        <div class="mb-3">
+            <button class="btn btn-danger me-2" (click)="cambiarPermiso('admin')">Admin</button>
+            <button class="btn btn-warning me-2" (click)="cambiarPermiso('editor')">Editor</button>
+            <button class="btn btn-secondary" (click)="cambiarPermiso('invitado')">Invitado</button>
+        </div>
+
+        @switch (permiso) {
+            @case ("admin") {
+                <div class="alert alert-danger">Puedes crear, editar y eliminar contenido.</div>
+            }
+            @case ("editor") {
+                <div class="alert alert-warning">Puedes crear y editar contenido.</div>
+            }
+            @default {
+                <div class="alert alert-secondary">Solo puedes consultar contenido.</div>
+            }
+        }
+    </section>
+
+    <!-- ============================================================
+         5. DIRECTIVA PERSONALIZADA
+         ============================================================ -->
+    <section class="bloque mb-4">
+        <h2>5. Directiva personalizada</h2>
+        <p resaltar>
+            Este párrafo utiliza la directiva personalizada <code>resaltar</code>.
+            La directiva accede al elemento mediante ElementRef y modifica sus estilos.
+        </p>
+    </section>
+
+    <!-- ============================================================
+         6. INPUT SIGNALS
+         ============================================================ -->
+    <section class="bloque mb-4">
+        <h2>6. Input Signals</h2>
+        <p>
+            Es una alternativa reactiva al Input tradicional que aparece en el Tema 6.
+        </p>
+
+        <div class="row g-3 align-items-stretch">
+            <div class="col-md-8">
+                <app-input-signal [titulo]="tituloPanel" [nivel]="nivelPanel"></app-input-signal>
+            </div>
+            <div class="col-md-4 d-flex align-items-center">
+                <button class="btn btn-primary" (click)="aumentarNivelPanel()">
+                    Aumentar nivel enviado
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         7. CICLO DE VIDA
+         ============================================================ -->
+    <section class="bloque mb-4">
+        <h2>7. Ciclo de vida del componente</h2>
+        <p>
+            El ejemplo permite provocar cambios y destruir/crear el componente. Mira la
+            consola del navegador para observar los hooks.
+        </p>
+
+        <div class="mb-3">
+            <button class="btn btn-primary me-2" (click)="cambiarValorHijo()">
+                Cambiar Input del hijo
+            </button>
+            <button class="btn btn-outline-danger" (click)="alternarCicloVida()">
+                @if (mostrarCicloVida) {
+                    Ocultar componente
+                } @else {
+                    Crear componente
+                }
+            </button>
+        </div>
+
+        @if (mostrarCicloVida) {
+            <app-ciclo-vida [valorRecibido]="valorParaHijo"></app-ciclo-vida>
+        } @else {
+            <div class="alert alert-secondary">
+                El componente está destruido. Al volver a crearlo comenzará un nuevo ciclo de vida.
+            </div>
+        }
+    </section>
+
+    <section class="alert alert-info mb-0">
+        <strong>Prioridad de estudio:</strong> control flow, bindings y formularios son mucho más
+        importantes. Este laboratorio existe para tener localizadas las partes menos habituales del temario.
+    </section>
+</div>
