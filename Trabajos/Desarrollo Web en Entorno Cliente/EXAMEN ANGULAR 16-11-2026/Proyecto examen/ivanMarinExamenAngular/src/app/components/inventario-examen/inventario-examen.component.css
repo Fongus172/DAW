@@ -1,0 +1,22 @@
+.travel-footer {
+    background-color: rgb(78, 128, 185);
+    color: white;
+    padding-top: 18px;
+    padding-bottom: 18px;
+}
+
+.footer-brand {
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.footer-text {
+    color: white;
+    font-size: 0.8rem;
+}
+
+.travel-footer a {
+    color: white;
+    text-decoration: none;
+    font-size: 0.9rem;
+}

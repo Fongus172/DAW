@@ -1,0 +1,23 @@
+.app-navbar {
+  background-color: #17324d;
+}
+
+.hero {
+  color: #ffffff;
+  background: #245b88;
+}
+
+.accordion {
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.accordion-item {
+  border-left: 0;
+  border-right: 0;
+}
+
+.app-footer {
+  background-color: #17324d;
+  color: #ffffff;
+}

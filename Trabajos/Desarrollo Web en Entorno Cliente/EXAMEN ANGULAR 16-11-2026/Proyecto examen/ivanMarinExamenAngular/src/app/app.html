@@ -1,0 +1,67 @@
+<header>
+  <nav class="navbar navbar-expand-lg navbar-dark app-navbar shadow-sm">
+    <div class="container">
+      <a class="navbar-brand">Examen DWEC</a>
+    </div>
+  </nav>
+
+  <section id="top" class="hero fw-bold p-4">
+    <div class="container">
+      <h1 class="display-5">Catálogo de productos</h1>
+    </div>
+  </section>
+</header>
+
+<main class="container pt-5">
+  <div class="row g-4">
+    <aside id="management" class="col-12 col-xl-4">
+      <div class="accordion shadow-sm" id="managementAccordion">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button
+              class="accordion-button"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#newProductPanel"
+            >
+              Crear producto
+            </button>
+          </h2>
+          <div id="newProductPanel" class="accordion-collapse collapse show">
+            <div class="accordion-body p-2">
+              <app-product-form></app-product-form>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button
+              class="accordion-button collapsed"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#filterPanel"
+            >
+              Filtros
+            </button>
+          </h2>
+          <div id="filterPanel" class="accordion-collapse collapse show">
+            <div class="accordion-body p-2">
+              <app-product-filter></app-product-filter>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="col-12 col-xl-8">
+      <app-products-list></app-products-list>
+    </div>
+  </div>
+</main>
+
+<footer class="app-footer py-4 mt-4">
+  <div class="container d-flex">
+    <span>16 de noviembre de 2026</span>
+  </div>
+</footer>

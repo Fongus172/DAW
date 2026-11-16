@@ -1,0 +1,101 @@
+<div class="container">
+  <h2 class="h4 section-title">Crear producto</h2>
+
+  @if (message !== '') {
+    <div
+      class="alert"
+      [class.alert-success]="messageType === 'success'"
+      [class.alert-danger]="messageType === 'danger'"
+    >
+      {{ message }}
+    </div>
+  }
+
+  <form [formGroup]="productForm" (ngSubmit)="getDataForm()" novalidate>
+    <div class="mb-3">
+      <label class="form-label" for="name">Nombre:</label>
+      <input class="form-control" id="name" type="text" formControlName="name" />
+      @if (checkControl('name', 'required')) {
+        <div class="text-danger small">El nombre del producto es obligatorio</div>
+      }
+      @if (checkControl('name', 'minlength')) {
+        <div class="text-danger small">El nombre debe tener como mínimo 3 caracteres</div>
+      }
+      @if (checkControl('name', 'maxlength')) {
+        <div class="text-danger small">El nombre no puede tener más de 50 caracteres</div>
+      }
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label" for="description">Descripción:</label>
+      <textarea
+        class="form-control"
+        id="description"
+        rows="3"
+        formControlName="description"
+      ></textarea>
+      @if (checkControl('description', 'required')) {
+        <div class="text-danger small">La descripción del producto es obligatoria</div>
+      }
+      @if (checkControl('description', 'minlength')) {
+        <div class="text-danger small">La descripción debe tener como mnínimo 5 caracteres</div>
+      }
+      @if (checkControl('description', 'maxlength')) {
+        <div class="text-danger small">La descripción no puede tener más de 100 caracteres</div>
+      }
+    </div>
+
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label" for="price">Precio</label>
+        <input
+          class="form-control"
+          id="price"
+          type="number"
+          min="0.01"
+          step="0.01"
+          formControlName="price"
+        />
+        @if (checkControl('price', 'required')) {
+          <div class="text-danger small">El precio es obligatorio</div>
+        }
+        @if (checkControl('price', 'min')) {
+          <div class="text-danger small">El precio no puede ser negativo</div>
+        }
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label" for="category">Categoría</label>
+        <select class="form-select" id="category" formControlName="category">
+          <option value="">Selecciona...</option>
+          <option value="hombre">Hombre</option>
+          <option value="mujer">Mujer</option>
+          <option value="niño">Niño</option>
+        </select>
+        @if (checkControl('category', 'required')) {
+          <div class="text-danger small">Selecciona una categoría</div>
+        }
+      </div>
+    </div>
+
+    <div class="mt-3 mb-3">
+      <label class="form-label" for="image">Imagen:</label>
+      <input class="form-control" id="image" type="url" formControlName="image" />
+      @if (checkControl('image', 'required')) {
+        <div class="text-danger small">La imagen del producto es obligatoria</div>
+      }
+      @if (checkControl('image', 'pattern')) {
+        <div class="text-danger small">La URL no es válida</div>
+      }
+    </div>
+
+    <div class="form-check form-switch mb-4">
+      <input class="form-check-input" id="active" type="checkbox" formControlName="active" />
+      <label class="form-check-label" for="active">Producto activo</label>
+    </div>
+
+    <button class="btn btn-primary w-100" type="submit" [disabled]="productForm.invalid">
+      Crear producto
+    </button>
+  </form>
+</div>

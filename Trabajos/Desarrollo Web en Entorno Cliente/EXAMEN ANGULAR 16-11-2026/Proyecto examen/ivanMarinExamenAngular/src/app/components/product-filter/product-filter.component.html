@@ -1,0 +1,70 @@
+<div class="container">
+  <h2 class="h4 section-title">Filtrar por:</h2>
+
+  <form #filterForm="ngForm" (ngSubmit)="getDataForm(filterForm)">
+    <div class="mb-3">
+      <label class="form-label" for="filterName">Nombre</label>
+      <input
+        class="form-control"
+        id="filterName"
+        type="text"
+        name="name"
+        [(ngModel)]="filters.name"
+      />
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label" for="filterCategory">Categoría</label>
+      <select
+        class="form-select"
+        id="filterCategory"
+        name="category"
+        [(ngModel)]="filters.category"
+      >
+        <option value="">Todo</option>
+        <option value="hombre">Hombre</option>
+        <option value="mujer">Mujer</option>
+        <option value="niño">Niño</option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label" for="filterPrice">Precio máximo</label>
+      <input
+        class="form-control"
+        id="filterPrice"
+        type="number"
+        name="price"
+        min="0"
+        step="0.01"
+        [(ngModel)]="filters.price"
+        #price="ngModel"
+      />
+      @if (price.invalid && price.touched) {
+        <div class="text-danger small">El precio no puede ser negativo</div>
+      }
+    </div>
+
+    <div class="mb-4">
+      <label class="form-label" for="filterActive">Activo</label>
+      <select class="form-select" id="filterActive" name="active" [(ngModel)]="filters.active">
+        <option value="all">Todo</option>
+        <option value="true">Solo activos</option>
+        <option value="false">Solo no activos</option>
+      </select>
+    </div>
+
+    <div class="d-grid gap-2 d-sm-flex">
+      <button class="btn btn-primary flex-fill" type="submit" [disabled]="filterForm.invalid">
+        Aplicar filtros
+      </button>
+      <button
+        class="btn btn-outline-secondary flex-fill"
+        type="button"
+        (click)="clearFilter(filterForm)"
+      >
+        Limpiar
+      </button>
+    </div>
+  </form>
+</div>

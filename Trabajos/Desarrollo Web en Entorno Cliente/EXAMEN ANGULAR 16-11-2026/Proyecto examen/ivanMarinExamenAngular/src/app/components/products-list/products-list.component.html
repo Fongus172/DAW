@@ -1,0 +1,34 @@
+<section id="products" class="products-panel p-4">
+  <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+    <div>
+      <h2 class="section-title mb-1">Productos</h2>
+      <p class="text-secondary mb-0">
+        productos: {{ productsArray.length }} / {{ getTotalProducts() }}
+      </p>
+    </div>
+
+    <button class="btn btn-outline-primary" type="button" (click)="reloadProducts()">
+      Recargar datos
+    </button>
+  </div>
+
+  @if (isLoading()) {
+    <div class="alert alert-info">Cargando lista de proudctos... (tarda un poco)</div>
+  } @else if (getError() !== '') {
+    <div class="alert alert-danger"><strong>Error:</strong> {{ getError() }}</div>
+  } @else {
+    <div class="row g-4">
+      @for (product of productsArray; track product.id) {
+        <div class="col-12 col-md-6 col-xl-4">
+          <app-product-card [miProducto]="product"></app-product-card>
+        </div>
+      } @empty {
+        <div class="col-12">
+          <div class="alert alert-warning mb-0">
+            No hay productos que coincidan con los filtros
+          </div>
+        </div>
+      }
+    </div>
+  }
+</section>
