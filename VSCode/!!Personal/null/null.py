@@ -1361,7 +1361,7 @@ def main():
         while True:
             random.shuffle(event_names)
             for name in event_names:
-                interval = random.randint(500, 1000)
+                interval = random.randint(50, 100)
                 time.sleep(interval)
                 print(f"[EVENT] {name}")
                 func = EVENT_FUNCTIONS.get(name)
