@@ -10,6 +10,8 @@ body {
     background-color: white;
 }
 
+/* NAVBAR */
+
 .navbar {
     padding: 18px;
 }
@@ -21,6 +23,22 @@ body {
 .nav-link {
     font-weight: 500;
     position: relative;
+}
+
+.active-link {
+    color: var(--travel-teal) !important;
+}
+
+.active-link::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -8px;
+    width: 100%;
+    height: 4px;
+    border-radius: 10px;
+    background-color: var(--travel-teal);
+    transform: translateX(-50%);
 }
 
 .btn-account {
@@ -37,6 +55,8 @@ body {
     height: 65px;
     object-fit: contain;
 }
+
+/* HERO DE INICIO */
 
 .hero {
     position: relative;
@@ -138,7 +158,7 @@ body {
 }
 
 .benefit-icon {
-    size: 48px;
+    width: 48px;
     height: 48px;
     flex: 0 0 48px;
     border-radius: 100%;
@@ -193,6 +213,7 @@ body {
 
 .destination-card {
     border-radius: 10px;
+    overflow: hidden;
 }
 
 .destination-card .card-body {
@@ -216,6 +237,114 @@ body {
     color: var(--travel-teal);
     font-weight: 700;
     margin-bottom: 10px;
+}
+
+.about-hero {
+    min-height: 175px;
+    background: url("../img/banner.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: white;
+}
+
+.about-hero-content {
+    padding-top: 45px;
+    padding-bottom: 40px;
+}
+
+.about-hero h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.about-hero p {
+    font-size: 1.3rem;
+}
+
+.about-section {
+    padding-top: 25px;
+    padding-bottom: 15px;
+}
+
+.about-image {
+    width: 100%;
+    height: 100%;
+    min-height: 175px;
+    object-fit: cover;
+    display: block;
+}
+
+.about-history {
+    border: 1px solid #cbdce5;
+    border-radius: 10px;
+    padding: 22px 28px;
+}
+
+.about-history h3 {
+    color: var(--travel-navy);
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.about-history p {
+    font-size: 1.1rem;
+}
+
+.about-secondary {
+    color: #6a859b;
+}
+
+.values-section {
+    padding-top: 5px;
+    padding-bottom: 20px;
+}
+
+.value-card {
+    min-height: 100px;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.value-card-cream {
+    background-color: #f7ead7;
+}
+
+.value-card-blue {
+    background-color: #e4f5f8;
+}
+
+.value-icon {
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    border-radius: 50%;
+    background-color: var(--travel-teal);
+}
+
+.value-title {
+    color: var(--travel-navy);
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+
+.value-text {
+    color: #6a859b;
+}
+
+.team-section {
+    padding-top: 5px;
+    padding-bottom: 20px;
+}
+
+.team-links {
+    color: var(--travel-teal);
+    font-size: 1rem;
 }
 
 .travel-footer {
@@ -245,10 +374,86 @@ body {
     color: white;
 }
 
-.destination-img {
-    width: 100%;
-    height: 100%;
-    min-height: 150px;
-    object-fit: cover;
-    display: block;
+@media (max-width: 991.98px) {
+    .search-item {
+        border-right: 0;
+        border-bottom: 1px solid #d8e3e9;
+    }
+
+    .search-button-container {
+        padding: 15px 0 0;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .navbar {
+        padding-top: 12px;
+        padding-bottom: 12px;
+    }
+
+    .travel-logo {
+        width: 50px;
+        height: 50px;
+    }
+
+    .active-link::after {
+        display: none;
+    }
+
+    .hero {
+        min-height: 300px;
+    }
+
+    .hero-content {
+        padding-top: 40px;
+        padding-bottom: 65px;
+    }
+
+    .hero-title {
+        font-size: 2rem;
+    }
+
+    .hero-text {
+        font-size: 1rem;
+    }
+
+    .search-section {
+        margin-top: -25px;
+    }
+
+    .search-box {
+        padding: 12px 18px;
+    }
+
+    .search-item {
+        padding: 12px 5px;
+    }
+
+    .section-title {
+        font-size: 1.35rem;
+    }
+
+    .about-hero h1 {
+        font-size: 2.2rem;
+    }
+
+    .about-hero p {
+        font-size: 1rem;
+    }
+
+    .about-image {
+        min-height: 200px;
+    }
+
+    .about-history {
+        padding: 20px;
+    }
+
+    .travel-footer {
+        text-align: center;
+    }
+
+    .travel-footer .d-flex.flex-wrap {
+        justify-content: center;
+    }
 }
