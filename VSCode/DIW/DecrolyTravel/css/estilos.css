@@ -10,8 +10,6 @@ body {
     background-color: white;
 }
 
-/* NAVBAR */
-
 .navbar {
     padding: 18px;
 }
@@ -55,8 +53,6 @@ body {
     height: 65px;
     object-fit: contain;
 }
-
-/* HERO DE INICIO */
 
 .hero {
     position: relative;

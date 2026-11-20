@@ -298,12 +298,17 @@ def minimize_all_windows():
     ctypes.windll.user32.keybd_event(VK_D, 0, KEYEVENTF_KEYUP, 0)
     ctypes.windll.user32.keybd_event(VK_LWIN, 0, KEYEVENTF_KEYUP, 0)
 
+def safe_play_sound(sound_alias):
+    try:
+        winsound.PlaySound(sound_alias, winsound.SND_ALIAS | winsound.SND_NODEFAULT)
+        return True
+    except RuntimeError as e:
+        print(f"[WARNING] No se pudo reproducir '{sound_alias}': {e}")
+        return False
+
 def play_random_windows_sound():
-    """
-    Reproduce un sonido aleatorio del sistema.
-    """
     sound_alias = random.choice(WINDOWS_SOUNDS)
-    winsound.PlaySound(sound_alias, winsound.SND_ALIAS)
+    safe_play_sound(sound_alias)
 
 def lower_volume_one_step():
     """
@@ -462,7 +467,10 @@ def play_hardware_disconnect_sound2():
     sonido de conexión y desbloquea el ratón al final.
     """
     # 1) Sonido de dispositivo desconectado
-    winsound.PlaySound("DeviceDisconnect", winsound.SND_ALIAS)
+    try:
+        safe_play_sound("DeviceDisconnect")
+    except RuntimeError as e:
+        print(f"[WARNING] No se pudo reproducir el sonido de desconexión: {e}")
 
     # 2) Intentar bloquear la entrada del usuario (mouse + teclado)
     #    Si no estamos en admin, BlockInput habrá fallado y devolvemos False.
@@ -499,7 +507,10 @@ def play_hardware_disconnect_sound2():
             time.sleep(0.5)
 
         # 8) Sonido de dispositivo conectado
-        winsound.PlaySound("DeviceConnect", winsound.SND_ALIAS)
+        try:
+            winsound.PlaySound("DeviceConnect", winsound.SND_ALIAS)
+        except RuntimeError as e:
+            print(f"[WARNING] No se pudo reproducir el sonido de conexión: {e}")
 
     finally:
         # 9) Desbloquear la entrada (incluso si BlockInput falló)
@@ -544,10 +555,7 @@ def show_defender_style_notification():
     )
 
 def play_hardware_disconnect_sound():
-    """
-    Reproduce únicamente el sonido de desconexión de hardware.
-    """
-    winsound.PlaySound("DeviceDisconnect", winsound.SND_ALIAS)
+    safe_play_sound("DeviceDisconnect")
 
 def webcam_light_event():
     """
@@ -1361,12 +1369,17 @@ def main():
         while True:
             random.shuffle(event_names)
             for name in event_names:
-                interval = random.randint(50, 100)
+                interval = random.randint(3, 5)
                 time.sleep(interval)
                 print(f"[EVENT] {name}")
                 func = EVENT_FUNCTIONS.get(name)
+
                 if func:
-                    func()
+                    try:
+                        func()
+                        print(f"[SUCCESS] {name}")
+                    except Exception as e:
+                        print(f"[ERROR] Fallo en el evento {name}: {type(e).__name__}: {e}")
                 else:
                     print(f"[WARNING] No function found for event: {name}")
     except KeyboardInterrupt:
@@ -1376,4 +1389,4 @@ def main():
 if __name__ == "__main__":
     main()
 
-    
+  
